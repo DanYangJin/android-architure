@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.shouzhan.design.compontent.recyclerview.TwinklingRefreshLayout
+        android:id="@+id/twink_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/twink_refresh_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.shouzhan.design.compontent.recyclerview.TwinklingRefreshLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

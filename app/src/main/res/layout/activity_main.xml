@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.shouzhan.design.viewmodel.MainViewModel" />
+
+        <variable
+            name="presenter"
+            type="com.shouzhan.design.base.BaseBindingPresenter" />
+
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/head_iv"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            app:imageUrl="@{vm.headImage}"
+            android:layout_gravity="center"/>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</layout>

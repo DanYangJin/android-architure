@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.shouzhan.design.viewmodel.login.LoginViewModel" />
+
+        <variable
+            name="loginresult"
+            type="com.shouzhan.design.model.remote.result.LoginResult" />
+
+        <variable
+            name="presenter"
+            type="com.shouzhan.design.base.BaseBindingPresenter" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/account_et"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp"
+            android:hint="请输入账号"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <EditText
+            android:id="@+id/password_et"
+            android:layout_width="200dp"
+            android:layout_height="80dp"
+            android:hint="请输入密码"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/account_et" />
+
+
+        <Button
+            android:id="@+id/send_btn"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> presenter.onClick(v)}"
+            android:text="登录"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password_et" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>
