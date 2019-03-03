@@ -17,13 +17,14 @@ class KotlinViewModel : BaseViewModel() {
 
     private var mUserRepository: UserRepository = UserRepository()
 
-    fun requestData(){
-        addSubscribe( mUserRepository.getUserList(""), object : ApiCallback<BasePageResult<UserListResult>>() {
+    fun requestData(page: Int){
+        addSubscribe( mUserRepository.getUserList(page), object : ApiCallback<BasePageResult<UserListResult>>() {
             override fun onSuccess(data: BasePageResult<UserListResult>?) {
                 userListResult.value = data
             }
         })
 
     }
+
 
 }

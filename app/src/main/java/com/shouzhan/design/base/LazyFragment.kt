@@ -18,9 +18,9 @@ import com.shouzhan.design.extens.yes
  */
 abstract class LazyFragment : Fragment() {
 
-    private var isInitView = false
-    private var isFirstVisible = true
-    private var mRootView: View? = null
+    protected var isInitView = false
+    protected var isFirstVisible = true
+    protected var mRootView: View? = null
 
     protected lateinit var mContext: Context
 
@@ -62,6 +62,10 @@ abstract class LazyFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        logE("@@@onResume@@@")
+    }
     /**
      * 初始化UI
      */

@@ -9,7 +9,7 @@ class UserListAdapter(items: MutableList<UserListResult>)
 	: BaseAdapter<UserListResult, ItemUserBinding>(items, R.layout.item_user) {
 
 	override fun bindItem(binding: ItemUserBinding, item: UserListResult) {
-
+		binding.titleTv.text = item.username
 	}
 
 }

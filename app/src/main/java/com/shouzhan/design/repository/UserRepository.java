@@ -21,8 +21,9 @@ public class UserRepository {
         this.mApiService = RetrofitUtils.getService();
     }
 
-    public Observable<BaseResult<BasePageResult<UserListResult>>> getUserList(String searchName) {
-        UserListRequest request = new UserListRequest(searchName);
+    public Observable<BaseResult<BasePageResult<UserListResult>>> getUserList(int page) {
+        UserListRequest request = new UserListRequest();
+        request.setPage(page);
         return mApiService.getUserList(request.getPage(), request.getPageSize(), null);
     }
 

@@ -10,5 +10,7 @@ class UserListResult {
 
     @SerializedName("headImg")
     var headImg: String? = null
+    @SerializedName("username")
+    var username: String? = null
 
 }
