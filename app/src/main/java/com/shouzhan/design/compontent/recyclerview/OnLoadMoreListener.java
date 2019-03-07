@@ -1,4 +1,4 @@
-package com.shouzhan.design.compontent.lrecyclerview;
+package com.shouzhan.design.compontent.recyclerview;
 
 
 /**

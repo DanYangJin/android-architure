@@ -3,9 +3,6 @@ package com.shouzhan.design;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.shouzhan.design.compontent.recyclerview.TwinklingRefreshLayout;
-import com.shouzhan.design.compontent.view.FooterView;
-import com.shouzhan.design.compontent.view.HeaderView;
 
 /**
  * @author danbin
@@ -19,8 +16,6 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(getApplicationContext());
-        TwinklingRefreshLayout.setDefaultHeader(HeaderView.class.getName());
-        TwinklingRefreshLayout.setDefaultFooter(FooterView.class.getName());
         INSTANCE = this;
     }
 

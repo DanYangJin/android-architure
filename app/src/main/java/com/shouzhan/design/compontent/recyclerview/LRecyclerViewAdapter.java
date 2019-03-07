@@ -1,4 +1,4 @@
-package com.shouzhan.design.compontent.lrecyclerview;
+package com.shouzhan.design.compontent.recyclerview;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;

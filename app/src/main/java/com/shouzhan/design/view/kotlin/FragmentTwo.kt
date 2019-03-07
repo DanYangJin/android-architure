@@ -8,7 +8,7 @@ import com.shouzhan.design.App
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListAdapter
 import com.shouzhan.design.base.LazyFragment
-import com.shouzhan.design.compontent.lrecyclerview.LuRecyclerViewAdapter
+import com.shouzhan.design.compontent.recyclerview.LuRecyclerViewAdapter
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.viewmodel.KotlinViewModel
 import kotlinx.android.synthetic.main.fragment_two.*

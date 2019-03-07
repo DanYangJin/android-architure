@@ -1,4 +1,4 @@
-package com.shouzhan.design.compontent.lrecyclerview;
+package com.shouzhan.design.compontent.recyclerview;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
