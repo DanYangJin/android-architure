@@ -1,4 +1,4 @@
-package com.shouzhan.design.viewmodel
+package com.shouzhan.design.viewmodel.kotlin
 
 import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel
@@ -11,7 +11,7 @@ import com.shouzhan.design.repository.UserRepository
  * @author danbin
  * @version KotlinViewModel.java, v 0.1 2019-02-27 上午12:18 danbin
  */
-class KotlinViewModel : BaseViewModel() {
+class UserListViewModel : BaseViewModel() {
 
     val userListResult = MutableLiveData<BasePageResult<UserListResult>>()
 

@@ -10,7 +10,7 @@ import com.shouzhan.design.adapter.UserListAdapter
 import com.shouzhan.design.base.LazyFragment
 import com.shouzhan.design.compontent.recyclerview.LuRecyclerViewAdapter
 import com.shouzhan.design.extens.logE
-import com.shouzhan.design.viewmodel.KotlinViewModel
+import com.shouzhan.design.viewmodel.kotlin.UserListViewModel
 import kotlinx.android.synthetic.main.fragment_two.*
 
 /**
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_two.*
 class FragmentTwo : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(KotlinViewModel::class.java)
+        ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(UserListViewModel::class.java)
     }
 
     private lateinit var mDataAdapter: UserListAdapter

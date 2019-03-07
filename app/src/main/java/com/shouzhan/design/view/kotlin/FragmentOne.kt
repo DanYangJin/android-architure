@@ -5,10 +5,10 @@ import android.arch.lifecycle.ViewModelProvider
 import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.App
 import com.shouzhan.design.R
-import com.shouzhan.design.adapter.UserListAdapter
+import com.shouzhan.design.adapter.CustomAdapter
 import com.shouzhan.design.base.LazyFragment
 import com.shouzhan.design.extens.yes
-import com.shouzhan.design.viewmodel.KotlinViewModel
+import com.shouzhan.design.viewmodel.kotlin.FragmentOneViewModel
 import kotlinx.android.synthetic.main.fragment_one.*
 
 /**
@@ -18,11 +18,12 @@ import kotlinx.android.synthetic.main.fragment_one.*
 class FragmentOne : LazyFragment() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(KotlinViewModel::class.java)
+        ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(FragmentOneViewModel::class.java)
     }
 
-    private var page = 1
-    private lateinit var adapter: UserListAdapter
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
+        CustomAdapter()
+    }
 
     companion object {
         private var instance: FragmentOne? = null
@@ -49,10 +50,9 @@ class FragmentOne : LazyFragment() {
     override fun initView() {
         val layoutManager = LinearLayoutManager(mContext)
         twink_refresh_rv.layoutManager = layoutManager
-        adapter = UserListAdapter(arrayListOf())
         twink_refresh_rv.adapter = adapter
-        viewModel.userListResult.observe(this, Observer {
-
+        viewModel.data.observe(this, Observer {
+            adapter.submitList(it)
         })
     }
 
@@ -60,9 +60,6 @@ class FragmentOne : LazyFragment() {
 
     }
 
-    private fun getUserData() {
-        viewModel.requestData(page)
-    }
 
 
 }
