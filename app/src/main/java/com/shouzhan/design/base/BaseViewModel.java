@@ -3,7 +3,7 @@ package com.shouzhan.design.base;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
-import com.shouzhan.design.datasource.http.BasePresenter;
+import com.shouzhan.design.datasource.http.HttpManager;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
@@ -17,7 +17,7 @@ public class BaseViewModel extends ViewModel {
 
     private static final String TAG = BaseViewModel.class.getSimpleName();
 
-    private BasePresenter mBasePresenter = new BasePresenter();
+    private HttpManager mBasePresenter = new HttpManager();
 
     @Override
     protected void onCleared() {

@@ -2,7 +2,6 @@ package com.shouzhan.design.base
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.LayoutRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,17 +15,13 @@ import com.shouzhan.design.extens.yes
  * @author danbin
  * @version LazyFragment.java, v 0.1 2019-02-26 下午10:49 danbin
  */
-abstract class LazyFragment : Fragment() {
+abstract class LazyFragment : Fragment(), BaseViewPresenter {
 
     protected var isInitView = false
     protected var isFirstVisible = true
     protected var mRootView: View? = null
 
     protected lateinit var mContext: Context
-
-
-    @LayoutRes
-    abstract fun getLayoutId(): Int
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
@@ -66,15 +61,6 @@ abstract class LazyFragment : Fragment() {
         super.onResume()
         logE("@@@onResume@@@")
     }
-    /**
-     * 初始化UI
-     */
-    abstract fun initView()
-
-    /**
-     * 获取请求数据
-     */
-    abstract fun getData()
 
     override fun onDestroyView() {
         logE("@@@onDestroyView@@@")
