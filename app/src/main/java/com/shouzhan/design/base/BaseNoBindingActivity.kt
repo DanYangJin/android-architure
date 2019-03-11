@@ -20,6 +20,21 @@ abstract class BaseNoBindingActivity : AppCompatActivity(), BaseViewPresenter {
         initView()
     }
 
+    override fun extraIntentData() {
+
+    }
+
+    override fun showLoadingView() {
+
+    }
+
+    override fun showEmptyView() {
+
+    }
+
+    override fun showErrorView() {
+
+    }
 
 
 }

@@ -27,6 +27,10 @@ abstract class BaseActivity<VB : ViewDataBinding> : AppCompatActivity(), BaseVie
         mContext = this
     }
 
+    override fun extraIntentData() {
+
+    }
+
     override fun showLoadingView() {
 
     }

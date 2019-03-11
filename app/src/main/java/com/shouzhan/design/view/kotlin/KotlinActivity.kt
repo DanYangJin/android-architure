@@ -26,7 +26,9 @@ class KotlinActivity : BaseNoBindingActivity() {
                 getInstance(App.getInstance()).create(LoginViewModel::class.java)
     }
 
-    override val layoutId: Int = R.layout.activity_kotlin
+    override fun getLayoutId(): Int {
+        return R.layout.activity_kotlin
+    }
 
     override fun initView() {
         var adapter = HomePagerAdapter(supportFragmentManager)

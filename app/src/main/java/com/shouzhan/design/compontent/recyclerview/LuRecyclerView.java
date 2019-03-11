@@ -189,7 +189,7 @@ public class LuRecyclerView extends RecyclerView {
      */
     public void setEmptyView(View emptyView) {
         this.mEmptyView = emptyView;
-        mDataObserver.onChanged();
+        this.mDataObserver.onChanged();
     }
 
     public void setRefreshing(boolean refreshing) {

@@ -18,8 +18,8 @@ import com.shouzhan.design.extens.yes
 abstract class LazyFragment : Fragment(), BaseViewPresenter {
 
     protected var isInitView = false
-    protected var isFirstVisible = true
-    protected var mRootView: View? = null
+    private var isFirstVisible = true
+    private var mRootView: View? = null
 
     protected lateinit var mContext: Context
 
@@ -60,6 +60,22 @@ abstract class LazyFragment : Fragment(), BaseViewPresenter {
     override fun onResume() {
         super.onResume()
         logE("@@@onResume@@@")
+    }
+
+    override fun extraIntentData() {
+        logE("@@@extraIntentData@@@")
+    }
+
+    override fun showLoadingView() {
+        logE("@@@showLoadingView@@@")
+    }
+
+    override fun showEmptyView() {
+        logE("@@@showEmptyView@@@")
+    }
+
+    override fun showErrorView() {
+        logE("@@@showErrorView@@@")
     }
 
     override fun onDestroyView() {
