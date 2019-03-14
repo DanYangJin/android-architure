@@ -51,4 +51,5 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.21'
     implementation 'com.facebook.fresco:fresco:1.9.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'me.jessyan:autosize:1.1.2'
 }

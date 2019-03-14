@@ -2,6 +2,9 @@ package com.shouzhan.design.compontent.recyclerview;
 
 import android.view.View;
 
+/**
+ * @author danbin
+ */
 public interface IRefreshHeader {
 
 	int STATE_NORMAL = 0;

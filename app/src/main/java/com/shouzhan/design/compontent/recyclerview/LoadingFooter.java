@@ -15,7 +15,9 @@ import com.shouzhan.design.R;
 public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
 
     protected State mState = State.Normal;
-    private String mNoMoreHint = null;
+
+    private View mTheEndView;
+    private View mLoadingView;
 
     public LoadingFooter(Context context) {
         super(context);
@@ -34,16 +36,14 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
 
     public void initView() {
         inflate(getContext(), R.layout.layout_footer_view, this);
+        mLoadingView = findViewById(R.id.footer_loading_view);
+        mTheEndView = findViewById(R.id.no_more_tv);
         setOnClickListener(null);
         onReset();
     }
 
     public void setViewBackgroundColor(int color) {
         this.setBackgroundColor(ContextCompat.getColor(getContext(), color));
-    }
-
-    public void setNoMoreHint(String noMoreHint) {
-        this.mNoMoreHint = noMoreHint;
     }
 
     public void setState(State status) {
@@ -91,8 +91,12 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
             case Normal:
                 break;
             case Loading:
+                mLoadingView.setVisibility(View.VISIBLE);
+                mTheEndView.setVisibility(View.GONE);
                 break;
             case NoMore:
+                mLoadingView.setVisibility(View.GONE);
+                mTheEndView.setVisibility(View.VISIBLE);
                 break;
             case NetWorkError:
                 break;
@@ -105,4 +109,5 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
     public enum State {
         Normal, NoMore, Loading, NetWorkError
     }
+
 }

@@ -33,6 +33,7 @@ public class LuRecyclerView extends RecyclerView {
     private LuRecyclerViewAdapter mWrapAdapter;
     private boolean isNoMore = false;
     private boolean isCritical = false;
+    private boolean isCanLoadingData = false;
     /**
      * 当前RecyclerView类型
      */
@@ -246,12 +247,12 @@ public class LuRecyclerView extends RecyclerView {
     }
 
     /**
-     * 此方法主要是为了满足数据不满一屏幕或者数据小于pageSize的情况下，是否显示footview
+     * 此方法主要是为了满足数据不满一屏幕或者数据小于pageSize的情况下，是否显示footerview
      * 在分页情况下使用refreshComplete(int pageSize, int total, boolean false)就相当于refreshComplete(int pageSize, int total)
      *
      * @param pageSize       一页加载的数量
      * @param total          总数
-     * @param isShowFootView 是否需要显示footview（前提条件是：getItemCount() < pageSize）
+     * @param isShowFootView 是否需要显示footerview（前提条件是：getItemCount() < pageSize）
      */
     public void refreshComplete(int pageSize, int total, boolean isShowFootView) {
         this.mPageSize = pageSize;
@@ -347,14 +348,6 @@ public class LuRecyclerView extends RecyclerView {
         mWrapAdapter.removeFooterView();
     }
 
-    public void setFooterViewHint(String noMoreHint) {
-        if (mLoadMoreFooter instanceof LoadingFooter) {
-            LoadingFooter loadingFooter = ((LoadingFooter) mLoadMoreFooter);
-            loadingFooter.setNoMoreHint(noMoreHint);
-        }
-    }
-
-
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
         mLoadMoreListener = listener;
     }
@@ -440,11 +433,10 @@ public class LuRecyclerView extends RecyclerView {
         if (mIsScrollDown && (dy == 0)) {
             mScrolledYDistance = 0;
         }
-        //Be careful in here
         if (null != mLScrollListener) {
             mLScrollListener.onScrolled(mScrolledXDistance, mScrolledYDistance);
         }
-        if (mLoadMoreListener != null && mLoadMoreEnabled) {
+        if (mLoadMoreEnabled) {
             int visibleItemCount = layoutManager.getChildCount();
             int totalItemCount = layoutManager.getItemCount();
             if (visibleItemCount > 0
@@ -452,15 +444,9 @@ public class LuRecyclerView extends RecyclerView {
                     && (isCritical ? totalItemCount >= visibleItemCount : totalItemCount > visibleItemCount)
                     && !isNoMore
                     && !mRefreshing) {
+                isCanLoadingData = true;
                 mFootView.setVisibility(View.VISIBLE);
-                if (!mLoadingData) {
-                    mLoadingData = true;
-                    mLoadMoreFooter.onLoading();
-                    mLoadMoreListener.onLoadMore();
-                }
-
             }
-
         }
     }
 
@@ -469,6 +455,14 @@ public class LuRecyclerView extends RecyclerView {
         super.onScrollStateChanged(state);
         if (mLScrollListener != null) {
             mLScrollListener.onScrollStateChanged(state);
+        }
+        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+            if (mLoadMoreListener != null && isCanLoadingData && !mLoadingData) {
+                mLoadingData = true;
+                mLoadMoreFooter.onLoading();
+                mLoadMoreListener.onLoadMore();
+                isCanLoadingData = false;
+            }
         }
     }
 
@@ -494,8 +488,8 @@ public class LuRecyclerView extends RecyclerView {
                 }
             }
         }
-
-        if ((mIsScrollDown && dy > 0) || (!mIsScrollDown && dy < 0)) {
+        boolean isScrollUp = (mIsScrollDown && dy > 0) || (!mIsScrollDown && dy < 0);
+        if (isScrollUp) {
             mDistance += dy;
         }
     }
@@ -509,7 +503,7 @@ public class LuRecyclerView extends RecyclerView {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        //解决LRecyclerView与CollapsingToolbarLayout滑动冲突的问题
+        // 解决LRecyclerView与CollapsingToolbarLayout滑动冲突的问题
         AppBarLayout appBarLayout = null;
         ViewParent p = getParent();
         while (p != null) {

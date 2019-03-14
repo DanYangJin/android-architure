@@ -49,7 +49,7 @@ class FragmentTwo : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun initView() {
         swipe_refresh_layout.setProgressViewOffset(false, 0, 48)
-        swipe_refresh_layout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light)
+        swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimary)
         swipe_refresh_layout.setOnRefreshListener(this)
 
         mDataAdapter = UserListAdapter(arrayListOf())
@@ -66,9 +66,8 @@ class FragmentTwo : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
                 recycler_view.setNoMore(true)
             }
         }
-        recycler_view.setFooterViewHint("已经全部为你呈现了")
         viewModel.userListResult.observe(this, Observer {
-            mTotal = it!!.total
+            mTotal = 50
             mCurrentCounter += it!!.list!!.size
             if (mCurPage == 1) {
                 swipe_refresh_layout.isRefreshing = false

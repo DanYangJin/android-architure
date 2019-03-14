@@ -10,19 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * RecyclerView.Adapter with Header and Footer
- * 
+ * @author danbin
  */
 public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_REFRESH_HEADER = 10000;
     private static final int TYPE_NORMAL = 0;
-    private static final int TYPE_FOOTER_VIEW = 10001;
+    private static final int TYPE_LOAD_FOOTER = 10001;
     private static final int HEADER_INIT_INDEX = 10002;
+
     private List<Integer> mHeaderTypes = new ArrayList<>();
 
     private IRefreshHeader mRefreshHeader;
-
     private OnItemClickListener mOnItemClickListener;
     private OnItemLongClickListener mOnItemLongClickListener;
 
@@ -30,7 +29,6 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
      * RecyclerView使用的，真正的Adapter
      */
     private RecyclerView.Adapter mInnerAdapter;
-
     private ArrayList<View> mHeaderViews = new ArrayList<>();
     private ArrayList<View> mFooterViews = new ArrayList<>();
 
@@ -41,7 +39,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.mInnerAdapter = innerAdapter;
     }
 
-    public void setRefreshHeader(IRefreshHeader refreshHeader){
+    public void setRefreshHeader(IRefreshHeader refreshHeader) {
         mRefreshHeader = refreshHeader;
     }
 
@@ -71,11 +69,12 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     /**
      * 根据header的ViewType判断是哪个header
+     *
      * @param itemType
      * @return
      */
     private View getHeaderViewByType(int itemType) {
-        if(!isHeaderType(itemType)) {
+        if (!isHeaderType(itemType)) {
             return null;
         }
         return mHeaderViews.get(itemType - HEADER_INIT_INDEX);
@@ -83,27 +82,30 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     /**
      * 判断一个type是否为HeaderType
+     *
      * @param itemViewType
      * @return
      */
     private boolean isHeaderType(int itemViewType) {
-        return  mHeaderViews.size() > 0 &&  mHeaderTypes.contains(itemViewType);
+        return mHeaderViews.size() > 0 && mHeaderTypes.contains(itemViewType);
     }
 
     /**
      * 返回第一个FootView
+     *
      * @return
      */
     public View getFooterView() {
-        return  getFooterViewsCount()>0 ? mFooterViews.get(0) : null;
+        return getFooterViewsCount() > 0 ? mFooterViews.get(0) : null;
     }
 
     /**
      * 返回第一个HeaderView
+     *
      * @return
      */
     public View getHeaderView() {
-        return  getHeaderViewsCount()>0 ? mHeaderViews.get(0) : null;
+        return getHeaderViewsCount() > 0 ? mHeaderViews.get(0) : null;
     }
 
     public ArrayList<View> getHeaderViews() {
@@ -158,7 +160,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (isHeaderType(viewType)) {
             ViewHolder viewHolder = new ViewHolder(getHeaderViewByType(viewType));
             return viewHolder;
-        } else if (viewType == TYPE_FOOTER_VIEW) {
+        } else if (viewType == TYPE_LOAD_FOOTER) {
             ViewHolder viewHolder = new ViewHolder(mFooterViews.get(0));
             return viewHolder;
         }
@@ -178,10 +180,9 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
                 mInnerAdapter.onBindViewHolder(holder, adjPosition);
 
                 if (mOnItemClickListener != null) {
-                    holder.itemView.setOnClickListener(new View.OnClickListener()  {
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onClick(View v)
-                        {
+                        public void onClick(View v) {
                             mOnItemClickListener.onItemClick(holder.itemView, adjPosition);
                         }
                     });
@@ -191,8 +192,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
                 if (mOnItemLongClickListener != null) {
                     holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
-                        public boolean onLongClick(View v)
-                        {
+                        public boolean onLongClick(View v) {
                             mOnItemLongClickListener.onItemLongClick(holder.itemView, adjPosition);
                             return true;
                         }
@@ -206,7 +206,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
         if (payloads.isEmpty()) {
-            onBindViewHolder(holder,position);
+            onBindViewHolder(holder, position);
         } else {
 
             if (isHeader(position) || isRefreshHeader(position)) {
@@ -244,7 +244,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
             return mHeaderTypes.get(position);
         }
         if (isFooter(position)) {
-            return TYPE_FOOTER_VIEW;
+            return TYPE_LOAD_FOOTER;
         }
         int adapterCount;
         if (mInnerAdapter != null) {
@@ -261,7 +261,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (mInnerAdapter != null && position >= getHeaderViewsCount()) {
             int adjPosition = position - getHeaderViewsCount();
             //判断是否setHasStableIds(true);
-            if(hasStableIds()) {
+            if (hasStableIds()) {
                 adjPosition--;
             }
             int adapterCount = mInnerAdapter.getItemCount();
@@ -286,7 +286,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 ? gridManager.getSpanCount() : 1;
                     } else {
                         return (isHeader(position) || isFooter(position) || isRefreshHeader(position))
-                                ? gridManager.getSpanCount() : mSpanSizeLookup.getSpanSize(gridManager,  (position - (getHeaderViewsCount() + 1)));
+                                ? gridManager.getSpanCount() : mSpanSizeLookup.getSpanSize(gridManager, (position - (getHeaderViewsCount() + 1)));
                     }
 
                 }
@@ -305,7 +305,7 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         super.onViewAttachedToWindow(holder);
         ViewGroup.LayoutParams lp = holder.itemView.getLayoutParams();
         if (lp != null && lp instanceof StaggeredGridLayoutManager.LayoutParams) {
-            if(isHeader(holder.getLayoutPosition()) ||isRefreshHeader(holder.getLayoutPosition()) || isFooter(holder.getLayoutPosition())) {
+            if (isHeader(holder.getLayoutPosition()) || isRefreshHeader(holder.getLayoutPosition()) || isFooter(holder.getLayoutPosition())) {
                 StaggeredGridLayoutManager.LayoutParams p = (StaggeredGridLayoutManager.LayoutParams) lp;
                 p.setFullSpan(true);
             }
@@ -319,11 +319,6 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         mInnerAdapter.onViewDetachedFromWindow(holder);
     }
 
-    /*@Override
-    public void onViewRecycled(RecyclerView.ViewHolder holder) {
-        mInnerAdapter.onViewRecycled(holder);
-    }*/
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
@@ -332,20 +327,21 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     /**
+     * 获取当前位置
      *
      * @param isCallback whether position is from callback interface
      * @param position
      * @return
      */
     public int getAdapterPosition(boolean isCallback, int position) {
-        if(isCallback) {
+        if (isCallback) {
             int adjPosition = position - (getHeaderViewsCount() + 1);
             int adapterCount = mInnerAdapter.getItemCount();
             if (adjPosition < adapterCount) {
                 return adjPosition;
             }
-        }else {
-            return  (position + getHeaderViewsCount()) + 1;
+        } else {
+            return (position + getHeaderViewsCount()) + 1;
         }
 
         return -1;
@@ -359,13 +355,8 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.mOnItemLongClickListener = itemLongClickListener;
     }
 
-    public interface SpanSizeLookup {
-        int getSpanSize(GridLayoutManager gridLayoutManager, int position);
-    }
-
     /**
-     * @param spanSizeLookup
-     * only used to GridLayoutManager
+     * @param spanSizeLookup only used to GridLayoutManager
      */
     public void setSpanSizeLookup(SpanSizeLookup spanSizeLookup) {
         this.mSpanSizeLookup = spanSizeLookup;
