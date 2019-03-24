@@ -48,21 +48,17 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void addHeaderView(View view) {
-
         if (view == null) {
             throw new RuntimeException("header is null");
         }
-
         mHeaderTypes.add(HEADER_INIT_INDEX + mHeaderViews.size());
         mHeaderViews.add(view);
     }
 
     public void addFooterView(View view) {
-
         if (view == null) {
             throw new RuntimeException("footer is null");
         }
-
         removeFooterView();
         mFooterViews.add(view);
     }
@@ -208,7 +204,6 @@ public class LRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position);
         } else {
-
             if (isHeader(position) || isRefreshHeader(position)) {
                 return;
             }
