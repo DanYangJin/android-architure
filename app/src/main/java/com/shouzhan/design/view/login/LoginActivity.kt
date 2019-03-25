@@ -9,7 +9,8 @@ import com.shouzhan.design.App
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
-import com.shouzhan.design.utils.Preference
+import com.shouzhan.design.utils.NewPrefs
+import com.shouzhan.design.utils.PrefConstants
 import com.shouzhan.design.viewmodel.login.LoginViewModel
 
 /**
@@ -21,8 +22,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     companion object {
         private val TAG = LoginActivity::class.java.simpleName
     }
-
-    private var accessToken: String? by Preference("accessToken", "")
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         ViewModelProvider.AndroidViewModelFactory.
@@ -37,7 +36,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         super.onCreate(savedInstanceState)
         viewModel!!.loginResult.observe(this, Observer { loginResult ->
             Log.e(TAG, "onChanged: " + loginResult!!.toString())
-            accessToken = loginResult!!.accessToken
+            NewPrefs.addStringPreference(PrefConstants.ACCESS_TOKEN, loginResult!!.accessToken)
             finish()
         })
     }

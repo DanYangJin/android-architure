@@ -3,6 +3,7 @@ package com.shouzhan.design;
 import android.app.Application;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.shouzhan.design.utils.NewPrefs;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
@@ -20,6 +21,7 @@ public class App extends Application {
         super.onCreate();
         Fresco.initialize(getApplicationContext());
         INSTANCE = this;
+        NewPrefs.init(this);
         configUnits();
     }
 

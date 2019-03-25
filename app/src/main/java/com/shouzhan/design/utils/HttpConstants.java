@@ -40,9 +40,9 @@ public class HttpConstants {
      * 环境服务器域名
      */
     public static final String[] JAVA_LOAN_HOSTS = {
-            "http://lifecircle-loan-test.51youdian.com/",
-            "http://lifecircle-loan-beta.51youdian.com/",
-            "http://lifecircle-loan.51youdian.com/"};
+            "http://lifecircle-loan-test.51youdian.com/app/gateway/",
+            "http://lifecircle-loan-beta.51youdian.com/app/gateway/",
+            "http://lifecircle-loan.51youdian.com/app/gateway/"};
 
     /**
      * JAVA -- 商户贷
@@ -71,5 +71,19 @@ public class HttpConstants {
      * */
     public static final long CONNECT_TIME_OUT_MILLS = 10 * 1000L;
     public static final long READ_TIME_OUT_MILLS = 10 * 1000L;
+
+    /**
+     * 请求配置
+     * */
+    public static final String APP_ID = "20181201010101";
+
+    /**
+     * 请求参数
+     * */
+    public static final String RQ_APP_ID = "appid";
+    public static final String RQ_METHOD = "method";
+    public static final String RQ_VERSION = "version";
+    public static final String RQ_CONTENT = "content";
+    public static final String RQ_SIGN = "sign";
 
 }

@@ -9,9 +9,9 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * @author lijie on 2018/12/3
  */
-public abstract class ApiCallback<T> extends DisposableObserver<BaseResult<T>> {
+public abstract class PerformanceApiCallback<T> extends DisposableObserver<BaseResult<T>> {
 
-    private static final String TAG = ApiCallback.class.getSimpleName();
+    private static final String TAG = PerformanceApiCallback.class.getSimpleName();
     private static final int SUCCESS_CODE = 200;
 
     @Override

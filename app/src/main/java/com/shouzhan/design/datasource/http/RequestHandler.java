@@ -19,6 +19,7 @@ public interface RequestHandler {
      * @param request
      * @param chain
      * @return
+     * @throws IOException
      */
     Request onBeforeRequest(Request request, Interceptor.Chain chain) throws IOException;
 
@@ -31,5 +32,13 @@ public interface RequestHandler {
      * @throws IOException
      */
     Response onAfterRequest(Response response, Interceptor.Chain chain) throws IOException;
+
+    /**
+     * 处理验签方法
+     *
+     * @return
+     */
+    String generationSign();
+
 
 }

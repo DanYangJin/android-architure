@@ -2,7 +2,7 @@ package com.shouzhan.design.viewmodel.login
 
 import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel
-import com.shouzhan.design.datasource.http.ApiCallback
+import com.shouzhan.design.datasource.http.PerformanceApiCallback
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.model.remote.result.LoginResult
 import com.shouzhan.design.repository.LoginRepository
@@ -18,7 +18,7 @@ class LoginViewModel : BaseViewModel() {
     var mLoginRepository: LoginRepository = LoginRepository()
 
     fun toLogin(username: String, password: String) {
-        addSubscribe(mLoginRepository.toLogin(username, password), object : ApiCallback<LoginResult>() {
+        addSubscribe(mLoginRepository.toLogin(username, password), object : PerformanceApiCallback<LoginResult>() {
             override fun onSuccess(data: LoginResult) {
                 loginResult.value = data
             }

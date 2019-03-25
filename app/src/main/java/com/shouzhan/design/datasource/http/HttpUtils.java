@@ -27,6 +27,19 @@ public class HttpUtils {
     private HashMap<String, Retrofit> mRetrofitMap = new HashMap<>();
     private HashMap<String, OkHttpClient> mClientMap = new HashMap<>();
 
+    public static HttpUtils instance;
+
+    public static HttpUtils getInstance() {
+        if (instance == null) {
+            synchronized (HttpUtils.class) {
+                if (instance == null) {
+                    instance = new HttpUtils();
+                }
+            }
+        }
+        return instance;
+    }
+
     /**
      * 根据不同请求URL, 得到不同的请求Retrofit
      */
@@ -40,12 +53,11 @@ public class HttpUtils {
         }
         NetProvider netProvider = provider;
         if (provider == null) {
-            provider = mProviderMap.get(baseUrl);
-            if (provider == null) {
+            netProvider = mProviderMap.get(baseUrl);
+            if (netProvider == null) {
                 netProvider = new CommonNetProvider();
             }
         }
-        // TODO 处理付呗PHP请求解析
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(getOkHttpClient(baseUrl, netProvider))
@@ -54,7 +66,7 @@ public class HttpUtils {
                 .build();
         mRetrofitMap.put(baseUrl, retrofit);
         mProviderMap.put(baseUrl, provider);
-        return null;
+        return retrofit;
     }
 
     private OkHttpClient getOkHttpClient(String baseUrl, NetProvider provider) {
@@ -114,13 +126,10 @@ public class HttpUtils {
      * 获取请求句柄
      *
      * @param baseUrl
+     * @param provider
      * @param service
      * @return
      */
-    public <T> T get(String baseUrl, Class<T> service) {
-        return get(baseUrl, new CommonNetProvider(), service);
-    }
-
     public <T> T get(String baseUrl, NetProvider provider, Class<T> service) {
         try {
             return getRetrofit(baseUrl, provider).create(service);

@@ -1,5 +1,8 @@
 package com.shouzhan.design.datasource.http;
 
+import com.shouzhan.design.utils.NewPrefs;
+import com.shouzhan.design.utils.PrefConstants;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -19,7 +22,8 @@ public class CommonRequestHandler implements RequestHandler {
     public Request onBeforeRequest(Request request, Interceptor.Chain chain) {
         Request original = chain.request();
         Request.Builder builder = original.newBuilder();
-        builder.header("accessToken", "");
+        String accessToken = NewPrefs.getStringPreference(PrefConstants.ACCESS_TOKEN, "");
+        builder.header("accessToken", accessToken);
         Request newRequest = builder.method(original.method(), original.body())
                 .build();
         return newRequest;
@@ -44,19 +48,9 @@ public class CommonRequestHandler implements RequestHandler {
         return response;
     }
 
-    /**
-     * 获取常规post请求参数
-     *
-     * @param body
-     */
-//    private String bodyToString(RequestBody body) {
-//        Buffer buffer = new Buffer();
-//        try {
-//            body.writeTo(buffer);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return buffer.readUtf8();
-//    }
+    @Override
+    public String generationSign() {
+        return null;
+    }
 
 }
