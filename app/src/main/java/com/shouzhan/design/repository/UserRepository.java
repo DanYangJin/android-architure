@@ -1,11 +1,12 @@
 package com.shouzhan.design.repository;
 
 import com.shouzhan.design.datasource.http.ApiService;
-import com.shouzhan.design.datasource.http.RetrofitUtils;
+import com.shouzhan.design.datasource.http.HttpUtils;
 import com.shouzhan.design.model.remote.request.UserListRequest;
 import com.shouzhan.design.model.remote.result.BasePageResult;
 import com.shouzhan.design.model.remote.result.BaseResult;
 import com.shouzhan.design.model.remote.result.UserListResult;
+import com.shouzhan.design.utils.HttpConstants;
 
 import io.reactivex.Observable;
 
@@ -18,7 +19,7 @@ public class UserRepository {
     public ApiService mApiService;
 
     public UserRepository() {
-        this.mApiService = RetrofitUtils.getService();
+        this.mApiService = new HttpUtils().get(HttpConstants.JAVA_PERFORMANCE_HOST, ApiService.class);;
     }
 
     public Observable<BaseResult<BasePageResult<UserListResult>>> getUserList(int page) {

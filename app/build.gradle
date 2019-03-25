@@ -14,8 +14,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            buildConfigField "int", "SERVER", "0"
+        }
+        beta {
+            buildConfigField "int", "SERVER", "1"
+        }
         release {
-            minifyEnabled false
+            buildConfigField "int", "SERVER", "2"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -52,4 +58,5 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:1.9.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'me.jessyan:autosize:1.1.2'
+    implementation 'org.apache.commons:commons-lang3:3.6'
 }

@@ -9,7 +9,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * @author lijie on 2018/12/3
  */
-public abstract class ApiCallback<T> extends DisposableObserver<BaseResult> {
+public abstract class ApiCallback<T> extends DisposableObserver<BaseResult<T>> {
 
     private static final String TAG = ApiCallback.class.getSimpleName();
     private static final int SUCCESS_CODE = 200;
@@ -20,9 +20,9 @@ public abstract class ApiCallback<T> extends DisposableObserver<BaseResult> {
     }
 
     @Override
-    public void onNext(BaseResult baseResult) {
+    public void onNext(BaseResult<T> baseResult) {
         if (baseResult.getResultCode() == SUCCESS_CODE) {
-            onSuccess((T) baseResult.getData());
+            onSuccess(baseResult.getData());
         } else {
             onFailure(baseResult.getResultMessage(), baseResult.getResultCode());
         }

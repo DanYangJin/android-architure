@@ -10,11 +10,11 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author lijie on 2018/12/3
  */
-public class HttpManager {
+public class HttpCompositeDisposable {
 
     private CompositeDisposable mCompositeDisposable;
 
-    public HttpManager() {
+    public HttpCompositeDisposable() {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
