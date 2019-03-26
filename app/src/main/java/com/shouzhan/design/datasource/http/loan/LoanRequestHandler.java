@@ -21,6 +21,7 @@ import okhttp3.ResponseBody;
 /**
  * @author danbin
  * @version LoanRequestHandler.java, v 0.1 2019-03-25 下午4:49 danbin
+ * TODO 明确验签位置
  */
 public class LoanRequestHandler implements RequestHandler {
 

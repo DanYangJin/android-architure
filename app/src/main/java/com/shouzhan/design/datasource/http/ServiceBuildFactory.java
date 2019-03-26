@@ -1,5 +1,6 @@
 package com.shouzhan.design.datasource.http;
 
+import com.shouzhan.design.datasource.http.java.JavaNetProvider;
 import com.shouzhan.design.datasource.http.loan.LoanNetProvider;
 import com.shouzhan.design.datasource.http.performance.PerformanceNetProvider;
 
@@ -31,7 +32,8 @@ public class ServiceBuildFactory {
             case PHP_HOST:
                 break;
             case JAVA_HOST:
-                break;
+                Object mJavaHttps = HttpUtils.getInstance().get(baseUrl, new JavaNetProvider(), tClass);
+                return (T) mJavaHttps;
             case JAVA_LOAN_HOST:
                 Object mLoanHttps = HttpUtils.getInstance().get(baseUrl, new LoanNetProvider(), tClass);
                 return (T) mLoanHttps;

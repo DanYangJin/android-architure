@@ -5,9 +5,11 @@ import android.util.Log
 import com.shouzhan.design.base.BaseViewModel
 import com.shouzhan.design.datasource.http.loan.LoanApiCallback
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
-import com.shouzhan.design.model.remote.result.MerchantLoanTypeResult
 import com.shouzhan.design.model.remote.result.BasePageResult
+import com.shouzhan.design.model.remote.result.BountyInfoResult
+import com.shouzhan.design.model.remote.result.MerchantLoanTypeResult
 import com.shouzhan.design.model.remote.result.UserListResult
+import com.shouzhan.design.repository.BountyRepository
 import com.shouzhan.design.repository.MerchantLoanRepository
 import com.shouzhan.design.repository.UserRepository
 
@@ -21,6 +23,7 @@ class UserListViewModel : BaseViewModel() {
 
     private var mUserRepository: UserRepository = UserRepository()
     private var mLoanRepository: MerchantLoanRepository = MerchantLoanRepository()
+    private var mJavaRepository: BountyRepository = BountyRepository()
 
     fun requestData(page: Int){
         addSubscribe( mUserRepository.getUserList(page), object : PerformanceApiCallback<BasePageResult<UserListResult>>() {
@@ -34,6 +37,16 @@ class UserListViewModel : BaseViewModel() {
         addSubscribe(mLoanRepository.getMerchantLoansType("1538976"),   object : LoanApiCallback<MerchantLoanTypeResult>() {
 
             override fun onSuccess(data: MerchantLoanTypeResult?) {
+                Log.e("Catch", data.toString())
+            }
+
+        })
+    }
+
+    fun getBountyData() {
+        addSubscribe(mJavaRepository.bountyData,   object : LoanApiCallback<BountyInfoResult>() {
+
+            override fun onSuccess(data: BountyInfoResult?) {
                 Log.e("Catch", data.toString())
             }
 

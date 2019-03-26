@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 
 import okhttp3.RequestBody;
@@ -35,6 +37,9 @@ public class Utils {
      * 格式化JSONString
      * */
     public static String toPrettyFormat(String jsonString) {
+        if (StringUtils.isEmpty(jsonString)) {
+            return null;
+        }
         JsonParser parser = new JsonParser();
         JsonObject json = parser.parse(jsonString).getAsJsonObject();
         Gson gson = new GsonBuilder().disableHtmlEscaping().create();

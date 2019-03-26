@@ -54,6 +54,7 @@ class FragmentTwo : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getMerchantLoansType()
+        viewModel.getBountyData()
     }
 
     override fun initView() {

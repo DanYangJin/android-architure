@@ -21,6 +21,7 @@ import okhttp3.ResponseBody;
 /**
  * @author danbin
  * @version JavaRequestHandler.java, v 0.1 2019-03-25 下午4:49 danbin
+ * TODO 明确验签位置
  */
 public class JavaRequestHandler implements RequestHandler {
 
@@ -64,12 +65,13 @@ public class JavaRequestHandler implements RequestHandler {
                 jsonObject = new JSONObject(prettyFormat);
             }
             JSONObject params = new JSONObject();
-            params.put(HttpConstants.RQ_ACCESS_TOKEN, "");
+
             params.put(HttpConstants.RQ_APP_ID, HttpConstants.APP_ID);
             String method = request.url().toString().replace(HttpConstants.JAVA_HOST, "");
             params.put(HttpConstants.RQ_METHOD, method);
             params.put(HttpConstants.RQ_VERSION, "1.0.0");
             params.put(HttpConstants.RQ_SIGN, "");
+            jsonObject.put(HttpConstants.RQ_ACCESS_TOKEN, "352de3dd930f4f7c6e9eaf8a4365cd36");
             params.put(HttpConstants.RQ_CONTENT, jsonObject);
             return request.newBuilder()
                     .url(HttpConstants.JAVA_HOST + "gateway")
