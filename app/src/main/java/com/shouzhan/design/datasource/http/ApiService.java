@@ -1,6 +1,7 @@
 package com.shouzhan.design.datasource.http;
 
-import com.shouzhan.design.model.javabean.MerchantLoanTypeInfo;
+import com.shouzhan.design.model.remote.result.BountyInfoResult;
+import com.shouzhan.design.model.remote.result.MerchantLoanTypeResult;
 import com.shouzhan.design.model.remote.request.LoginRequest;
 import com.shouzhan.design.model.remote.request.MerchantLoanTypeRequest;
 import com.shouzhan.design.model.remote.result.BasePageResult;
@@ -61,7 +62,7 @@ public interface ApiService {
     Observable<BaseResult<BasePageResult<UserListResult>>> getUserList(@Query("page") int page,
                                                                        @Query("pageSize") int pageSize,
                                                                        @Query("searchName") String searchName);
-
+    /***********************测试商户贷请求**********************************/
     /**
      * 判断商户贷类型
      *
@@ -69,6 +70,15 @@ public interface ApiService {
      * @return
      */
     @POST("com.fshows.lifecircle.loan.query.confirm.status")
-    Observable<JavaBaseResult<MerchantLoanTypeInfo>> getMerchantLoansType(@Body MerchantLoanTypeRequest request);
+    Observable<JavaBaseResult<MerchantLoanTypeResult>> getMerchantLoansType(@Body MerchantLoanTypeRequest request);
+
+    /***********************测试Java请求**********************************/
+    /**
+     * 奖励金首页
+     *
+     * @return
+     */
+    @POST("com.fshows.lifecircle.overlord.bounty.index")
+    Observable<JavaBaseResult<BountyInfoResult>> getBountyData();
 
 }

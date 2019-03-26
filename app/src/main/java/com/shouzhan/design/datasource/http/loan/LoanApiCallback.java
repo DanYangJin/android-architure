@@ -1,4 +1,4 @@
-package com.shouzhan.design.datasource.http;
+package com.shouzhan.design.datasource.http.loan;
 
 import com.shouzhan.design.model.remote.result.JavaBaseResult;
 

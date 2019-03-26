@@ -3,9 +3,9 @@ package com.shouzhan.design.view.kotlin.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.util.Log
 import com.shouzhan.design.base.BaseViewModel
-import com.shouzhan.design.datasource.http.LoanApiCallback
-import com.shouzhan.design.datasource.http.PerformanceApiCallback
-import com.shouzhan.design.model.javabean.MerchantLoanTypeInfo
+import com.shouzhan.design.datasource.http.loan.LoanApiCallback
+import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
+import com.shouzhan.design.model.remote.result.MerchantLoanTypeResult
 import com.shouzhan.design.model.remote.result.BasePageResult
 import com.shouzhan.design.model.remote.result.UserListResult
 import com.shouzhan.design.repository.MerchantLoanRepository
@@ -31,9 +31,9 @@ class UserListViewModel : BaseViewModel() {
     }
 
     fun getMerchantLoansType() {
-        addSubscribe(mLoanRepository.getMerchantLoansType("1538976"),   object : LoanApiCallback<MerchantLoanTypeInfo>() {
+        addSubscribe(mLoanRepository.getMerchantLoansType("1538976"),   object : LoanApiCallback<MerchantLoanTypeResult>() {
 
-            override fun onSuccess(data: MerchantLoanTypeInfo?) {
+            override fun onSuccess(data: MerchantLoanTypeResult?) {
                 Log.e("Catch", data.toString())
             }
 

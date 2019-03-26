@@ -1,5 +1,8 @@
 package com.shouzhan.design.datasource.http;
 
+import com.shouzhan.design.datasource.http.loan.LoanNetProvider;
+import com.shouzhan.design.datasource.http.performance.PerformanceNetProvider;
+
 /**
  * @author lijie on 2018/12/30
  */
@@ -33,7 +36,7 @@ public class ServiceBuildFactory {
                 Object mLoanHttps = HttpUtils.getInstance().get(baseUrl, new LoanNetProvider(), tClass);
                 return (T) mLoanHttps;
             case JAVA_PERFORMANCE_HOST:
-                Object mPerformanceHttps = HttpUtils.getInstance().get(baseUrl, new CommonNetProvider(), tClass);
+                Object mPerformanceHttps = HttpUtils.getInstance().get(baseUrl, new PerformanceNetProvider(), tClass);
                 return (T) mPerformanceHttps;
             default:
                 break;

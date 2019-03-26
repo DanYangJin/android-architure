@@ -2,7 +2,7 @@ package com.shouzhan.design.view.login.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel
-import com.shouzhan.design.datasource.http.PerformanceApiCallback
+import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.model.remote.result.LoginResult
 import com.shouzhan.design.repository.LoginRepository

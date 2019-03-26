@@ -1,7 +1,7 @@
 package com.shouzhan.design.repository;
 
 import com.shouzhan.design.datasource.http.ApiService;
-import com.shouzhan.design.model.javabean.MerchantLoanTypeInfo;
+import com.shouzhan.design.model.remote.result.MerchantLoanTypeResult;
 import com.shouzhan.design.model.remote.request.MerchantLoanTypeRequest;
 import com.shouzhan.design.model.remote.result.JavaBaseResult;
 
@@ -19,7 +19,7 @@ public class MerchantLoanRepository {
         this.mApiService = ApiService.Builder.getJavaLoanServer();
     }
 
-    public Observable<JavaBaseResult<MerchantLoanTypeInfo>> getMerchantLoansType(String uid) {
+    public Observable<JavaBaseResult<MerchantLoanTypeResult>> getMerchantLoansType(String uid) {
         MerchantLoanTypeRequest request = new MerchantLoanTypeRequest(uid);
         return mApiService.getMerchantLoansType(request);
     }

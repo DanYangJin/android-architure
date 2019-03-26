@@ -1,4 +1,4 @@
-package com.shouzhan.design.model.javabean;
+package com.shouzhan.design.model.remote.result;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 /**
  * @author lijie on 2018/12/29
  */
-public class MerchantLoanTypeInfo {
+public class MerchantLoanTypeResult {
 
     /**
      * false未确认,true已确认

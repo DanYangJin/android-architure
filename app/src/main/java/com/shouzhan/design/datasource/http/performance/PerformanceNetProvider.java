@@ -1,4 +1,7 @@
-package com.shouzhan.design.datasource.http;
+package com.shouzhan.design.datasource.http.performance;
+
+import com.shouzhan.design.datasource.http.NetProvider;
+import com.shouzhan.design.datasource.http.RequestHandler;
 
 import java.util.ArrayList;
 
@@ -10,11 +13,11 @@ import okhttp3.OkHttpClient;
  * @author danbin
  * @version CommonNetProvider.java, v 0.1 2019-03-25 下午4:28 danbin
  */
-public class CommonNetProvider implements NetProvider {
+public class PerformanceNetProvider implements NetProvider {
 
     @Override
     public RequestHandler headerInterceptors() {
-        return new CommonRequestHandler();
+        return new PerformanceRequestHandler();
     }
 
     @Override

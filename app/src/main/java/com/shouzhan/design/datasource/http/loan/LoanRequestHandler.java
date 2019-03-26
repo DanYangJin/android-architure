@@ -1,5 +1,7 @@
-package com.shouzhan.design.datasource.http;
+package com.shouzhan.design.datasource.http.loan;
 
+import com.shouzhan.design.datasource.http.RequestHandler;
+import com.shouzhan.design.datasource.http.RequestType;
 import com.shouzhan.design.utils.HttpConstants;
 import com.shouzhan.design.utils.Utils;
 
@@ -38,10 +40,10 @@ public class LoanRequestHandler implements RequestHandler {
             ResponseBody responseBody = response.peekBody(Long.MAX_VALUE);
             InputStreamReader jsonReader = new InputStreamReader(responseBody.byteStream(), charset);
             BufferedReader reader = new BufferedReader(jsonReader);
-            StringBuilder sbJson = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             String line = reader.readLine();
             do {
-                sbJson.append(line);
+                builder.append(line);
                 line = reader.readLine();
             } while (line != null);
         } catch (Exception e) {

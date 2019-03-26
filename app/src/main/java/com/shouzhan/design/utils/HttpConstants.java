@@ -85,5 +85,6 @@ public class HttpConstants {
     public static final String RQ_VERSION = "version";
     public static final String RQ_CONTENT = "content";
     public static final String RQ_SIGN = "sign";
+    public static final String RQ_ACCESS_TOKEN = "access_token";
 
 }

@@ -2,6 +2,7 @@ package com.shouzhan.design.datasource.http;
 
 import com.google.gson.Gson;
 import com.shouzhan.design.BuildConfig;
+import com.shouzhan.design.datasource.http.performance.PerformanceNetProvider;
 import com.shouzhan.design.utils.HttpConstants;
 
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +56,7 @@ public class HttpUtils {
         if (provider == null) {
             netProvider = mProviderMap.get(baseUrl);
             if (netProvider == null) {
-                netProvider = new CommonNetProvider();
+                netProvider = new PerformanceNetProvider();
             }
         }
         Retrofit retrofit = new Retrofit.Builder()

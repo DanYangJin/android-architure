@@ -1,5 +1,6 @@
-package com.shouzhan.design.datasource.http;
+package com.shouzhan.design.datasource.http.performance;
 
+import com.shouzhan.design.datasource.http.RequestHandler;
 import com.shouzhan.design.utils.NewPrefs;
 import com.shouzhan.design.utils.PrefConstants;
 
@@ -16,7 +17,7 @@ import okhttp3.ResponseBody;
  * @author danbin
  * @version CommonRequestHandler.java, v 0.1 2019-03-25 下午4:49 danbin
  */
-public class CommonRequestHandler implements RequestHandler {
+public class PerformanceRequestHandler implements RequestHandler {
 
     @Override
     public Request onBeforeRequest(Request request, Interceptor.Chain chain) {
@@ -36,10 +37,10 @@ public class CommonRequestHandler implements RequestHandler {
             ResponseBody responseBody = response.peekBody(Long.MAX_VALUE);
             InputStreamReader jsonReader = new InputStreamReader(responseBody.byteStream(), charset);
             BufferedReader reader = new BufferedReader(jsonReader);
-            StringBuilder sbJson = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             String line = reader.readLine();
             do {
-                sbJson.append(line);
+                builder.append(line);
                 line = reader.readLine();
             } while (line != null);
         } catch (Exception e) {
