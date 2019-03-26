@@ -65,6 +65,13 @@ public class HttpConstants {
      */
     public static final String JAVA_PERFORMANCE_HOST = JAVA_PERFORMANCE_HOSTS[BuildConfig.SERVER];
 
+    public static final String[] KEYS = {
+            "0226dee8829c64a16c53a3029f8ddb69",
+            "0226dee8829c64a16c53a3029f8ddb69",
+            "8bcd9eff9ddfe72935f915c0ff6b036a"
+    };
+
+    public static final String KEY = KEYS[BuildConfig.SERVER];
 
     /**
      * 统一请求时间
@@ -85,6 +92,13 @@ public class HttpConstants {
     public static final String RQ_VERSION = "version";
     public static final String RQ_CONTENT = "content";
     public static final String RQ_SIGN = "sign";
-    public static final String RQ_ACCESS_TOKEN = "access_token";
+
+    public static final String HEADER_PERFORMANCE_ACCESS_TOKEN = "access_token";
+    public static final String HEADER_ACCEPT_CODING = "Accept-Encoding";
+    public static final String HEADER_CONTENT_TYPE = "Content-Type";
+    public static final String HEADER_ACCESS_TOKEN = "access-token";
+
+    public static final String STRING_CONTENT_TYPE = "application/json";
+    public static final String ACCEPT_CODING = "gzip,deflate,sdch";
 
 }

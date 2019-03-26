@@ -71,7 +71,7 @@ public class JavaRequestHandler implements RequestHandler {
             params.put(HttpConstants.RQ_METHOD, method);
             params.put(HttpConstants.RQ_VERSION, "1.0.0");
             params.put(HttpConstants.RQ_SIGN, "");
-            jsonObject.put(HttpConstants.RQ_ACCESS_TOKEN, "352de3dd930f4f7c6e9eaf8a4365cd36");
+            jsonObject.put(HttpConstants.HEADER_PERFORMANCE_ACCESS_TOKEN, "352de3dd930f4f7c6e9eaf8a4365cd36");
             params.put(HttpConstants.RQ_CONTENT, jsonObject);
             return request.newBuilder()
                     .url(HttpConstants.JAVA_HOST + "gateway")
