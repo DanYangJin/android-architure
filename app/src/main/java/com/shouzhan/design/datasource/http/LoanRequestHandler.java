@@ -1,7 +1,5 @@
 package com.shouzhan.design.datasource.http;
 
-import android.util.Log;
-
 import com.shouzhan.design.utils.HttpConstants;
 import com.shouzhan.design.utils.Utils;
 
@@ -24,12 +22,9 @@ import okhttp3.ResponseBody;
  */
 public class LoanRequestHandler implements RequestHandler {
 
-    private static final String TAG = LoanRequestHandler.class.getSimpleName();
-
     @Override
     public Request onBeforeRequest(Request request, Interceptor.Chain chain) {
         String method = request.method();
-        Log.e(TAG, "method: " + method);
         if (StringUtils.equals(method, RequestType.POST.name())) {
             return rebuildPostRequest(request);
         }
@@ -55,11 +50,6 @@ public class LoanRequestHandler implements RequestHandler {
         return response;
     }
 
-    @Override
-    public String generationSign() {
-        return null;
-    }
-
     private Request rebuildPostRequest(Request request) {
         RequestBody oldRequestBody = request.body();
         assert oldRequestBody != null;
@@ -76,12 +66,10 @@ public class LoanRequestHandler implements RequestHandler {
             String method = request.url().toString().replace(HttpConstants.JAVA_LOAN_HOST, "");
             params.put(HttpConstants.RQ_METHOD, method);
             params.put(HttpConstants.RQ_VERSION, "1.0.0");
-            jsonObject.put(HttpConstants.RQ_SIGN, "");
+            params.put(HttpConstants.RQ_SIGN, "");
             params.put(HttpConstants.RQ_CONTENT, jsonObject);
-            // D/OkHttp: {"version":"1.0.0","method":"com.fshows.lifecircle.loan.query.confirm.status","appid":"20181201010101","content":{"merchant_id":"1538976","sign":""}}
-            Log.e(TAG, "jsonObject: " + params.toString());
             return request.newBuilder()
-                    .url(HttpConstants.JAVA_LOAN_HOST)
+                    .url(HttpConstants.JAVA_LOAN_HOST + "app/gateway")
                     .post(RequestBody.create(oldRequestBody.contentType(), params.toString().replace("\\/", "/")))
                     .build();
         } catch (Exception e) {

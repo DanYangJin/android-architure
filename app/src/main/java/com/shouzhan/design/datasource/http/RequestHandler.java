@@ -33,12 +33,6 @@ public interface RequestHandler {
      */
     Response onAfterRequest(Response response, Interceptor.Chain chain) throws IOException;
 
-    /**
-     * 处理验签方法
-     *
-     * @return
-     */
-    String generationSign();
 
 
 }

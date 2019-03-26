@@ -8,7 +8,7 @@ import com.shouzhan.design.R
 import com.shouzhan.design.adapter.CustomAdapter
 import com.shouzhan.design.base.LazyFragment
 import com.shouzhan.design.extens.yes
-import com.shouzhan.design.viewmodel.kotlin.FragmentOneViewModel
+import com.shouzhan.design.view.kotlin.viewmodel.FragmentOneViewModel
 import kotlinx.android.synthetic.main.fragment_one.*
 
 /**

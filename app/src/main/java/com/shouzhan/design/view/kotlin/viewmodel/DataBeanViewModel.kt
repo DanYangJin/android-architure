@@ -1,4 +1,4 @@
-package com.shouzhan.design.viewmodel.kotlin
+package com.shouzhan.design.view.kotlin.viewmodel
 
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder

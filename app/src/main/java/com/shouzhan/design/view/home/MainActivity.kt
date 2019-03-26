@@ -7,7 +7,7 @@ import com.shouzhan.design.App
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityMainBinding
-import com.shouzhan.design.viewmodel.MainViewModel
+import com.shouzhan.design.view.home.viewmodel.MainViewModel
 
 /**
  * @author danbin

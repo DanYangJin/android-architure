@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.shouzhan.design.viewmodel.login.LoginViewModel" />
+            type="com.shouzhan.design.view.login.viewmodel.LoginViewModel" />
 
         <variable
             name="loginresult"

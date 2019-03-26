@@ -48,9 +48,5 @@ public class CommonRequestHandler implements RequestHandler {
         return response;
     }
 
-    @Override
-    public String generationSign() {
-        return null;
-    }
 
 }

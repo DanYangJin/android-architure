@@ -1,6 +1,7 @@
-package com.shouzhan.design.viewmodel.kotlin
+package com.shouzhan.design.view.kotlin.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
+import android.util.Log
 import com.shouzhan.design.base.BaseViewModel
 import com.shouzhan.design.datasource.http.LoanApiCallback
 import com.shouzhan.design.datasource.http.PerformanceApiCallback
@@ -12,7 +13,7 @@ import com.shouzhan.design.repository.UserRepository
 
 /**
  * @author danbin
- * @version KotlinViewModel.java, v 0.1 2019-02-27 上午12:18 danbin
+ * @version UserListViewModel.java, v 0.1 2019-02-27 上午12:18 danbin
  */
 class UserListViewModel : BaseViewModel() {
 
@@ -27,11 +28,13 @@ class UserListViewModel : BaseViewModel() {
                 userListResult.value = data
             }
         })
+    }
 
+    fun getMerchantLoansType() {
         addSubscribe(mLoanRepository.getMerchantLoansType("1538976"),   object : LoanApiCallback<MerchantLoanTypeInfo>() {
 
             override fun onSuccess(data: MerchantLoanTypeInfo?) {
-
+                Log.e("Catch", data.toString())
             }
 
         })

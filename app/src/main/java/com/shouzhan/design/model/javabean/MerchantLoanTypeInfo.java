@@ -2,6 +2,9 @@ package com.shouzhan.design.model.javabean;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * @author lijie on 2018/12/29
  */
@@ -34,5 +37,9 @@ public class MerchantLoanTypeInfo {
         this.loanType = loanType;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

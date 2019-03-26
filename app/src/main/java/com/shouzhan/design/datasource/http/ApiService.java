@@ -46,7 +46,7 @@ public interface ApiService {
      * @param request
      * @return
      */
-    @POST("/user/login")
+    @POST("user/login")
     Observable<BaseResult<LoginResult>> login(@Body LoginRequest request);
 
     /**
@@ -57,7 +57,7 @@ public interface ApiService {
      * @param searchName
      * @return
      */
-    @GET("/user/getUserList")
+    @GET("user/getUserList")
     Observable<BaseResult<BasePageResult<UserListResult>>> getUserList(@Query("page") int page,
                                                                        @Query("pageSize") int pageSize,
                                                                        @Query("searchName") String searchName);

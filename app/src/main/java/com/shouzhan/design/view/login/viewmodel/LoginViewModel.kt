@@ -1,4 +1,4 @@
-package com.shouzhan.design.viewmodel.login
+package com.shouzhan.design.view.login.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel

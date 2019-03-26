@@ -1,4 +1,4 @@
-package com.shouzhan.design.viewmodel
+package com.shouzhan.design.view.home.viewmodel
 
 import android.databinding.ObservableField
 import com.shouzhan.design.base.BaseViewModel

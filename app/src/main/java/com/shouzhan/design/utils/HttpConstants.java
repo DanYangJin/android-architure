@@ -12,9 +12,9 @@ public class HttpConstants {
      * 正式服务器域名
      */
     public static final String[] HOSTS = {
-            "https://merchantapp-admin-test.51fubei.com",
-            "https://merchantapp-admin-beta.51fubei.com",
-            "https://merchantapp-admin.51fubei.com"};
+            "https://merchantapp-admin-test.51fubei.com/",
+            "https://merchantapp-admin-beta.51fubei.com/",
+            "https://merchantapp-admin.51fubei.com/"};
 
     /**
      * 0.测试环境, 1.预发布环境, 2.正式环境
@@ -40,9 +40,9 @@ public class HttpConstants {
      * 环境服务器域名
      */
     public static final String[] JAVA_LOAN_HOSTS = {
-            "http://lifecircle-loan-test.51youdian.com/app/gateway/",
-            "http://lifecircle-loan-beta.51youdian.com/app/gateway/",
-            "http://lifecircle-loan.51youdian.com/app/gateway/"};
+            "http://lifecircle-loan-test.51youdian.com/",
+            "http://lifecircle-loan-beta.51youdian.com/",
+            "http://lifecircle-loan.51youdian.com/"};
 
     /**
      * JAVA -- 商户贷
@@ -55,9 +55,9 @@ public class HttpConstants {
      * 环境服务器域名
      */
     public static final String[] JAVA_PERFORMANCE_HOSTS = {
-            "http://performance.wxy-zc-forever.com:9090",
-            "http://performance.wxy-zc-forever.com:9090",
-            "http://performance.wxy-zc-forever.com:9090"};
+            "http://performance.wxy-zc-forever.com:9090/",
+            "http://performance.wxy-zc-forever.com:9090/",
+            "http://performance.wxy-zc-forever.com:9090/"};
 
     /**
      * JAVA -- 绩效考核系统

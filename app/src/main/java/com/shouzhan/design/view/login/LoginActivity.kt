@@ -11,7 +11,7 @@ import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
 import com.shouzhan.design.utils.NewPrefs
 import com.shouzhan.design.utils.PrefConstants
-import com.shouzhan.design.viewmodel.login.LoginViewModel
+import com.shouzhan.design.view.login.viewmodel.LoginViewModel
 
 /**
  * @author danbin

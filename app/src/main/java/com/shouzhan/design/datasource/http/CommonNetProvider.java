@@ -49,7 +49,7 @@ public class CommonNetProvider implements NetProvider {
 
     @Override
     public boolean configLogEnable() {
-        return false;
+        return true;
     }
 
 }

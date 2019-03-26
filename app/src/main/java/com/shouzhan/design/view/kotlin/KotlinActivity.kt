@@ -9,7 +9,7 @@ import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseNoBindingActivity
 import com.shouzhan.design.view.login.LoginActivity
-import com.shouzhan.design.viewmodel.login.LoginViewModel
+import com.shouzhan.design.view.login.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
 /**

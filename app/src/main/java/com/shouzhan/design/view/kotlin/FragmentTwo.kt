@@ -3,6 +3,7 @@ package com.shouzhan.design.view.kotlin
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
+import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.App
@@ -13,7 +14,7 @@ import com.shouzhan.design.compontent.recyclerview.LuRecyclerViewAdapter
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.extens.yes
 import com.shouzhan.design.view.home.MainActivity
-import com.shouzhan.design.viewmodel.kotlin.UserListViewModel
+import com.shouzhan.design.view.kotlin.viewmodel.UserListViewModel
 import kotlinx.android.synthetic.main.fragment_two.*
 
 /**
@@ -50,6 +51,11 @@ class FragmentTwo : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     override fun getLayoutId(): Int = R.layout.fragment_two
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getMerchantLoansType()
+    }
+
     override fun initView() {
         swipe_refresh_layout.setProgressViewOffset(false, 0, 48)
         swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimary)
@@ -73,12 +79,12 @@ class FragmentTwo : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
         viewModel.userListResult.observe(this, Observer {
-            mTotal = 10
+            mTotal = it!!.total
             mCurrentCounter += it!!.list!!.size
             if (mCurPage == 1) {
                 swipe_refresh_layout.isRefreshing = false
                 recycler_view.refreshComplete(20)
-                mDataAdapter.setNewData(it!!.list!!.subList(0, 10))
+                mDataAdapter.setNewData(it!!.list!!.toMutableList())
             } else {
                 recycler_view.refreshComplete(20)
                 mDataAdapter.addData(it!!.list!!.toMutableList())
@@ -92,18 +98,12 @@ class FragmentTwo : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        getData()
-    }
-
     override fun getData() {
         swipe_refresh_layout.isRefreshing = true
         onRefresh()
     }
 
     override fun onRefresh() {
-        logE("onRefresh")
         mCurrentCounter = 0
         mCurPage = 1
         recycler_view.setRefreshing(true)
