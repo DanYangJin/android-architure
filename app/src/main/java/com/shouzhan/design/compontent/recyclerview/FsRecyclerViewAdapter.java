@@ -45,17 +45,14 @@ public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public void addHeaderView(View view) {
-
         if (view == null) {
             throw new RuntimeException("header is null");
         }
-
         mHeaderTypes.add(HEADER_INIT_INDEX + mHeaderViews.size());
         mHeaderViews.add(view);
     }
 
     public void addFooterView(View view) {
-
         if (view == null) {
             throw new RuntimeException("footer is null");
         }

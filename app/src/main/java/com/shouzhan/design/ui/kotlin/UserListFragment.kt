@@ -55,7 +55,7 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
         swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimary)
         swipe_refresh_layout.setOnRefreshListener(this)
 
-        mDataAdapter = UserListAdapter(arrayListOf())
+        mDataAdapter = UserListAdapter()
         recycler_view.layoutManager = LinearLayoutManager(mContext)
         mLuRecyclerViewAdapter = FsRecyclerViewAdapter(mDataAdapter)
         mLuRecyclerViewAdapter!!.setOnItemClickListener { _, _ ->
