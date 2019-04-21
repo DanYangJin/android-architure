@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80mm"
+    android:layout_centerVertical="true"
+    android:background="@android:color/transparent">
+
+    <com.shouzhan.design.compontent.recyclerview.ProgressWheel
+        android:id="@+id/footer_loading_view"
+        android:layout_width="40mm"
+        android:layout_height="40mm"
+        android:layout_centerInParent="true"
+        app:matProg_barColor="@color/colorPrimary"
+        app:matProg_barWidth="5mm"
+        app:matProg_progressIndeterminate="true" />
+
+    <TextView
+        android:id="@+id/no_more_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30mm"
+        android:textColor="@color/color_666"
+        android:layout_centerInParent="true"
+        android:text="测试自定义加载到最后布局"
+        android:visibility="gone"/>
+
+</RelativeLayout>

@@ -16,10 +16,8 @@ import java.util.List;
  */
 public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int TYPE_NORMAL = 0;
-    private static final int TYPE_FOOTER_VIEW = 10001;
-    private static final int HEADER_INIT_INDEX = 10002;
-    private List<Integer> mHeaderTypes = new ArrayList<>();
+    private static final int TYPE_HEADER_VIEW = Integer.MIN_VALUE;
+    private static final int TYPE_FOOTER_VIEW = Integer.MAX_VALUE;
 
 
     private OnItemClickListener mOnItemClickListener;
@@ -48,7 +46,9 @@ public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         if (view == null) {
             throw new RuntimeException("header is null");
         }
-        mHeaderTypes.add(HEADER_INIT_INDEX + mHeaderViews.size());
+        if (getFooterViewsCount() > 0) {
+            removeHeaderView();
+        }
         mHeaderViews.add(view);
     }
 
@@ -63,35 +63,16 @@ public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     /**
-     * 根据header的ViewType判断是哪个header
-     *
-     * @param itemType
-     * @return
-     */
-    private View getHeaderViewByType(int itemType) {
-        if (!isHeaderType(itemType)) {
-            return null;
-        }
-        return mHeaderViews.get(itemType - HEADER_INIT_INDEX);
-    }
-
-    /**
-     * 判断一个type是否为HeaderType
-     *
-     * @param itemViewType
-     * @return
-     */
-    private boolean isHeaderType(int itemViewType) {
-        return mHeaderViews.size() > 0 && mHeaderTypes.contains(itemViewType);
-    }
-
-    /**
      * 返回第一个FootView
      *
      * @return
      */
     public View getFooterView() {
         return getFooterViewsCount() > 0 ? mFooterViews.get(0) : null;
+    }
+
+    public ArrayList<View> getFooterViews() {
+        return mFooterViews;
     }
 
     /**
@@ -107,9 +88,12 @@ public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return mHeaderViews;
     }
 
-    public void removeHeaderView(View view) {
-        mHeaderViews.remove(view);
-        this.notifyDataSetChanged();
+    public void removeHeaderView() {
+        if (getHeaderViewsCount() > 0) {
+            View headerView = getHeaderView();
+            mHeaderViews.remove(headerView);
+            this.notifyDataSetChanged();
+        }
     }
 
     public void removeFooterView() {
@@ -139,9 +123,8 @@ public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        if (isHeaderType(viewType)) {
-            ViewHolder viewHolder = new ViewHolder(getHeaderViewByType(viewType));
+        if (viewType == TYPE_HEADER_VIEW) {
+            ViewHolder viewHolder = new ViewHolder(mHeaderViews.get(0));
             return viewHolder;
         } else if (viewType == TYPE_FOOTER_VIEW) {
             ViewHolder viewHolder = new ViewHolder(mFooterViews.get(0));
@@ -217,7 +200,7 @@ public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemViewType(int position) {
         int adjPosition = position - getHeaderViewsCount();
         if (isHeader(position)) {
-            return mHeaderTypes.get(position);
+            return TYPE_HEADER_VIEW;
         }
         if (isFooter(position)) {
             return TYPE_FOOTER_VIEW;
@@ -229,7 +212,7 @@ public class FsRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 return mInnerAdapter.getItemViewType(adjPosition);
             }
         }
-        return TYPE_NORMAL;
+        return super.getItemViewType(position);
     }
 
     @Override

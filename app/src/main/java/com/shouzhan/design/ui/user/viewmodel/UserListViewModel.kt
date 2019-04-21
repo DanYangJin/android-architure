@@ -1,11 +1,11 @@
-package com.shouzhan.design.ui.kotlin.viewmodel
+package com.shouzhan.design.ui.user.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BasePageResult
 import com.shouzhan.design.base.BaseViewModel
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
 import com.shouzhan.design.repository.UserListRepository
-import com.shouzhan.design.ui.kotlin.model.remote.result.UserListResult
+import com.shouzhan.design.ui.user.model.remote.result.UserListResult
 
 /**
  * @author danbin

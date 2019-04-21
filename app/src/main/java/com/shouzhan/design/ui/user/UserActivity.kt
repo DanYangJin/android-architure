@@ -1,11 +1,9 @@
-package com.shouzhan.design.ui.kotlin
+package com.shouzhan.design.ui.user
 
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.shouzhan.design.R
-import com.shouzhan.design.R.id.home_view_pager
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseKotlinNoBindingActivity
 import com.shouzhan.design.ui.login.LoginActivity

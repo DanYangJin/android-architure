@@ -1,4 +1,4 @@
-package com.shouzhan.design.compontent.recyclerview;
+package com.shouzhan.design.compontent.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,33 +6,35 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.shouzhan.design.R;
+import com.shouzhan.design.compontent.recyclerview.ILoadMoreFooter;
+import com.shouzhan.design.compontent.recyclerview.LoadState;
 
 
 /**
  * @author danbin
  */
-public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
+public class CustomLoadingFooter extends RelativeLayout implements ILoadMoreFooter {
 
     protected LoadState mLoadState = LoadState.NORMAL;
 
     private View mTheEndView;
     private View mLoadingView;
 
-    public LoadingFooter(Context context) {
+    public CustomLoadingFooter(Context context) {
         this(context, null, -1);
     }
 
-    public LoadingFooter(Context context, AttributeSet attrs) {
+    public CustomLoadingFooter(Context context, AttributeSet attrs) {
         this(context, attrs, -1);
     }
 
-    public LoadingFooter(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomLoadingFooter(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
 
     public void initView() {
-        inflate(getContext(), R.layout.layout_footer_view, this);
+        inflate(getContext(), R.layout.layout_custom_footer_view, this);
         mLoadingView = findViewById(R.id.footer_loading_view);
         mTheEndView = findViewById(R.id.no_more_tv);
         setOnClickListener(null);

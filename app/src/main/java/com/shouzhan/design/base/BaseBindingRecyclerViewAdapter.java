@@ -24,6 +24,13 @@ public abstract class BaseBindingRecyclerViewAdapter<T>  extends RecyclerView.Ad
         holder.mBinding.executePendingBindings();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (getItem(position) instanceof BaseRecyclerViewType) {
+            return ((BaseRecyclerViewType) getItem(position)).getViewType();
+        }
+        return super.getItemViewType(position);
+    }
 
     /**
      * 获取每个Item的数据源

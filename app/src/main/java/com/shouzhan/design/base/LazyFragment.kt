@@ -1,11 +1,14 @@
 package com.shouzhan.design.base
 
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
+import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.shouzhan.design.App
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.extens.no
 import com.shouzhan.design.extens.yes
@@ -55,6 +58,16 @@ abstract class LazyFragment : Fragment(), BaseViewPresenter {
             getData()
             isFirstVisible = false
         }
+    }
+
+    /**
+     * 获取ViewModel
+     * @param modelClass
+     * @param <T>
+     * @return
+     */
+    protected fun <T : BaseViewModel> vmProviders(@NonNull modelClass: Class<T>): T {
+        return ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass)
     }
 
     override fun onResume() {

@@ -3,7 +3,7 @@ package com.shouzhan.design.adapter
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.shouzhan.design.base.LazyFragment
-import com.shouzhan.design.ui.kotlin.UserListFragment
+import com.shouzhan.design.ui.user.UserListFragment
 
 /**
  * @author danbin

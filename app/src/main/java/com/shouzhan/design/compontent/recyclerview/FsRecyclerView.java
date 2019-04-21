@@ -18,21 +18,45 @@ import android.view.ViewParent;
  */
 public class FsRecyclerView extends RecyclerView {
 
+    /**
+     * 触发在上下滑动监听器的容差距离
+     */
+    private static final int HIDE_THRESHOLD = 20;
+    /**
+     * 默认每页数量
+     */
+    private static final int DEFAULT_PAGE_SIZE = 10;
+
     private boolean mLoadMoreEnabled = true;
-    private boolean mRefreshing = false;
+    private boolean mRefreshingData = false;
     private boolean mLoadingData = false;
+
     private OnLoadMoreListener mLoadMoreListener;
-    private OnScrollListener mLScrollListener;
+    private OnScrollListener mScrollListener;
     private ILoadMoreFooter mLoadMoreFooter;
+    /**
+     * 设置空视图
+     * */
     private View mEmptyView;
+    /**
+     * 设置加载布局
+     * */
     private View mFootView;
 
     private final RecyclerView.AdapterDataObserver mDataObserver = new DataObserver();
-    private int mPageSize = 10;
+    private int mPageSize = DEFAULT_PAGE_SIZE;
 
     private FsRecyclerViewAdapter mWrapAdapter;
     private boolean isNoMore = false;
+
+    /**
+     * 处理临界情况
+     * */
     private boolean isCritical = false;
+
+    /**
+     * 是否能够加载数据
+     */
     private boolean isCanLoadingData = false;
     /**
      * 当前RecyclerView类型
@@ -48,11 +72,6 @@ public class FsRecyclerView extends RecyclerView {
      * 最后一个可见的item的位置
      */
     private int lastVisibleItemPosition;
-
-    /**
-     * 触发在上下滑动监听器的容差距离
-     */
-    private static final int HIDE_THRESHOLD = 20;
 
     /**
      * 滑动的距离
@@ -89,7 +108,7 @@ public class FsRecyclerView extends RecyclerView {
 
     private void initView() {
         if (mLoadMoreEnabled) {
-            setLoadMoreFooter(new LoadingFooter(getContext()), false);
+            setLoadMoreFooter(new LoadingFooter(getContext()));
         }
     }
 
@@ -105,7 +124,6 @@ public class FsRecyclerView extends RecyclerView {
         if (mLoadMoreEnabled && mWrapAdapter.getFooterViewsCount() == 0) {
             mWrapAdapter.addFooterView(mFootView);
         }
-
     }
 
     private class DataObserver extends RecyclerView.AdapterDataObserver {
@@ -183,100 +201,27 @@ public class FsRecyclerView extends RecyclerView {
     }
 
 
-    /**
-     * set view when no content item
-     *
-     * @param emptyView visiable view when items is empty
-     */
     public void setEmptyView(View emptyView) {
         this.mEmptyView = emptyView;
         this.mDataObserver.onChanged();
     }
 
     public void setRefreshing(boolean refreshing) {
-        mRefreshing = refreshing;
+        mRefreshingData = refreshing;
     }
 
-    /**
-     * @param pageSize 一页加载的数量
-     */
-    public void refreshComplete(int pageSize) {
-        this.mPageSize = pageSize;
-        if (mRefreshing) {
+    public void refreshComplete() {
+        if (mRefreshingData) {
             isNoMore = false;
-            mRefreshing = false;
-            if (mWrapAdapter.getInnerAdapter().getItemCount() < pageSize) {
-                mFootView.setVisibility(GONE);
-            }
-        } else if (mLoadingData) {
-            mLoadingData = false;
-            mLoadMoreFooter.onComplete();
-        }
-        if (mWrapAdapter.getInnerAdapter().getItemCount() == mPageSize) {
-            isCritical = true;
-        } else {
-            isCritical = false;
-        }
-    }
-
-    /**
-     * @param pageSize 一页加载的数量
-     * @param total    总数
-     */
-    public void refreshComplete(int pageSize, int total) {
-        this.mPageSize = pageSize;
-        if (mRefreshing) {
-            isNoMore = false;
-            mRefreshing = false;
-            if (mWrapAdapter.getInnerAdapter().getItemCount() < pageSize) {
-                mFootView.setVisibility(GONE);
-            }
-        } else if (mLoadingData) {
-            mLoadingData = false;
-            mLoadMoreFooter.onComplete();
-        }
-        if (pageSize < total) {
-            isNoMore = false;
-        }
-        //处理特殊情况 最后一行显示出来了加载更多的view的一部分
-        if (mWrapAdapter.getInnerAdapter().getItemCount() == mPageSize) {
-            isCritical = true;
-        } else {
-            isCritical = false;
-        }
-    }
-
-    /**
-     * 此方法主要是为了满足数据不满一屏幕或者数据小于pageSize的情况下，是否显示footerview
-     * 在分页情况下使用refreshComplete(int pageSize, int total, boolean false)就相当于refreshComplete(int pageSize, int total)
-     *
-     * @param pageSize       一页加载的数量
-     * @param total          总数
-     * @param isShowFootView 是否需要显示footerview（前提条件是：getItemCount() < pageSize）
-     */
-    public void refreshComplete(int pageSize, int total, boolean isShowFootView) {
-        this.mPageSize = pageSize;
-        if (mRefreshing) {
-            isNoMore = false;
-            mRefreshing = false;
-            if (isShowFootView) {
-                mFootView.setVisibility(VISIBLE);
+            mRefreshingData = false;
+            if (mWrapAdapter.getInnerAdapter().getItemCount() < mPageSize) {
+                mFootView.setVisibility(View.GONE);
             } else {
-                if (mWrapAdapter.getInnerAdapter().getItemCount() < pageSize) {
-                    mFootView.setVisibility(GONE);
-                    mWrapAdapter.removeFooterView();
-                } else {
-                    if (mWrapAdapter.getFooterViewsCount() == 0) {
-                        mWrapAdapter.addFooterView(mFootView);
-                    }
-                }
+                mLoadMoreFooter.onComplete();
             }
         } else if (mLoadingData) {
             mLoadingData = false;
             mLoadMoreFooter.onComplete();
-        }
-        if (pageSize < total) {
-            isNoMore = false;
         }
         //处理特殊情况 最后一行显示出来了加载更多的view的一部分
         if (mWrapAdapter.getInnerAdapter().getItemCount() == mPageSize) {
@@ -292,8 +237,8 @@ public class FsRecyclerView extends RecyclerView {
      * @param noMore
      */
     public void setNoMore(boolean noMore) {
-        mLoadingData = false;
         isNoMore = noMore;
+        mLoadingData = false;
         if (isNoMore) {
             mFootView.setVisibility(VISIBLE);
             mLoadMoreFooter.onNoMore();
@@ -306,14 +251,11 @@ public class FsRecyclerView extends RecyclerView {
      * 设置自定义的footerview
      *
      * @param loadMoreFooter
-     * @param isCustom       是否自定义footerview
      */
-    public void setLoadMoreFooter(ILoadMoreFooter loadMoreFooter, boolean isCustom) {
+    public void setLoadMoreFooter(ILoadMoreFooter loadMoreFooter) {
         this.mLoadMoreFooter = loadMoreFooter;
-        if (isCustom) {
-            if (null != mWrapAdapter && mWrapAdapter.getFooterViewsCount() > 0) {
-                mWrapAdapter.removeFooterView();
-            }
+        if (null != mWrapAdapter && mWrapAdapter.getFooterViewsCount() > 0) {
+            mWrapAdapter.removeFooterView();
         }
         mFootView = loadMoreFooter.getFootView();
         mFootView.setVisibility(VISIBLE);
@@ -325,13 +267,6 @@ public class FsRecyclerView extends RecyclerView {
         } else {
             mFootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         }
-
-        if (isCustom) {
-            if (mLoadMoreEnabled && mWrapAdapter.getFooterViewsCount() == 0) {
-                mWrapAdapter.addFooterView(mFootView);
-            }
-        }
-
     }
 
     /**
@@ -352,8 +287,8 @@ public class FsRecyclerView extends RecyclerView {
         mLoadMoreListener = listener;
     }
 
-    public void setLScrollListener(OnScrollListener listener) {
-        mLScrollListener = listener;
+    public void setScrollListener(OnScrollListener listener) {
+        mScrollListener = listener;
     }
 
     public interface OnScrollListener {
@@ -433,19 +368,19 @@ public class FsRecyclerView extends RecyclerView {
         if (mIsScrollDown && (dy == 0)) {
             mScrolledYDistance = 0;
         }
-        if (null != mLScrollListener) {
-            mLScrollListener.onScrolled(mScrolledXDistance, mScrolledYDistance);
+        if (null != mScrollListener) {
+            mScrollListener.onScrolled(mScrolledXDistance, mScrolledYDistance);
         }
         if (mLoadMoreEnabled) {
             int visibleItemCount = layoutManager.getChildCount();
             int totalItemCount = layoutManager.getItemCount();
             if (visibleItemCount > 0
                     && lastVisibleItemPosition >= totalItemCount - 1
-                    && (isCritical ? totalItemCount >= visibleItemCount : totalItemCount > visibleItemCount)
+                    && isCritical ? totalItemCount >= visibleItemCount : totalItemCount > visibleItemCount
                     && !isNoMore
-                    && !mRefreshing) {
-                isCanLoadingData = true;
+                    && !mRefreshingData) {
                 mFootView.setVisibility(View.VISIBLE);
+                isCanLoadingData = true;
             }
         }
     }
@@ -453,8 +388,8 @@ public class FsRecyclerView extends RecyclerView {
     @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
-        if (mLScrollListener != null) {
-            mLScrollListener.onScrollStateChanged(state);
+        if (mScrollListener != null) {
+            mScrollListener.onScrollStateChanged(state);
         }
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
             if (mLoadMoreListener != null && isCanLoadingData && !mLoadingData) {
@@ -470,20 +405,20 @@ public class FsRecyclerView extends RecyclerView {
      * 计算当前是向上滑动还是向下滑动
      */
     private void calculateScrollUpOrDown(int firstVisibleItemPosition, int dy) {
-        if (null != mLScrollListener) {
+        if (null != mScrollListener) {
             if (firstVisibleItemPosition == 0) {
                 if (!mIsScrollDown) {
                     mIsScrollDown = true;
-                    mLScrollListener.onScrollDown();
+                    mScrollListener.onScrollDown();
                 }
             } else {
                 if (mDistance > HIDE_THRESHOLD && mIsScrollDown) {
                     mIsScrollDown = false;
-                    mLScrollListener.onScrollUp();
+                    mScrollListener.onScrollUp();
                     mDistance = 0;
                 } else if (mDistance < -HIDE_THRESHOLD && !mIsScrollDown) {
                     mIsScrollDown = true;
-                    mLScrollListener.onScrollDown();
+                    mScrollListener.onScrollDown();
                     mDistance = 0;
                 }
             }
@@ -495,9 +430,10 @@ public class FsRecyclerView extends RecyclerView {
     }
 
     public enum LayoutManagerType {
-        LinearLayout,
-        StaggeredGridLayout,
-        GridLayout
+        /**
+         * LayoutManager类型
+         */
+        LinearLayout, StaggeredGridLayout, GridLayout
     }
 
     @Override

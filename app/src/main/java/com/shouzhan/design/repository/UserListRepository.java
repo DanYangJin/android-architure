@@ -1,10 +1,10 @@
 package com.shouzhan.design.repository;
 
 import com.shouzhan.design.datasource.http.ApiService;
-import com.shouzhan.design.ui.kotlin.model.remote.request.UserListRequest;
+import com.shouzhan.design.ui.user.model.remote.request.UserListRequest;
 import com.shouzhan.design.base.BasePageResult;
 import com.shouzhan.design.base.BaseResult;
-import com.shouzhan.design.ui.kotlin.model.remote.result.UserListResult;
+import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
 
 import io.reactivex.Observable;
 
