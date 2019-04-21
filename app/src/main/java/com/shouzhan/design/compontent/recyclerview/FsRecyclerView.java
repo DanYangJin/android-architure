@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -26,32 +27,53 @@ public class FsRecyclerView extends RecyclerView {
      * 默认每页数量
      */
     private static final int DEFAULT_PAGE_SIZE = 10;
+    /**
+     * 拖动速度
+     * */
+    private static final float DRAG_RATE = 2.0f;
+
+    private boolean mPullRefreshEnabled = true;
+    private boolean mRefreshingData = false;
 
     private boolean mLoadMoreEnabled = true;
-    private boolean mRefreshingData = false;
     private boolean mLoadingData = false;
 
+    private OnRefreshListener mRefreshListener;
     private OnLoadMoreListener mLoadMoreListener;
     private OnScrollListener mScrollListener;
+    private IRefreshHeader mRefreshHeader;
     private ILoadMoreFooter mLoadMoreFooter;
     /**
      * 设置空视图
-     * */
+     */
     private View mEmptyView;
     /**
-     * 设置加载布局
-     * */
+     * 设置底部上拉加载布局
+     */
     private View mFootView;
+    /**
+     * 设置顶部上拉加载布局
+     */
+    private View mHeadView;
+
 
     private final RecyclerView.AdapterDataObserver mDataObserver = new DataObserver();
+    private int mActivePointerId;
+    private float mLastY = -1;
+    private float sumOffSet;
     private int mPageSize = DEFAULT_PAGE_SIZE;
 
     private FsRecyclerViewAdapter mWrapAdapter;
-    private boolean isNoMore = false;
 
+    private int mTouchSlop;
+    private boolean mIsDragger;
+    private float startY;
+    private float startX;
+
+    private boolean isNoMore = false;
     /**
      * 处理临界情况
-     * */
+     */
     private boolean isCritical = false;
 
     /**
@@ -93,6 +115,8 @@ public class FsRecyclerView extends RecyclerView {
      */
     private int mScrolledXDistance = 0;
 
+    private AppBarStateChangeListener.State appbarState = AppBarStateChangeListener.State.EXPANDED;
+
     public FsRecyclerView(Context context) {
         this(context, null);
     }
@@ -107,6 +131,9 @@ public class FsRecyclerView extends RecyclerView {
     }
 
     private void initView() {
+        if (mPullRefreshEnabled) {
+            setRefreshHeader(new RefreshHeader(getContext()));
+        }
         if (mLoadMoreEnabled) {
             setLoadMoreFooter(new LoadingFooter(getContext()));
         }
@@ -121,6 +148,9 @@ public class FsRecyclerView extends RecyclerView {
         super.setAdapter(mWrapAdapter);
         mWrapAdapter.getInnerAdapter().registerAdapterDataObserver(mDataObserver);
         mDataObserver.onChanged();
+        if (mPullRefreshEnabled && mWrapAdapter.getHeaderViewsCount() == 0) {
+            mWrapAdapter.addHeaderView(mHeadView);
+        }
         if (mLoadMoreEnabled && mWrapAdapter.getFooterViewsCount() == 0) {
             mWrapAdapter.addFooterView(mFootView);
         }
@@ -190,6 +220,117 @@ public class FsRecyclerView extends RecyclerView {
 
     }
 
+    /**
+     * 解决嵌套RecyclerView滑动冲突问题
+     *
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        switch (action) {
+            case MotionEvent.ACTION_DOWN:
+                // 记录手指按下的位置
+                startY = ev.getY();
+                startX = ev.getX();
+                mIsDragger = false;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // 如果viewpager正在拖拽中，那么不拦截它的事件，直接return false；
+                if (mIsDragger) {
+                    return false;
+                }
+                // 获取当前手指位置
+                float endY = ev.getY();
+                float endX = ev.getX();
+                float distanceX = Math.abs(endX - startX);
+                float distanceY = Math.abs(endY - startY);
+                // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
+                if (distanceX > mTouchSlop && distanceX > distanceY) {
+                    mIsDragger = true;
+                    return false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                mIsDragger = false;
+                break;
+            default:
+                break;
+        }
+        // 如果是Y轴位移大于X轴，事件交给swipeRefreshLayout处理。
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        if (mLastY == -1) {
+            mLastY = ev.getY();
+            mActivePointerId = ev.getPointerId(0);
+            sumOffSet = 0;
+        }
+        switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                mLastY = ev.getY();
+                mActivePointerId = ev.getPointerId(0);
+                sumOffSet = 0;
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                final int index = ev.getActionIndex();
+                mActivePointerId = ev.getPointerId(index);
+                mLastY = (int) ev.getY(index);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int pointerIndex = ev.findPointerIndex(mActivePointerId);
+                if (pointerIndex == -1) {
+                    pointerIndex = 0;
+                    mActivePointerId = ev.getPointerId(pointerIndex);
+                }
+                final int moveY = (int) ev.getY(pointerIndex);
+                final float deltaY = (moveY - mLastY) / DRAG_RATE;
+                mLastY = moveY;
+                sumOffSet += deltaY;
+                if (isOnTop() && mPullRefreshEnabled && !mRefreshingData && (appbarState == AppBarStateChangeListener.State.EXPANDED)) {
+                    if (mRefreshHeader.getType() == IRefreshHeader.TYPE_HEADER_NORMAL) {
+                        mRefreshHeader.onMove(deltaY, sumOffSet);
+                    } else if (mRefreshHeader.getType() == IRefreshHeader.TYPE_HEADER_MATERIAL) {
+                        if (deltaY > 0 && !canScrollVertically(-1) || deltaY < 0 && !canScrollVertically(1)) {
+                            //判断无法下拉和无法上拉（item过少的情况）
+                            overScrollBy(0, (int) -deltaY, 0, 0, 0, 0, 0, (int) sumOffSet, true);
+                        }
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                mLastY = -1;
+                mActivePointerId = -1;
+                if (isOnTop() && mPullRefreshEnabled && !mRefreshingData) {
+                    if (mRefreshHeader != null && mRefreshHeader.onRelease()) {
+                        if (mRefreshListener != null) {
+                            mRefreshingData = true;
+                            mFootView.setVisibility(GONE);
+                            mRefreshListener.onRefresh();
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        return super.onTouchEvent(ev);
+    }
+
+    @Override
+    protected boolean overScrollBy(int deltaX, int deltaY, int scrollX, int scrollY, int scrollRangeX, int scrollRangeY, int maxOverScrollX,
+                                   int maxOverScrollY, boolean isTouchEvent) {
+        if (deltaY != 0 && isTouchEvent) {
+            mRefreshHeader.onMove(deltaY, sumOffSet);
+        }
+        return super.overScrollBy(deltaX, deltaY, scrollX, scrollY, scrollRangeX, scrollRangeY, maxOverScrollX, maxOverScrollY, isTouchEvent);
+    }
+
+
     private int findMax(int[] lastPositions) {
         int max = lastPositions[0];
         for (int value : lastPositions) {
@@ -200,6 +341,9 @@ public class FsRecyclerView extends RecyclerView {
         return max;
     }
 
+    public boolean isOnTop() {
+        return  mPullRefreshEnabled && (mRefreshHeader.getHeaderView().getParent() != null);
+    }
 
     public void setEmptyView(View emptyView) {
         this.mEmptyView = emptyView;
@@ -214,6 +358,7 @@ public class FsRecyclerView extends RecyclerView {
         if (mRefreshingData) {
             isNoMore = false;
             mRefreshingData = false;
+            mRefreshHeader.refreshComplete();
             if (mWrapAdapter.getInnerAdapter().getItemCount() < mPageSize) {
                 mFootView.setVisibility(View.GONE);
             } else {
@@ -245,6 +390,42 @@ public class FsRecyclerView extends RecyclerView {
         } else {
             mLoadMoreFooter.onComplete();
         }
+    }
+
+    /**
+     * 设置自定义的headerview
+     *
+     * @param refreshHeader
+     */
+    public void setRefreshHeader(IRefreshHeader refreshHeader) {
+        this.mRefreshHeader = refreshHeader;
+        if (null != mWrapAdapter && mWrapAdapter.getHeaderViewsCount() > 0) {
+            mWrapAdapter.removeHeaderView();
+        }
+        mHeadView = mRefreshHeader.getHeaderView();
+        mHeadView.setVisibility(VISIBLE);
+
+        //wxm:mFootView inflate的时候没有以RecyclerView为parent，所以要设置LayoutParams
+        ViewGroup.LayoutParams layoutParams = mHeadView.getLayoutParams();
+        if (layoutParams != null) {
+            mHeadView.setLayoutParams(new LayoutParams(layoutParams));
+        } else {
+            mHeadView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        }
+    }
+
+    /**
+     * 下拉刷新是否可用
+     */
+    public void setRefreshEnabled(boolean enabled) {
+        if (mWrapAdapter == null) {
+            throw new NullPointerException("mWrapAdapter cannot be null, please make sure the variable mWrapAdapter have been initialized.");
+        }
+        mPullRefreshEnabled = enabled;
+        if (enabled) {
+            return;
+        }
+        mWrapAdapter.removeHeaderView();
     }
 
     /**
@@ -283,6 +464,10 @@ public class FsRecyclerView extends RecyclerView {
         mWrapAdapter.removeFooterView();
     }
 
+    public void setOnRefreshListener(OnRefreshListener listener) {
+        mRefreshListener = listener;
+    }
+
     public void setOnLoadMoreListener(OnLoadMoreListener listener) {
         mLoadMoreListener = listener;
     }
@@ -316,6 +501,29 @@ public class FsRecyclerView extends RecyclerView {
          * @param state
          */
         void onScrollStateChanged(int state);
+    }
+
+    public void refresh() {
+        if (mRefreshHeader.getVisibleHeight() > 0 || mRefreshingData) {
+            // if RefreshHeader is Refreshing, return
+            return;
+        }
+        if (mPullRefreshEnabled && mRefreshListener != null) {
+            mRefreshHeader.onRefreshing();
+            int offSet = mRefreshHeader.getHeaderView().getMeasuredHeight();
+            mRefreshHeader.onMove(offSet,offSet);
+            mRefreshingData = true;
+
+            mFootView.setVisibility(GONE);
+            mRefreshListener.onRefresh();
+        }
+    }
+
+    public void forceToRefresh() {
+        if (mLoadingData) {
+            return;
+        }
+        refresh();
     }
 
 
@@ -382,6 +590,10 @@ public class FsRecyclerView extends RecyclerView {
                 mFootView.setVisibility(View.VISIBLE);
                 isCanLoadingData = true;
             }
+        }
+        if (isOnTop() && dy > 0 && mRefreshHeader.getType() == IRefreshHeader.TYPE_HEADER_MATERIAL && !mRefreshingData && (appbarState
+                == AppBarStateChangeListener.State.EXPANDED)) {
+            mRefreshHeader.onMove(dy, mScrolledYDistance);
         }
     }
 

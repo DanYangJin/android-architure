@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_user_list.*
  * @author danbin
  * @version FragmentOne.java, v 0.1 2019-03-02 下午10:36 danbin
  */
-class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
+class CustomHeaderFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserListViewModel::class.java)
@@ -32,36 +32,29 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
     private var mTotalSize = 10
 
     companion object {
-        private var instance: UserListFragment? = null
+        private var instance: CustomHeaderFragment? = null
             get() {
                 if (field == null) {
-                    field = UserListFragment()
+                    field = CustomHeaderFragment()
                 }
                 return field
             }
 
-        fun get(): UserListFragment {
+        fun get(): CustomHeaderFragment {
             return instance!!
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_user_list
+    override fun getLayoutId(): Int = R.layout.fragment_costom_header
 
     override fun initView() {
-        swipe_refresh_layout.setProgressViewOffset(false, 0, 48)
-        swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimary)
-        swipe_refresh_layout.setOnRefreshListener(this)
-
         mDataAdapter = UserListAdapter()
         recycler_view.layoutManager = LinearLayoutManager(mContext)
         mLuRecyclerViewAdapter = FsRecyclerViewAdapter(mDataAdapter)
         mLuRecyclerViewAdapter!!.setOnItemClickListener { _, _ ->
             startActivity(Intent(mContext, MainActivity::class.java))
         }
-        // 自定义底部加载布局
-//        recycler_view.setLoadMoreFooter(CustomLoadingFooter(mContext))
         recycler_view.adapter = mLuRecyclerViewAdapter
-        recycler_view.setRefreshEnabled(false)
         recycler_view.setHasFixedSize(true)
         recycler_view.setOnLoadMoreListener {
             if (mCurrentSize < mTotalSize) {
@@ -71,11 +64,16 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
                 recycler_view.setNoMore(true)
             }
         }
+        recycler_view.setOnRefreshListener{
+            mCurrentSize = 0
+            mCurPage = 1
+            recycler_view.setRefreshing(true)
+            getUserData()
+        }
         viewModel.userListResult.observe(this, Observer {
             mTotalSize = 30
             mCurrentSize += it!!.list!!.size
             if (mCurPage == 1) {
-                swipe_refresh_layout.isRefreshing = false
                 recycler_view.refreshComplete()
                 mDataAdapter.setNewData(it!!.list!!.toMutableList())
             } else {
@@ -92,7 +90,6 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
     }
 
     override fun getData() {
-        swipe_refresh_layout.isRefreshing = true
         onRefresh()
     }
 
