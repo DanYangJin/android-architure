@@ -16,7 +16,7 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
 
     private static final String TAG = LoadingFooter.class.getSimpleName();
 
-    protected State mState = State.Normal;
+    protected LoadState mState = LoadState.NORMAL;
 
     private View mTheEndView;
     private View mLoadingView;
@@ -49,17 +49,17 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
 
     @Override
     public void onLoading() {
-        setState(State.Loading);
+        setState(LoadState.LOADING);
     }
 
     @Override
     public void onComplete() {
-        setState(State.Normal);
+        setState(LoadState.NORMAL);
     }
 
     @Override
     public void onNoMore() {
-        setState(State.NoMore);
+        setState(LoadState.NOMORE);
     }
 
     @Override
@@ -72,14 +72,14 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
      *
      * @param status
      */
-    public void setState(State status) {
+    public void setState(LoadState status) {
         Log.e(TAG, "LoadingFooterStatus: old status: " + mState + " , " + status);
         if (mState == status) {
             return;
         }
         mState = status;
         switch (status) {
-            case Normal:
+            case NORMAL:
                 if (mLoadingView != null) {
                     mLoadingView.setVisibility(GONE);
                 }
@@ -87,7 +87,7 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
                     mTheEndView.setVisibility(GONE);
                 }
                 break;
-            case Loading:
+            case LOADING:
                 if (mTheEndView != null) {
                     mTheEndView.setVisibility(View.GONE);
                 }
@@ -95,7 +95,7 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
                     mLoadingView.setVisibility(View.VISIBLE);
                 }
                 break;
-            case NoMore:
+            case NOMORE:
                 if (mTheEndView != null) {
                     mTheEndView.setVisibility(View.VISIBLE);
                 }
@@ -103,16 +103,11 @@ public class LoadingFooter extends RelativeLayout implements ILoadMoreFooter {
                     mLoadingView.setVisibility(View.GONE);
                 }
                 break;
-            case NetWorkError:
+            case NETERROR:
                 break;
             default:
                 break;
         }
-    }
-
-
-    public enum State {
-        Normal, NoMore, Loading, NetWorkError
     }
 
 }

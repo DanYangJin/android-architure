@@ -29,6 +29,7 @@ public interface ILoadMoreFooter {
 
     /**
      * 加载更多的View
+     *
      * @return
      */
     View getFootView();

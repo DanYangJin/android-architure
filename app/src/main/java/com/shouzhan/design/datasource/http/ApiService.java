@@ -1,14 +1,10 @@
 package com.shouzhan.design.datasource.http;
 
-import com.shouzhan.design.model.remote.result.BountyInfoResult;
-import com.shouzhan.design.model.remote.result.MerchantLoanTypeResult;
-import com.shouzhan.design.model.remote.request.LoginRequest;
-import com.shouzhan.design.model.remote.request.MerchantLoanTypeRequest;
-import com.shouzhan.design.model.remote.result.BasePageResult;
-import com.shouzhan.design.model.remote.result.BaseResult;
-import com.shouzhan.design.model.remote.result.JavaBaseResult;
-import com.shouzhan.design.model.remote.result.LoginResult;
-import com.shouzhan.design.model.remote.result.UserListResult;
+import com.shouzhan.design.base.BasePageResult;
+import com.shouzhan.design.base.BaseResult;
+import com.shouzhan.design.ui.kotlin.model.remote.result.UserListResult;
+import com.shouzhan.design.ui.login.model.remote.request.LoginRequest;
+import com.shouzhan.design.ui.login.model.remote.result.LoginResult;
 import com.shouzhan.design.utils.HttpConstants;
 
 import io.reactivex.Observable;
@@ -62,23 +58,5 @@ public interface ApiService {
     Observable<BaseResult<BasePageResult<UserListResult>>> getUserList(@Query("page") int page,
                                                                        @Query("pageSize") int pageSize,
                                                                        @Query("searchName") String searchName);
-    /***********************测试商户贷请求**********************************/
-    /**
-     * 判断商户贷类型
-     *
-     * @param request
-     * @return
-     */
-    @POST("com.fshows.lifecircle.loan.query.confirm.status")
-    Observable<JavaBaseResult<MerchantLoanTypeResult>> getMerchantLoansType(@Body MerchantLoanTypeRequest request);
-
-    /***********************测试Java请求**********************************/
-    /**
-     * 奖励金首页
-     *
-     * @return
-     */
-    @POST("com.fshows.lifecircle.overlord.bounty.index")
-    Observable<JavaBaseResult<BountyInfoResult>> getBountyData();
 
 }

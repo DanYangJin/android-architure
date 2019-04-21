@@ -1,16 +1,16 @@
 package com.shouzhan.design.datasource.http.loan;
 
-import com.shouzhan.design.model.remote.result.JavaBaseResult;
+import com.shouzhan.design.base.BaseJavaResult;
 
 import io.reactivex.observers.DisposableObserver;
 
 /**
  * @author lijie on 2018/12/3
  */
-public abstract class LoanApiCallback<T> extends DisposableObserver<JavaBaseResult<T>> {
+public abstract class LoanApiCallback<T> extends DisposableObserver<BaseJavaResult<T>> {
 
     @Override
-    public void onNext(JavaBaseResult<T> javaBaseResponse) {
+    public void onNext(BaseJavaResult<T> javaBaseResponse) {
         if (javaBaseResponse.success) {
             onSuccess(javaBaseResponse.data);
         } else {

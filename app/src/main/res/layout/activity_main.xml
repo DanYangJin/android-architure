@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.shouzhan.design.view.home.viewmodel.MainViewModel" />
+            type="com.shouzhan.design.ui.home.viewmodel.MainViewModel" />
 
         <variable
             name="presenter"

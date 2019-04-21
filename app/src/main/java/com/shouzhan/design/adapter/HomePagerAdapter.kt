@@ -3,7 +3,7 @@ package com.shouzhan.design.adapter
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.shouzhan.design.base.LazyFragment
-import com.shouzhan.design.view.kotlin.FragmentTwo
+import com.shouzhan.design.ui.kotlin.UserListFragment
 
 /**
  * @author danbin
@@ -14,8 +14,7 @@ class HomePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     var fragments: MutableList<LazyFragment> = ArrayList()
 
     init {
-//        fragments.add(FragmentOne.get())
-        fragments.add(FragmentTwo.get())
+        fragments.add(UserListFragment.get())
     }
 
     override fun getItem(position: Int): LazyFragment {

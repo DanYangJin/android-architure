@@ -2,7 +2,7 @@ package com.shouzhan.design.datasource.http.performance;
 
 import android.util.Log;
 
-import com.shouzhan.design.model.remote.result.BaseResult;
+import com.shouzhan.design.base.BaseResult;
 
 import io.reactivex.observers.DisposableObserver;
 
