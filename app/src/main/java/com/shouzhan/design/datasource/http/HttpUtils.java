@@ -28,7 +28,7 @@ public class HttpUtils {
     private HashMap<String, Retrofit> mRetrofitMap = new HashMap<>();
     private HashMap<String, OkHttpClient> mClientMap = new HashMap<>();
 
-    public static HttpUtils instance;
+    public volatile static HttpUtils instance;
 
     public static HttpUtils getInstance() {
         if (instance == null) {

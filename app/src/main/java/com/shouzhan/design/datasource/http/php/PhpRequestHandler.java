@@ -8,15 +8,14 @@ import com.shouzhan.design.utils.HttpConstants;
 import com.shouzhan.design.utils.MD5Utils;
 import com.shouzhan.design.utils.Utils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import me.jessyan.autosize.utils.LogUtils;
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -35,8 +34,6 @@ public class PhpRequestHandler implements RequestHandler {
         Request newRequest;
         if (RequestType.POST.name().equals(method)) {
             newRequest = rebuildPostRequest(request);
-        } else if (RequestType.GET.name().equals(method)) {
-            newRequest = rebuildGetRequest(request);
         } else {
             newRequest = request;
         }
@@ -50,19 +47,36 @@ public class PhpRequestHandler implements RequestHandler {
 
     @Override
     public Response onAfterRequest(Response response, Interceptor.Chain chain) {
+        BufferedReader bufferedReader = null;
+        InputStreamReader inputStreamReader = null;
+        ResponseBody responseBody = null;
         try {
             Charset charset = Charset.forName("UTF-8");
-            ResponseBody responseBody = response.peekBody(Long.MAX_VALUE);
-            InputStreamReader jsonReader = new InputStreamReader(responseBody.byteStream(), charset);
-            BufferedReader reader = new BufferedReader(jsonReader);
+            responseBody = response.peekBody(Long.MAX_VALUE);
+            inputStreamReader = new InputStreamReader(responseBody.byteStream(), charset);
+            bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder builder = new StringBuilder();
-            String line = reader.readLine();
+            String line = bufferedReader.readLine();
             do {
                 builder.append(line);
-                line = reader.readLine();
+                line = bufferedReader.readLine();
             } while (line != null);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (inputStreamReader != null) {
+                    inputStreamReader.close();
+                }
+                if (bufferedReader != null) {
+                    bufferedReader.close();
+                }
+                if (responseBody != null) {
+                    responseBody.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return response;
     }
@@ -90,37 +104,6 @@ public class PhpRequestHandler implements RequestHandler {
         }
         return request;
     }
-
-    /**
-     * 对get请求做统一参数处理
-     */
-    private Request rebuildGetRequest(Request request) {
-        String url = request.url().toString();
-        JSONObject jsonObject = new JSONObject();
-        int lastIndex = url.lastIndexOf("?");
-        if (lastIndex != -1) {
-            String[] paramList = url.substring(lastIndex + 1, url.length()).split("&");
-            for (String s : paramList) {
-                String[] params = s.split("=");
-                try {
-                    if (Utils.isNumeric(params[1])) {
-                        jsonObject.put(params[0], Integer.parseInt(params[1]));
-                    } else {
-                        jsonObject.put(params[0], params[1]);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        LogUtils.e("rebuildGetRequest: " + jsonObject.toString());
-        HttpUrl httpUrl = request.url()
-                .newBuilder()
-                .addQueryParameter(HttpConstants.RQ_SIGN, getSign(jsonObject))
-                .build();
-        return request.newBuilder().url(httpUrl).build();
-    }
-
 
     /**
      * 获取请求验签

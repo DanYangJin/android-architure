@@ -14,7 +14,7 @@ public class ServiceBuildFactory {
     public static final int JAVA_LOAN_HOST = 2;
     public static final int JAVA_PERFORMANCE_HOST = 3;
 
-    public static ServiceBuildFactory instance;
+    public volatile static ServiceBuildFactory instance;
 
     public static ServiceBuildFactory getInstance() {
         if (instance == null) {

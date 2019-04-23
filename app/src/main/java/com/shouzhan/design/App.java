@@ -1,7 +1,10 @@
 package com.shouzhan.design;
 
 import android.app.Application;
+import android.content.Context;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.shouzhan.design.utils.NewPrefs;
 
@@ -23,6 +26,7 @@ public class App extends Application {
         INSTANCE = this;
         NewPrefs.init(this);
         configUnits();
+        initDoraemonKit();
     }
 
     public static App getInstance() {
@@ -33,6 +37,16 @@ public class App extends Application {
         AutoSizeConfig.getInstance().getUnitsManager()
                 .setSupportDP(false)
                 .setSupportSP(false).setSupportSubunits(Subunits.MM);
+    }
+
+    private void initDoraemonKit() {
+        DoraemonKit.install(this);
+        DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
+            @Override
+            public void overrideUrlLoading(Context context, String url) {
+
+            }
+        });
     }
 
 }

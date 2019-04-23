@@ -1,7 +1,5 @@
 package com.shouzhan.design.datasource.http.performance;
 
-import android.util.Log;
-
 import com.shouzhan.design.base.BaseResult;
 
 import io.reactivex.observers.DisposableObserver;
@@ -36,7 +34,7 @@ public abstract class PerformanceApiCallback<T> extends DisposableObserver<BaseR
      * @param resultCode
      */
     public void onFailure(String resultMsg, int resultCode) {
-        Log.e(TAG, "onFailure: resultMsg= " + resultMsg + " resultCode= " + resultCode);
+//        Log.e(TAG, "onFailure: resultMsg= " + resultMsg + " resultCode= " + resultCode);
     }
 
     /**

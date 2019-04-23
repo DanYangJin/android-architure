@@ -21,7 +21,6 @@ public class BaseViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
-        Log.e(TAG, "onCleared");
         mBasePresenter.onUnSubscribe();
         super.onCleared();
     }
