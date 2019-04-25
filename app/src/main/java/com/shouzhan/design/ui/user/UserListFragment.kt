@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListAdapter
 import com.shouzhan.design.base.LazyFragment
+import com.shouzhan.design.compontent.recyclerview.FsPinnedHeaderItemDecoration
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter
 import com.shouzhan.design.compontent.view.CustomLoadingFooter
 import com.shouzhan.design.extens.yes
@@ -61,6 +62,8 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
         }
         // 自定义底部加载布局
         recycler_view.setLoadMoreFooter(CustomLoadingFooter(mContext))
+        // 暂不考虑
+        recycler_view.addItemDecoration(FsPinnedHeaderItemDecoration())
         recycler_view.adapter = mLuRecyclerViewAdapter
         recycler_view.setRefreshEnabled(false)
         recycler_view.setHasFixedSize(true)

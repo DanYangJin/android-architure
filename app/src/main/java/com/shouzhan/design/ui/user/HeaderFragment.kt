@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListAdapter
 import com.shouzhan.design.base.LazyFragment
@@ -16,9 +15,10 @@ import kotlinx.android.synthetic.main.fragment_user_list.*
 
 /**
  * @author danbin
- * @version FragmentOne.java, v 0.1 2019-03-02 下午10:36 danbin
+ * @version HeaderFragment.java, v 0.1 2019-03-02 下午10:36 danbin
+ * 自定义下拉头布局
  */
-class CustomHeaderFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
+class HeaderFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserListViewModel::class.java)
@@ -33,15 +33,15 @@ class CustomHeaderFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListene
     private var mTotalSize = 10
 
     companion object {
-        private var instance: CustomHeaderFragment? = null
+        private var instance: HeaderFragment? = null
             get() {
                 if (field == null) {
-                    field = CustomHeaderFragment()
+                    field = HeaderFragment()
                 }
                 return field
             }
 
-        fun get(): CustomHeaderFragment {
+        fun get(): HeaderFragment {
             return instance!!
         }
     }

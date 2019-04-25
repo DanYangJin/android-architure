@@ -1,7 +1,6 @@
 package com.shouzhan.design.adapter;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import com.shouzhan.design.R;

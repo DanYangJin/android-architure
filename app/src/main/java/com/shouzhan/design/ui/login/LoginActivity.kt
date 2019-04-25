@@ -11,6 +11,7 @@ import com.shouzhan.design.ui.login.viewmodel.LoginViewModel
 import com.shouzhan.design.utils.NewPrefs
 import com.shouzhan.design.utils.PrefConstants
 
+
 /**
  * @author danbin
  * @version LoginActivity.java, v 0.1 2019-02-27 上午12:10 danbin
