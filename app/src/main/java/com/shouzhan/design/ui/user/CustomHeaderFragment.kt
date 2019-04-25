@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListAdapter
 import com.shouzhan.design.base.LazyFragment

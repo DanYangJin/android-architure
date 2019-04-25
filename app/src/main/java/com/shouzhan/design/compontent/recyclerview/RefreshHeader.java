@@ -2,68 +2,67 @@ package com.shouzhan.design.compontent.recyclerview;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.shouzhan.design.R;
 
-
 /**
- * @author danbin
+ *
+ * @author lyf
+ * @date 2019/4/22
  */
-public class RefreshHeader extends RelativeLayout implements IRefreshHeader {
+public class RefreshHeader extends LinearLayout implements IRefreshHeader {
 
+    private Context mContext;
     private int mState = STATE_NORMAL;
-
-    private RelativeLayout mRefreshHeaderView;
-    private TextView mTitleView;
-
-    public int mMeasuredHeight;
+    private int mMeasuredHeight;
+    private RelativeLayout mLoadingRl;
 
     public RefreshHeader(Context context) {
-        this(context, null, -1);
+        this(context, null);
     }
 
     public RefreshHeader(Context context, AttributeSet attrs) {
-        this(context, attrs, -1);
+        this(context, attrs, 0);
     }
 
     public RefreshHeader(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.mContext = context;
         initView();
     }
 
-    public void initView() {
-        mRefreshHeaderView = (RelativeLayout) inflate(getContext(), R.layout.layout_header_view, this);
-        mRefreshHeaderView.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 0));
-        setGravity(Gravity.CENTER);
-        mTitleView = findViewById(R.id.header_tv);
-        measure(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+    private void initView() {
+        LayoutInflater.from(mContext).inflate(R.layout.layout_refresh_header, this);
+        mLoadingRl = findViewById(R.id.gif_container);
+        measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mMeasuredHeight = getMeasuredHeight();
+        setGravity(Gravity.CENTER_HORIZONTAL);
+        setVisibleHeight(0);
+        setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     public void setState(int state) {
         if (state == mState) {
             return;
         }
-
         switch (state) {
             case STATE_NORMAL:
                 break;
             case STATE_RELEASE_TO_REFRESH:
                 break;
             case STATE_REFRESHING:
-                mTitleView.setVisibility(View.VISIBLE);
                 break;
             case STATE_DONE:
                 break;
             default:
-                break;
         }
         mState = state;
     }
@@ -86,9 +85,9 @@ public class RefreshHeader extends RelativeLayout implements IRefreshHeader {
     @Override
     public void onMove(float offSet, float sumOffSet) {
         int top = getTop();
-        if (offSet > 0 && top == 0) {
+        if (offSet > 0 && top == 0 ){
             setVisibleHeight((int) offSet + getVisibleHeight());
-        } else if (offSet < 0 && getVisibleHeight() > 0) {
+        }else if (offSet < 0 && getVisibleHeight() > 0){
             layout(getLeft(), 0, getRight(), getHeight());
             setVisibleHeight((int) offSet + getVisibleHeight());
         }
@@ -108,7 +107,6 @@ public class RefreshHeader extends RelativeLayout implements IRefreshHeader {
         if (height == 0) {
             isOnRefresh = false;
         }
-
         if (getVisibleHeight() > mMeasuredHeight && mState < STATE_REFRESHING) {
             setState(STATE_REFRESHING);
             isOnRefresh = true;
@@ -119,7 +117,6 @@ public class RefreshHeader extends RelativeLayout implements IRefreshHeader {
         if (mState != STATE_REFRESHING) {
             smoothScrollTo(0);
         }
-
         if (mState == STATE_REFRESHING) {
             int destHeight = mMeasuredHeight;
             smoothScrollTo(destHeight);
@@ -131,7 +128,7 @@ public class RefreshHeader extends RelativeLayout implements IRefreshHeader {
     @Override
     public void refreshComplete() {
         setState(STATE_DONE);
-        reset();
+        new Handler().postDelayed(() -> reset(), 500L);
     }
 
     @Override
@@ -139,19 +136,30 @@ public class RefreshHeader extends RelativeLayout implements IRefreshHeader {
         return this;
     }
 
+    public void reset() {
+        smoothScrollTo(0);
+        setState(STATE_NORMAL);
+    }
+
+    private void smoothScrollTo(int destHeight) {
+        ValueAnimator animator = ValueAnimator.ofInt(getVisibleHeight(), destHeight);
+        animator.setDuration(300).start();
+        animator.addUpdateListener(valueAnimator -> setVisibleHeight((int) valueAnimator.getAnimatedValue()));
+        animator.start();
+    }
+
     public void setVisibleHeight(int height) {
         if (height < 0) {
             height = 0;
         }
-        RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mRefreshHeaderView.getLayoutParams();
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
         lp.height = height;
-        mRefreshHeaderView.setLayoutParams(lp);
+        mLoadingRl.setLayoutParams(lp);
     }
 
     @Override
     public int getVisibleHeight() {
-        RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) mRefreshHeaderView.getLayoutParams();
-        return lp.height;
+        return mLoadingRl.getHeight();
     }
 
     @Override
@@ -163,23 +171,5 @@ public class RefreshHeader extends RelativeLayout implements IRefreshHeader {
     public int getType() {
         return TYPE_HEADER_NORMAL;
     }
-
-    public void reset() {
-        smoothScrollTo(0);
-        setState(STATE_NORMAL);
-    }
-
-    private void smoothScrollTo(int destHeight) {
-        ValueAnimator animator = ValueAnimator.ofInt(getVisibleHeight(), destHeight);
-        animator.setDuration(300).start();
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                setVisibleHeight((int) animation.getAnimatedValue());
-            }
-        });
-        animator.start();
-    }
-
 
 }

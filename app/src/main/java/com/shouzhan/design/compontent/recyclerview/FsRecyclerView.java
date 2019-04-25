@@ -66,7 +66,7 @@ public class FsRecyclerView extends RecyclerView {
     private FsRecyclerViewAdapter mWrapAdapter;
 
     private int mTouchSlop;
-    private boolean mIsDragger;
+    private boolean mIsDrag;
     private float startY;
     private float startX;
 
@@ -234,11 +234,11 @@ public class FsRecyclerView extends RecyclerView {
                 // 记录手指按下的位置
                 startY = ev.getY();
                 startX = ev.getX();
-                mIsDragger = false;
+                mIsDrag = false;
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 如果viewpager正在拖拽中，那么不拦截它的事件，直接return false；
-                if (mIsDragger) {
+                if (mIsDrag) {
                     return false;
                 }
                 // 获取当前手指位置
@@ -248,13 +248,13 @@ public class FsRecyclerView extends RecyclerView {
                 float distanceY = Math.abs(endY - startY);
                 // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
                 if (distanceX > mTouchSlop && distanceX > distanceY) {
-                    mIsDragger = true;
+                    mIsDrag = true;
                     return false;
                 }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                mIsDragger = false;
+                mIsDrag = false;
                 break;
             default:
                 break;
@@ -505,7 +505,6 @@ public class FsRecyclerView extends RecyclerView {
 
     public void refresh() {
         if (mRefreshHeader.getVisibleHeight() > 0 || mRefreshingData) {
-            // if RefreshHeader is Refreshing, return
             return;
         }
         if (mPullRefreshEnabled && mRefreshListener != null) {
@@ -518,14 +517,6 @@ public class FsRecyclerView extends RecyclerView {
             mRefreshListener.onRefresh();
         }
     }
-
-    public void forceToRefresh() {
-        if (mLoadingData) {
-            return;
-        }
-        refresh();
-    }
-
 
     @Override
     public void onScrolled(int dx, int dy) {
@@ -604,7 +595,7 @@ public class FsRecyclerView extends RecyclerView {
             mScrollListener.onScrollStateChanged(state);
         }
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            if (mLoadMoreListener != null && isCanLoadingData && !mLoadingData) {
+            if (mLoadMoreListener != null && isCanLoadingData && !mLoadingData && !mRefreshingData) {
                 mLoadingData = true;
                 mLoadMoreFooter.onLoading();
                 mLoadMoreListener.onLoadMore();
