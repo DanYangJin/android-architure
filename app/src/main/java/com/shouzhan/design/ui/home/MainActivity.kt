@@ -1,9 +1,7 @@
 package com.shouzhan.design.ui.home
 
-import android.arch.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.View
-import com.shouzhan.design.App
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseKotlinActivity
 import com.shouzhan.design.databinding.ActivityMainBinding
@@ -16,8 +14,7 @@ import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 class MainActivity : BaseKotlinActivity<ActivityMainBinding>() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider.AndroidViewModelFactory.
-                getInstance(App.getInstance()).create(MainViewModel::class.java)
+        vmProviders(MainViewModel::class.java)
     }
 
     override fun getLayoutId(): Int {

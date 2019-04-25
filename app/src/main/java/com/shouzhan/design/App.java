@@ -6,6 +6,7 @@ import android.content.Context;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.shouzhan.design.ui.h5.CommonH5Activity;
 import com.shouzhan.design.utils.NewPrefs;
 
 import me.jessyan.autosize.AutoSizeConfig;
@@ -44,7 +45,7 @@ public class App extends Application {
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override
             public void overrideUrlLoading(Context context, String url) {
-
+                CommonH5Activity.Companion.run(context, "http://www.baidu.com");
             }
         });
     }

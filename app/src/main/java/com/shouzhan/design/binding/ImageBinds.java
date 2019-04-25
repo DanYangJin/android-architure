@@ -1,6 +1,7 @@
 package com.shouzhan.design.binding;
 
 import android.databinding.BindingAdapter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
 import com.facebook.common.util.UriUtil;
@@ -19,9 +20,10 @@ public class ImageBinds {
      * @param draweeView
      * @param url
      */
-    @BindingAdapter("imageUrl")
-    public static void bindImgUrl(SimpleDraweeView draweeView, String url) {
+    @BindingAdapter(value = {"imageUrl", "placeholder"}, requireAll = false)
+    public static void bindImgUrl(SimpleDraweeView draweeView, String url, Drawable drawable) {
         Uri uri = UriUtil.parseUriOrNull(url);
+        draweeView.getHierarchy().setPlaceholderImage(drawable);
         draweeView.setImageURI(uri);
     }
 

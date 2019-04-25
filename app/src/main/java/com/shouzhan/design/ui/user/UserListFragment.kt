@@ -1,15 +1,15 @@
 package com.shouzhan.design.ui.user
 
 import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import com.shouzhan.design.FsTools
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListAdapter
 import com.shouzhan.design.base.LazyFragment
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter
+import com.shouzhan.design.extens.logE
 import com.shouzhan.design.extens.yes
-import com.shouzhan.design.ui.home.MainActivity
 import com.shouzhan.design.ui.user.viewmodel.UserListViewModel
 import kotlinx.android.synthetic.main.fragment_user_list.*
 
@@ -56,7 +56,8 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
         recycler_view.layoutManager = LinearLayoutManager(mContext)
         mLuRecyclerViewAdapter = FsRecyclerViewAdapter(mDataAdapter)
         mLuRecyclerViewAdapter!!.setOnItemClickListener { _, _ ->
-            startActivity(Intent(mContext, MainActivity::class.java))
+            logE(FsTools.getKeyFromJNI())
+//            startActivity(Intent(mContext, MainActivity::class.java))
         }
         // 自定义底部加载布局
 //        recycler_view.setLoadMoreFooter(CustomLoadingFooter(mContext))

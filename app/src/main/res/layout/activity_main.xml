@@ -25,6 +25,7 @@
             android:layout_width="130dp"
             android:layout_height="130dp"
             app:imageUrl="@{vm.headImage}"
+            app:placeholder="@{@drawable/ic_launcher_background}"
             android:layout_gravity="center"/>
 
 
