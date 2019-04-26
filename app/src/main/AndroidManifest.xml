@@ -5,15 +5,17 @@
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".App">
+        >
 
-        <activity android:name="com.shouzhan.design.ui.user.UserActivity"
+        <activity
+            android:name="com.shouzhan.design.ui.user.UserActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,17 +24,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.shouzhan.design.ui.home.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name="com.shouzhan.design.ui.home.MainActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.shouzhan.design.ui.login.LoginActivity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name="com.shouzhan.design.ui.login.LoginActivity"
+            android:screenOrientation="portrait"></activity>
 
-        <activity android:name="com.shouzhan.design.ui.h5.CommonH5Activity"
-            android:screenOrientation="portrait">
-        </activity>
+        <activity
+            android:name="com.shouzhan.design.ui.h5.CommonH5Activity"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="design_width_in_dp"

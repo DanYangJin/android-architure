@@ -1,7 +1,5 @@
 package com.shouzhan.design.utils;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -9,7 +7,6 @@ import com.google.gson.JsonParser;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.Closeable;
 import java.io.IOException;
 
 import okhttp3.RequestBody;
@@ -54,30 +51,6 @@ public class Utils {
         return "{}".equals(prettyJson) ? "" : prettyJson;
     }
 
-    public static void silentClose(Closeable c) {
-        if (c != null) {
-            try {
-                c.close();
-            } catch (IOException e) {
-                Log.e(TAG, "" + e.getMessage());
-            }
-        }
-    }
-
-    /**
-     * 判断是否是数字
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isNumeric(String str) {
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isDigit(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 }
 

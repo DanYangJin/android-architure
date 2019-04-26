@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import com.shouzhan.design.datasource.http.RequestHandler;
 import com.shouzhan.design.datasource.http.RequestType;
 import com.shouzhan.design.utils.HttpConstants;
-import com.shouzhan.design.utils.MD5Utils;
 import com.shouzhan.design.utils.Utils;
+import com.shouzhan.framework.utils.MD5Utils;
 
 import org.json.JSONObject;
 

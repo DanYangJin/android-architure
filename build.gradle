@@ -6,6 +6,7 @@ buildscript {
 
     repositories {
         maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
+        maven { url 'https://jitpack.io' }
         google()
         jcenter()
     }
@@ -18,6 +19,7 @@ buildscript {
 allprojects {
     repositories {
         maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
+        maven { url 'https://jitpack.io' }
         google()
         jcenter()
     }
