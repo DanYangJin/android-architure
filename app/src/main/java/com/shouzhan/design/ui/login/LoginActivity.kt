@@ -8,7 +8,7 @@ import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseKotlinActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
 import com.shouzhan.design.ui.login.viewmodel.LoginViewModel
-import com.shouzhan.design.utils.NewPrefs
+import com.shouzhan.design.datasource.local.NewPrefs
 import com.shouzhan.design.utils.PrefConstants
 
 

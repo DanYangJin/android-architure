@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.shouzhan.design.ui.h5.CommonH5Activity;
-import com.shouzhan.design.utils.NewPrefs;
+import com.shouzhan.design.datasource.local.NewPrefs;
 
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;

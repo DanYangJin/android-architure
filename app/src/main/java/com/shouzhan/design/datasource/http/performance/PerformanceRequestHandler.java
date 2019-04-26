@@ -1,7 +1,7 @@
 package com.shouzhan.design.datasource.http.performance;
 
 import com.shouzhan.design.datasource.http.RequestHandler;
-import com.shouzhan.design.utils.NewPrefs;
+import com.shouzhan.design.datasource.local.NewPrefs;
 import com.shouzhan.design.utils.PrefConstants;
 
 import java.io.BufferedReader;

@@ -1,4 +1,4 @@
-package com.shouzhan.design.utils;
+package com.shouzhan.design.datasource.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;
