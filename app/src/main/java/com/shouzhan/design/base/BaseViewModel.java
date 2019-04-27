@@ -1,7 +1,6 @@
 package com.shouzhan.design.base;
 
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
 
@@ -17,11 +16,11 @@ public class BaseViewModel extends ViewModel {
 
     private static final String TAG = BaseViewModel.class.getSimpleName();
 
-    private HttpCompositeDisposable mBasePresenter = new HttpCompositeDisposable();
+    private HttpCompositeDisposable mHttpDisposable = new HttpCompositeDisposable();
 
     @Override
     protected void onCleared() {
-        mBasePresenter.onUnSubscribe();
+        mHttpDisposable.onUnSubscribe();
         super.onCleared();
     }
 
@@ -30,14 +29,18 @@ public class BaseViewModel extends ViewModel {
      * @param observer
      */
     public void addSubscribe(Observable observable, DisposableObserver observer) {
-        mBasePresenter.addSubscribe(observable, observer);
+        mHttpDisposable.addSubscribe(observable, observer);
     }
 
     /**
      * @param disposable
      */
     public void addDisposable(Disposable disposable) {
-        mBasePresenter.addDisposable(disposable);
+        mHttpDisposable.addDisposable(disposable);
+    }
+
+    public HttpCompositeDisposable getHttpDisposable() {
+        return mHttpDisposable;
     }
 
 }

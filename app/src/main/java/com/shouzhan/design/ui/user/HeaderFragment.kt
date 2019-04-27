@@ -71,7 +71,7 @@ class HeaderFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
             recycler_view.setRefreshing(true)
             getUserData()
         }
-        viewModel.userListResult.observe(this, Observer {
+        viewModel.observerUserListResult().observe(this, Observer {
             mTotalSize = 30
             mCurrentSize += it!!.list!!.size
             if (mCurPage == 1) {
