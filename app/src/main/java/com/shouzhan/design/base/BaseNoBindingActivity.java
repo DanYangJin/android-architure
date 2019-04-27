@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
  * @author danbin
  * @version BaseActivity.java, v 0.1 2019-02-26 下午11:23 danbin
  */
-abstract class BaseNoBindingActivity extends AppCompatActivity implements BaseViewPresenter, BaseBindingPresenter {
+public abstract class BaseNoBindingActivity extends AppCompatActivity implements BaseViewPresenter, BaseBindingPresenter {
 
     protected Context mContext;
 

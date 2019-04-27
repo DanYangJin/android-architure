@@ -4,12 +4,16 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.jakewharton.rxbinding3.view.clicks
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseKotlinActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
-import com.shouzhan.design.ui.login.viewmodel.LoginViewModel
 import com.shouzhan.design.datasource.local.NewPrefs
+import com.shouzhan.design.extens.logE
+import com.shouzhan.design.ui.login.viewmodel.LoginViewModel
 import com.shouzhan.design.utils.PrefConstants
+import kotlinx.android.synthetic.main.activity_login.*
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -40,7 +44,11 @@ class LoginActivity : BaseKotlinActivity<ActivityLoginBinding>() {
     }
 
     override fun initView() {
-
+        test_btn.clicks()
+                .throttleFirst(2, TimeUnit.SECONDS)
+                .subscribe {
+                    logE("hahaha")
+                }
     }
 
     override fun getData() {
