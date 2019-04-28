@@ -4,11 +4,13 @@
     <color name="colorPrimaryDark">#FC5F46</color>
     <color name="colorAccent">#FC5F46</color>
 
-    <color name="color_background">#f6f6f6</color>
+    <color name="color_background">#F6F6F6</color>
 
-    <color name="color_hint">#FFB5B5B5</color>
-    <color name="color_00">#8A000000</color>
-    <color name="color_dark">#5e5656</color>
-    <color name="color_666">#666</color>
+    <color name="color_gray_e5">#5E5656</color>
+    <color name="color_666">#666666</color>
+    <color name="color_999">#999999</color>
+    <color name="color_fff">#FFFFFF</color>
+
+    <color name="color_f04144">#F04144</color>
 
 </resources>
