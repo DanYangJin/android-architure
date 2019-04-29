@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseKotlinActivity
+import com.shouzhan.design.compontent.picker.StringWheelAdapter
 import com.shouzhan.design.databinding.ActivityNumberPickerBinding
+import com.shouzhan.design.utils.Utils
 import kotlinx.android.synthetic.main.activity_number_picker.*
 
 
@@ -24,10 +26,12 @@ class NumberPickerActivity : BaseKotlinActivity<ActivityNumberPickerBinding>() {
     }
 
     override fun initView() {
-        var intervalTimes = resources.getStringArray(R.array.member_interval_time)
-        loop_view.setItems(intervalTimes.toList())
-        loop_view.setLoop(false)
-        loop_view.setCurrentPosition(1)
+        var intervalTimes = resources.getIntArray(R.array.member_interval_time)
+        wheel_view.isCyclic = false
+        wheel_view.currentItem = 1
+        wheel_view.setDrawCenterBg(true)
+        wheel_view.adapter = StringWheelAdapter(Utils.intTransformStringArray(intervalTimes))
+        date_wheel_view.setCyclic(false)
     }
 
     override fun getData() {
@@ -37,5 +41,4 @@ class NumberPickerActivity : BaseKotlinActivity<ActivityNumberPickerBinding>() {
     override fun onClick(view: View) {
 
     }
-
 }

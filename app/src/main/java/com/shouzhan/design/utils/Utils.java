@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.RequestBody;
 import okio.Buffer;
@@ -67,6 +69,23 @@ public class Utils {
                 Log.e(TAG, "" + e.getMessage());
             }
         }
+    }
+
+    /**
+     * Int数组转换成String数组
+     *
+     * @param intArray
+     * @return
+     */
+    public static List<String> intTransformStringArray(int[] intArray) {
+        if (intArray == null) {
+            return null;
+        }
+        List<String> stringList = new ArrayList<>();
+        for (int i = 0; i < intArray.length; i++) {
+            stringList.add(String.valueOf(intArray[i]));
+        }
+        return stringList;
     }
 
 

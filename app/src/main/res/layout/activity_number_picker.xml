@@ -6,17 +6,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.shouzhan.design.compontent.loopview.LoopView
-            android:id="@+id/loop_view"
+        <com.shouzhan.design.compontent.picker.WheelView
+            android:id="@+id/wheel_view"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="200dp"
             android:background="@color/color_fff"
-            app:awv_centerTextColor="@color/color_f04144"
-            app:awv_outerTextColor="@color/color_999"
-            app:awv_textsize="16"
-            app:layout_constraintTop_toTopOf="parent" />
+            />
 
+        <com.shouzhan.design.compontent.picker.TimeWheelView
+            android:id="@+id/time_wheel_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/wheel_view"
+            android:layout_marginTop="20dp" />
+
+        <com.shouzhan.design.compontent.picker.DataWheelView
+            android:id="@+id/date_wheel_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/time_wheel_view"
+            android:layout_marginTop="20dp" />
 
     </android.support.constraint.ConstraintLayout>
 

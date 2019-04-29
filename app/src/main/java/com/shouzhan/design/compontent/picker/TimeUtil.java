@@ -1,5 +1,7 @@
 
-package com.shouzhan.design.compontent.loopview;
+package com.shouzhan.design.compontent.picker;
+
+import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,10 +37,6 @@ import java.util.Date;
  * 这个方法一般用于对两个时间进行比较，从而得出哪一个时间比较久
  */
 
-/**
- * @author danbin
- * @version TimeUtil.java, v 0.1 2019-04-29 上午3:20 danbin
- */
 public class TimeUtil {
 
 
@@ -145,6 +143,31 @@ public class TimeUtil {
     public static String getTimeLocalString(String filter, String data, String filterInside) {
         Long timeLong = getTimeLong(filter, data);
         return getTimeString(timeLong, filterInside);
+    }
+
+    /**
+     * 获取当前年份
+     *
+     * @return
+     */
+    @SuppressLint("SimpleDateFormat")
+    public static int getDateToString() {
+        Date date = new Date(System.currentTimeMillis());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        return Integer.parseInt(format.format(date));
+    }
+
+    /**
+     * 判断是闰年leapYear还是平年
+     */
+    public static boolean isLeapYear(int year) {
+        if (year % 400 == 0) {
+            return true;
+        }
+        if (year % 100 != 0 && year % 4 == 0) {
+            return true;
+        }
+        return false;
     }
 
 }

@@ -23,16 +23,18 @@
         <attr name="indicatorColor" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="LoopView">
-        <attr name="awv_textsize" format="integer"/>
-        <attr name="awv_lineSpace" format="float"/>
-        <attr name="awv_centerTextColor" format="integer"/>
-        <attr name="awv_outerTextColor" format="integer"/>
-        <attr name="awv_dividerTextColor" format="integer"/>
-        <attr name="awv_itemsVisibleCount" format="integer"/>
-        <attr name="awv_isLoop" format="boolean"/>
-        <attr name="awv_initialPosition" format="integer"/>
-        <attr name="awv_scaleX" format="float"/>
+    <declare-styleable name="WheelView">
+        <attr name="WheelView_gravity">
+            <enum name="center" value="17"/>
+            <enum name="left" value="3"/>
+            <enum name="right" value="5"/>
+        </attr>
+        <attr name="WheelView_textSize" format="dimension"/>
+        <attr name="WheelView_textColorOut" format="color"/>
+        <attr name="WheelView_textColorCenter" format="color"/>
+        <attr name="WheelView_dividerColor" format="color"/>
+        <attr name="WheelView_lineSpacingMultiplier" format="float"/>
+        <attr name="WheelView_bgColorCenter" format="color"/>
     </declare-styleable>
 
 </resources>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:background="#fff"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:paddingTop="10dp">
+
+
+    <com.shouzhan.design.compontent.picker.WheelView
+        android:id="@+id/loopView_year"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="match_parent" />
+
+    <com.shouzhan.design.compontent.picker.WheelView
+        android:id="@+id/loopView_month"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="match_parent" />
+
+    <com.shouzhan.design.compontent.picker.WheelView
+        android:id="@+id/loopView_day"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+
+</LinearLayout>
