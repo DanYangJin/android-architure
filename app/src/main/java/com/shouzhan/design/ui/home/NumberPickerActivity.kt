@@ -1,7 +1,6 @@
 package com.shouzhan.design.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseKotlinActivity
@@ -25,12 +24,10 @@ class NumberPickerActivity : BaseKotlinActivity<ActivityNumberPickerBinding>() {
     }
 
     override fun initView() {
-        var intervalTimes = resources.getIntArray(R.array.member_interval_time)
-        number_picker.labels = intervalTimes.toList()
-        number_picker.selection = 1
-        number_picker.setOnWheelItemSelectedListener {
-            position -> Log.d("test", "" + position)
-        }
+        var intervalTimes = resources.getStringArray(R.array.member_interval_time)
+        loop_view.setItems(intervalTimes.toList())
+        loop_view.setLoop(false)
+        loop_view.setCurrentPosition(1)
     }
 
     override fun getData() {

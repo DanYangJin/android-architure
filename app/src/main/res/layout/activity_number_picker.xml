@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:layout_height="match_parent">
 
-        <com.shouzhan.design.compontent.picker.NumberPicker
-            android:id="@+id/number_picker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <com.shouzhan.design.compontent.loopview.LoopView
+            android:id="@+id/loop_view"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/color_fff"
+            app:awv_centerTextColor="@color/color_f04144"
+            app:awv_outerTextColor="@color/color_999"
+            app:awv_textsize="16"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </com.shouzhan.design.compontent.picker.NumberPicker>
 
-
-    </android.support.design.widget.CoordinatorLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
 </layout>
