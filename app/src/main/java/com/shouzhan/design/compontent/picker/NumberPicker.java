@@ -31,12 +31,15 @@ public class NumberPicker extends ListView {
     public static final String TAG = NumberPicker.class.getSimpleName();
 
     private static final int COLOR_DIVIDER_DEFAULT = Color.parseColor("#E5E5E5");
-    private static final int HEIGHT_DIVIDER_DEFAULT = 1;
     private static final int COLOR_SOLID_DEFAULT = Color.parseColor("#FFFFFF");
     private static final int COLOR_SOLID_SELECT_DEFAULT = Color.parseColor("#F9F9F9");
     private static final int COLOR_SOLID_LABEL_DEFAULT = Color.parseColor("#999999");
     private static final int COLOR_SOLID_SELECT_LABEL_DEFAULT = Color.parseColor("#F04144");
+
+    private static final int HEIGHT_DIVIDER_DEFAULT = 1;
     private static final int WHEEL_SIZE_DEFAULT = 4;
+    private static final int CRITICAL_SIZE_DEFAULT = 3;
+    private static final int EVEN_VALUE = 2;
 
     private Handler mHandler;
 
@@ -45,7 +48,7 @@ public class NumberPicker extends ListView {
     /**
      * Labels
      */
-    private List<String> mLabels;
+    private List<Integer> mLabels;
 
     /**
      * Color Of Selected Label
@@ -102,8 +105,6 @@ public class NumberPicker extends ListView {
      */
     private int mItemHeight;
 
-    private boolean cycleEnable;
-
     private int mCurrentPosition;
 
     private WheelItemSelectedListener mItemSelectedListener;
@@ -114,14 +115,14 @@ public class NumberPicker extends ListView {
 
     public NumberPicker(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initUI();
     }
 
     public NumberPicker(Context context) {
         super(context);
     }
 
-    private void init() {
+    private void initUI() {
         mHandler = new Handler();
         mItemLayoutId = R.layout.item_label;
         mItemLabelTvId = R.id.item_label_tv;
@@ -138,16 +139,17 @@ public class NumberPicker extends ListView {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_IDLE) {
                     View itemView = getChildAt(0);
-                    if (itemView != null) {
-                        float deltaY = itemView.getY();
-                        if (deltaY == 0) {
-                            return;
-                        }
-                        if (Math.abs(deltaY) < mItemHeight / 2) {
-                            smoothScrollBy(getDistance(deltaY), 50);
-                        } else {
-                            smoothScrollBy(getDistance(mItemHeight + deltaY), 50);
-                        }
+                    if (itemView == null) {
+                        return;
+                    }
+                    float deltaY = itemView.getY();
+                    if (deltaY == 0) {
+                        return;
+                    }
+                    if (Math.abs(deltaY) < mItemHeight / EVEN_VALUE) {
+                        smoothScrollBy(getDistance(deltaY), 50);
+                    } else {
+                        smoothScrollBy(getDistance(mItemHeight + deltaY), 50);
                     }
                 }
             }
@@ -171,13 +173,13 @@ public class NumberPicker extends ListView {
     }
 
     private void refreshItems() {
-        int offset = mWheelSize / 2;
+        int offset = getSelectedSolidPosition();
         int firstPosition = getFirstVisiblePosition();
-        int position = 0;
         if (getChildAt(0) == null) {
             return;
         }
-        if (Math.abs(getChildAt(0).getY()) <= mItemHeight / 2) {
+        int position;
+        if (Math.abs(getChildAt(0).getY()) <= mItemHeight / EVEN_VALUE) {
             position = firstPosition + offset;
         } else {
             position = firstPosition + offset + 1;
@@ -187,7 +189,7 @@ public class NumberPicker extends ListView {
         }
         mCurrentPosition = position;
         if (mItemSelectedListener != null) {
-            mItemSelectedListener.onItemSelected(getSelection(), getSelectLabel());
+            mItemSelectedListener.onItemSelected(getSelection());
         }
         resetItems(firstPosition, position, offset);
     }
@@ -216,7 +218,7 @@ public class NumberPicker extends ListView {
      *
      * @param labels
      */
-    public void setLabels(List<String> labels) {
+    public void setLabels(List<Integer> labels) {
         mLabels = labels;
         mAdapter.setData(mLabels);
         mAdapter.notifyDataSetChanged();
@@ -237,21 +239,8 @@ public class NumberPicker extends ListView {
      *
      * @return
      */
-    public List<String> getLabels() {
+    public List<Integer> getLabels() {
         return mLabels;
-    }
-
-    /**
-     * 设置滚轮是否为循环滚动
-     *
-     * @param enable true-循环 false-单程
-     */
-    public void setCycleEnable(boolean enable) {
-        if (cycleEnable != enable) {
-            cycleEnable = enable;
-            mAdapter.notifyDataSetChanged();
-            setSelection(getSelection());
-        }
     }
 
     /**
@@ -268,10 +257,6 @@ public class NumberPicker extends ListView {
         if (mLabels == null || mLabels.size() == 0) {
             return 0;
         }
-        if (cycleEnable) {
-            int d = Integer.MAX_VALUE / 2 / mLabels.size();
-            return position + d * mLabels.size();
-        }
         return position;
     }
 
@@ -281,10 +266,12 @@ public class NumberPicker extends ListView {
      * @return
      */
     public int getSelection() {
+        int selectSolidPosition = getSelectedSolidPosition();
         if (mCurrentPosition == 0) {
-            mCurrentPosition = mWheelSize / 2;
+            mCurrentPosition = selectSolidPosition;
         }
-        return (mCurrentPosition - mWheelSize / 2) % mLabels.size();
+        int selection = (mCurrentPosition - selectSolidPosition) % mLabels.size();
+        return selection < 0 ? 0 : selection;
     }
 
     /**
@@ -292,13 +279,13 @@ public class NumberPicker extends ListView {
      *
      * @return
      */
-    public String getSelectLabel() {
+    public Integer getSelectLabel() {
         int position = getSelection();
         position = position < 0 ? 0 : position;
         try {
             return mLabels.get(position);
         } catch (Exception e) {
-            return "";
+            return -1;
         }
     }
 
@@ -348,18 +335,13 @@ public class NumberPicker extends ListView {
     }
 
     /**
-     * 设置滚轮可显示的刻度数量，必须为奇数，且大于等于3
+     * 设置滚轮可显示的刻度数量
      *
      * @param wheelSize
-     * @throws CycleWheelViewException 滚轮数量错误
      */
-    public void setWheelSize(int wheelSize) throws CycleWheelViewException {
-        if (wheelSize < 3 || wheelSize % 2 != 1) {
-            throw new CycleWheelViewException("Wheel Size Error , Must Be 3,5,7,9...");
-        } else {
-            mWheelSize = wheelSize;
-            initView();
-        }
+    public void setWheelSize(int wheelSize) {
+        this.mWheelSize = wheelSize;
+        initView();
     }
 
     /**
@@ -402,23 +384,30 @@ public class NumberPicker extends ListView {
                 selectedSolidPaint.setColor(selectedSolidColor);
                 Paint solidPaint = new Paint();
                 solidPaint.setColor(solidColor);
-                canvas.drawRect(0, 0, viewWidth, mItemHeight * (mWheelSize / 2), solidPaint);
-                canvas.drawRect(0, mItemHeight * (mWheelSize / 2 + 1), viewWidth, mItemHeight
-                        * (mWheelSize), solidPaint);
-                canvas.drawRect(0, mItemHeight * (mWheelSize / 2), viewWidth, mItemHeight
-                        * (mWheelSize / 2 + 1), selectedSolidPaint);
-                canvas.drawLine(0, mItemHeight * (mWheelSize / 2), viewWidth, mItemHeight
-                        * (mWheelSize / 2), dividerPaint);
-                canvas.drawLine(0, mItemHeight * (mWheelSize / 2 + 1), viewWidth, mItemHeight
-                        * (mWheelSize / 2 + 1), dividerPaint);
+                int selectedSolidPosition = getSelectedSolidPosition();
+                if (mWheelSize >= CRITICAL_SIZE_DEFAULT) {
+                    canvas.drawRect(0, 0, viewWidth, mItemHeight * selectedSolidPosition, solidPaint);
+                }
+                canvas.drawRect(0, mItemHeight
+                        * (selectedSolidPosition + 1), viewWidth, mItemHeight
+                        * mWheelSize, solidPaint);
+                canvas.drawRect(0, mItemHeight * selectedSolidPosition, viewWidth, mItemHeight
+                        * (selectedSolidPosition + 1), selectedSolidPaint);
+                canvas.drawLine(0, mItemHeight * selectedSolidPosition, viewWidth,
+                        mItemHeight, dividerPaint);
+                canvas.drawLine(0, mItemHeight
+                        * (selectedSolidPosition + 1), viewWidth, mItemHeight
+                        * (selectedSolidPosition + 1), dividerPaint);
             }
 
             @Override
             public void setAlpha(int alpha) {
+
             }
 
             @Override
             public void setColorFilter(ColorFilter cf) {
+
             }
 
             @Override
@@ -426,8 +415,20 @@ public class NumberPicker extends ListView {
                 return PixelFormat.UNKNOWN;
             }
         };
-
         setBackground(background);
+    }
+
+    /**
+     * calc selectedSolidPosition
+     */
+    private int getSelectedSolidPosition() {
+        int selectedSolidPosition;
+        if (mWheelSize % EVEN_VALUE == 0) {
+            selectedSolidPosition = mWheelSize / 2 - 1;
+        } else {
+            selectedSolidPosition = mWheelSize / 2;
+        }
+        return selectedSolidPosition;
     }
 
     private int measureHeight() {
@@ -446,34 +447,22 @@ public class NumberPicker extends ListView {
          * 选中Item
          *
          * @param position
-         * @param label
          */
-        void onItemSelected(int position, String label);
-    }
-
-    public class CycleWheelViewException extends Exception {
-        private static final long serialVersionUID = 1L;
-
-        public CycleWheelViewException(String detailMessage) {
-            super(detailMessage);
-        }
+        void onItemSelected(int position);
     }
 
     public class CycleWheelViewAdapter extends BaseAdapter {
 
-        private List<String> mData = new ArrayList<>();
+        private List<Integer> mDataList = new ArrayList<>();
 
-        public void setData(List<String> mWheelLabels) {
-            mData.clear();
-            mData.addAll(mWheelLabels);
+        public void setData(List<Integer> mWheelLabels) {
+            mDataList.clear();
+            mDataList.addAll(mWheelLabels);
         }
 
         @Override
         public int getCount() {
-            if (cycleEnable) {
-                return Integer.MAX_VALUE;
-            }
-            return mData.size() + mWheelSize - 1;
+            return mDataList.size() + mWheelSize - 1;
         }
 
         @Override
@@ -497,12 +486,17 @@ public class NumberPicker extends ListView {
                 convertView = LayoutInflater.from(getContext()).inflate(mItemLayoutId, null);
             }
             TextView textView = convertView.findViewById(mItemLabelTvId);
-            if (position < mWheelSize / 2
-                    || (!cycleEnable && position >= mData.size() + mWheelSize / 2)) {
+            if (position < getSelectedSolidPosition()
+                    || position >= mDataList.size() + getSelectedSolidPosition()) {
                 textView.setText("");
                 convertView.setVisibility(View.INVISIBLE);
             } else {
-                textView.setText(mData.get((position - mWheelSize / 2) % mData.size()));
+                int index = (position - getSelectedSolidPosition()) % mDataList.size();
+                int label = mDataList.get(index);
+                textView.setOnClickListener(v ->
+                        setSelection(index)
+                );
+                textView.setText(String.valueOf(label));
                 convertView.setVisibility(View.VISIBLE);
             }
             return convertView;

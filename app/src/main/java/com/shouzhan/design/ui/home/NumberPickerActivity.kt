@@ -25,13 +25,12 @@ class NumberPickerActivity : BaseKotlinActivity<ActivityNumberPickerBinding>() {
     }
 
     override fun initView() {
-        val labels = ArrayList<String>()
-        for (i in 0..4) {
-            labels.add("" + i)
+        var intervalTimes = resources.getIntArray(R.array.member_interval_time)
+        number_picker.labels = intervalTimes.toList()
+        number_picker.selection = 1
+        number_picker.setOnWheelItemSelectedListener {
+            position -> Log.d("test", "" + position)
         }
-        number_picker.labels = labels
-        number_picker.setAlphaGradual(0.5f)
-        number_picker.setOnWheelItemSelectedListener { _, label -> Log.d("test", label) }
     }
 
     override fun getData() {
