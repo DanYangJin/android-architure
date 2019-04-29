@@ -2,6 +2,7 @@ package com.shouzhan.design;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -48,6 +49,12 @@ public class App extends Application {
                 CommonH5Activity.Companion.run(context, "http://www.baidu.com");
             }
         });
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
 }
