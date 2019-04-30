@@ -344,7 +344,8 @@ public class WheelView extends View {
         mFuture = mExecutor.scheduleWithFixedDelay(new SmoothScrollTimerTask(this, mOffset), 0, 10, TimeUnit.MILLISECONDS);
     }
 
-    public final void scrollBy(float velocityY) {//滚动惯性的实现
+    public final void scrollBy(float velocityY) {
+        //滚动惯性的实现
         cancelFuture();
         mFuture = mExecutor.scheduleWithFixedDelay(new InertiaTimerTask(this, velocityY), 0, VELOCITY_FLING, TimeUnit.MILLISECONDS);
     }
@@ -570,7 +571,6 @@ public class WheelView extends View {
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
                     // 中间条目
-                    // canvas.clipRect(0, 0, measuredWidth, maxTextHeight);
                     // 让文字居中
                     // 因为圆弧角换算的向下取值，导致角度稍微有点偏差，加上画笔的基线会偏上，因此需要偏移量修正一下
                     float Y = maxTextHeight - CENTER_CONTENT_OFFSET;
@@ -730,7 +730,7 @@ public class WheelView extends View {
                 previousY = event.getRawY();
                 totalScrollY = totalScrollY + dy;
 
-                // normal mode。
+                // normal mode
                 if (!isCyclic) {
                     if ((totalScrollY - itemHeight * ratio < top && dy < 0)
                             || (totalScrollY + itemHeight * ratio > bottom && dy > 0)) {
@@ -800,7 +800,8 @@ public class WheelView extends View {
         this.mGravity = gravity;
     }
 
-    public int getTextWidth(Paint paint, String str) { //calculate text width
+    public int getTextWidth(Paint paint, String str) {
+        //calculate text width
         int iRet = 0;
         if (str != null && str.length() > 0) {
             int len = str.length();
@@ -878,4 +879,5 @@ public class WheelView extends View {
     public Handler getHandler() {
         return handler;
     }
+
 }

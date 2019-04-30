@@ -23,9 +23,9 @@ public class DataWheelView extends LinearLayout {
     private WheelView loopViewMonth;
     private WheelView loopViewDay;
 
-    private ArrayList<String> listYear = new ArrayList<String>();
-    private ArrayList<String> listMonth = new ArrayList<String>();
-    private ArrayList<String> listDay = new ArrayList<String>();
+    private ArrayList<String> listYear = new ArrayList<>();
+    private ArrayList<String> listMonth = new ArrayList<>();
+    private ArrayList<String> listDay = new ArrayList<>();
     private Calendar now = Calendar.getInstance();
 
     private String startTime = "2010-10-10";

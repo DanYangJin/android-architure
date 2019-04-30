@@ -1,6 +1,9 @@
 package com.shouzhan.design.compontent.picker;
 
 
+/**
+ * @author danbin
+ */
 public interface WheelAdapter<T> {
 	/**
 	 * Gets items count
