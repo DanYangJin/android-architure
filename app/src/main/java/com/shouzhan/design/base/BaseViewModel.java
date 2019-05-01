@@ -10,7 +10,7 @@ import io.reactivex.observers.DisposableObserver;
 
 /**
  * @author danbin
- * @version RxViewModel.java, v 0.1 2019-02-21 下午5:12 danbin
+ * @version BaseViewModel.java, v 0.1 2019-02-21 下午5:12 danbin
  */
 public class BaseViewModel extends ViewModel {
 

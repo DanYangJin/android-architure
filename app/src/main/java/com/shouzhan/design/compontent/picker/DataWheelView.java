@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 
 import com.shouzhan.design.R;
-import com.shouzhan.design.callback.OnOKClickListener;
+import com.shouzhan.design.callback.OnPickerConfirmClickListener;
 import com.shouzhan.design.callback.OnPickerScrollListener;
 
 import java.util.ArrayList;
@@ -314,22 +314,15 @@ public class DataWheelView extends LinearLayout {
     }
 
 
-    private OnOKClickListener listenerOKClick;
+    private OnPickerConfirmClickListener confirmClickListener;
 
     /**
      * 设置回调监听事件，往外面发送选中的日期字符串
      *
-     * @param listenerOKClick
+     * @param confirmClickListener
      */
-    public void setOKClickListener(OnOKClickListener listenerOKClick) {
-        this.listenerOKClick = listenerOKClick;
-    }
-
-    /**
-     * 滚动时左边Text的回调方法
-     */
-    public interface OnLeftListenerScroll {
-        void selectData(String dataString);
+    public void setPickerConfirmClickListener(OnPickerConfirmClickListener confirmClickListener) {
+        this.confirmClickListener = confirmClickListener;
     }
 
     private OnPickerScrollListener leftScrollListener;

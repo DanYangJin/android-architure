@@ -1,6 +1,6 @@
 package com.shouzhan.design.callback;
 
-public interface OnOKClickListener {
+public interface OnPickerConfirmClickListener {
     /**
      * 选择数据
      *

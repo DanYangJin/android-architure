@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shouzhan.design.R;
-import com.shouzhan.design.callback.OnOKClickListener;
+import com.shouzhan.design.callback.OnPickerConfirmClickListener;
 
 import java.util.ArrayList;
 
@@ -96,8 +96,8 @@ public class TimeWheelView extends LinearLayout {
         selectOKTv.setOnClickListener(v -> {
             startTime = hours + ":" + minutes + ":" + seconds;
             //监听
-            if (listenerOKClick != null) {
-                listenerOKClick.selectData(startTime);
+            if (confirmClickListener != null) {
+                confirmClickListener.selectData(startTime);
             }
         });
         //滚轮显示当时时间的监听
@@ -196,15 +196,15 @@ public class TimeWheelView extends LinearLayout {
         secondsWheelView.setCyclic(cyclic);
     }
 
-    private OnOKClickListener listenerOKClick;
+    private OnPickerConfirmClickListener confirmClickListener;
 
     /**
      * 设置回调监听事件，往外面发送选中的日期字符串
      *
-     * @param listenerOKClick
+     * @param confirmClickListener
      */
-    public void setOKClickListener(OnOKClickListener listenerOKClick) {
-        this.listenerOKClick = listenerOKClick;
+    public void setPickerConfirmClickListener(OnPickerConfirmClickListener confirmClickListener) {
+        this.confirmClickListener = confirmClickListener;
     }
 
 }
