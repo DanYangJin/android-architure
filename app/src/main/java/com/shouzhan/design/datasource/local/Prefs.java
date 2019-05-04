@@ -10,11 +10,11 @@ import java.util.Set;
 
 /**
  * @author danbin
- * @version NewPrefs.java, v 0.1 2019-03-25 下午2:55 danbin
+ * @version Prefs.java, v 0.1 2019-03-25 下午2:55 danbin
  */
-public class NewPrefs {
+public class Prefs {
 
-    private static final String TAG = NewPrefs.class.getSimpleName();
+    private static final String TAG = Prefs.class.getSimpleName();
 
     private static SharedPreferences sharedPreference;
 

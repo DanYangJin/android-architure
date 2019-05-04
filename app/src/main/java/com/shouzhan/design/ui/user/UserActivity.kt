@@ -6,6 +6,7 @@ import android.view.MenuItem
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseKotlinNoBindingActivity
+import com.shouzhan.design.ui.home.RxBindingActivity
 import com.shouzhan.design.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_user.*
 
@@ -36,8 +37,11 @@ class UserActivity : BaseKotlinNoBindingActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId) {
-            R.id.id_add_item -> {
+            R.id.id_login -> {
                 startActivity(Intent(mContext, LoginActivity::class.java))
+            }
+            R.id.id_rx_binding -> {
+                startActivity(Intent(mContext, RxBindingActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

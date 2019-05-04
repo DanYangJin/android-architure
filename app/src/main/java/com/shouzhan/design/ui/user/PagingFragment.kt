@@ -1,6 +1,8 @@
 package com.shouzhan.design.ui.user
 
+import android.arch.lifecycle.Observer
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListPagingAdapter
 import com.shouzhan.design.base.LazyFragment
@@ -41,10 +43,10 @@ class PagingFragment : LazyFragment() {
         mDataAdapter = UserListPagingAdapter()
         recycler_view.layoutManager = LinearLayoutManager(mContext)
         recycler_view.adapter = mDataAdapter
-//        viewModel.observerUserListPageResult().observe(this, Observer {
-//            Log.e("Catch", "" + it!![0].toString())
-//            mDataAdapter.submitList(it)
-//        })
+        viewModel.observerUserListPageResult().observe(this, Observer {
+            Log.e("Catch", "" + it!![0].toString())
+            mDataAdapter.submitList(it)
+        })
     }
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
@@ -54,6 +56,7 @@ class PagingFragment : LazyFragment() {
     }
 
     override fun getData() {
+
     }
 
 }

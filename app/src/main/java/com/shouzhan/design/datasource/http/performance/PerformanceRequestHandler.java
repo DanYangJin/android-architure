@@ -1,7 +1,7 @@
 package com.shouzhan.design.datasource.http.performance;
 
 import com.shouzhan.design.datasource.http.RequestHandler;
-import com.shouzhan.design.datasource.local.NewPrefs;
+import com.shouzhan.design.datasource.local.Prefs;
 import com.shouzhan.design.utils.PrefConstants;
 
 import java.io.BufferedReader;
@@ -24,7 +24,7 @@ public class PerformanceRequestHandler implements RequestHandler {
     public Request onBeforeRequest(Request request, Interceptor.Chain chain) {
         Request original = chain.request();
         Request.Builder builder = original.newBuilder();
-        String accessToken = NewPrefs.getStringPreference(PrefConstants.ACCESS_TOKEN, "");
+        String accessToken = Prefs.getStringPreference(PrefConstants.ACCESS_TOKEN, "");
         builder.header("accessToken", accessToken);
         Request newRequest = builder.method(original.method(), original.body())
                 .build();

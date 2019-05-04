@@ -15,11 +15,6 @@ interface BaseViewPresenter {
     fun getLayoutId(): Int
 
     /**
-     * 统一获取数据入口
-     * */
-    fun getData()
-
-    /**
      * 初始化视图层
      * */
     fun initView()
@@ -28,6 +23,11 @@ interface BaseViewPresenter {
      * 获取页面之间传递数据
      */
     fun extraIntentData()
+
+    /**
+     * 统一获取数据入口
+     * */
+    fun getData()
 
     /**
      * 显示加载View

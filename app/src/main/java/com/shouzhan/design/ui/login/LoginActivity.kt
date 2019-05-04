@@ -8,7 +8,7 @@ import com.jakewharton.rxbinding3.view.clicks
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseKotlinActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
-import com.shouzhan.design.datasource.local.NewPrefs
+import com.shouzhan.design.datasource.local.Prefs
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.ui.login.viewmodel.LoginViewModel
 import com.shouzhan.design.utils.PrefConstants
@@ -38,7 +38,7 @@ class LoginActivity : BaseKotlinActivity<ActivityLoginBinding>() {
         super.onCreate(savedInstanceState)
         viewModel!!.loginResult.observe(this, Observer { loginResult ->
             Log.e(TAG, "onChanged: " + loginResult!!.toString())
-            NewPrefs.addStringPreference(PrefConstants.ACCESS_TOKEN, loginResult!!.accessToken)
+            Prefs.addStringPreference(PrefConstants.ACCESS_TOKEN, loginResult!!.accessToken)
             finish()
         })
     }
