@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import com.jakewharton.rxbinding3.view.clicks
 import com.shouzhan.design.R
-import com.shouzhan.design.base.BaseKotlinActivity
+import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
 import com.shouzhan.design.datasource.local.Prefs
 import com.shouzhan.design.extens.logE
@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
  * @author danbin
  * @version LoginActivity.java, v 0.1 2019-02-27 上午12:10 danbin
  */
-class LoginActivity : BaseKotlinActivity<ActivityLoginBinding>() {
+class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     companion object {
         private val TAG = LoginActivity::class.java.simpleName

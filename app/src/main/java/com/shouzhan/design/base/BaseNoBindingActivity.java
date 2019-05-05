@@ -1,9 +1,13 @@
 package com.shouzhan.design.base;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import com.shouzhan.design.App;
 
 /**
  * @author danbin
@@ -20,6 +24,16 @@ public abstract class BaseNoBindingActivity extends AppCompatActivity implements
         setContentView(getLayoutId());
         initView();
         mContext = this;
+    }
+
+    /**
+     * 获取ViewModel
+     * @param modelClass
+     * @param <T>
+     * @return
+     */
+    protected <T extends BaseViewModel> T vmProviders(@NonNull Class<T> modelClass) {
+        return ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass);
     }
 
     @Override

@@ -3,10 +3,10 @@ package com.shouzhan.design.ui.user
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
-import com.shouzhan.design.base.BaseKotlinNoBindingActivity
-import com.shouzhan.design.ui.home.RxBindingActivity
+import com.shouzhan.design.base.BaseNoBindingActivity
 import com.shouzhan.design.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_user.*
 
@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.activity_user.*
  * @version KotlinActivity.java, v 0.1 2019-02-26 上午11:27 danbin
  * 通过Fragment实现加载两种不同的翻页功能
  */
-class UserActivity : BaseKotlinNoBindingActivity() {
+class UserActivity : BaseNoBindingActivity() {
 
     override fun getLayoutId(): Int {
         return R.layout.activity_user
@@ -40,11 +40,11 @@ class UserActivity : BaseKotlinNoBindingActivity() {
             R.id.id_login -> {
                 startActivity(Intent(mContext, LoginActivity::class.java))
             }
-            R.id.id_rx_binding -> {
-                startActivity(Intent(mContext, RxBindingActivity::class.java))
-            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(view: View?) {
     }
 
 }

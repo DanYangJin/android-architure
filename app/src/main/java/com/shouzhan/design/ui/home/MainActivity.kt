@@ -3,7 +3,7 @@ package com.shouzhan.design.ui.home
 import android.os.Bundle
 import android.view.View
 import com.shouzhan.design.R
-import com.shouzhan.design.base.BaseKotlinActivity
+import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityMainBinding
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 
@@ -11,7 +11,7 @@ import com.shouzhan.design.ui.home.viewmodel.MainViewModel
  * @author danbin
  * @version MainActivity.java, v 0.1 2019-02-27 上午12:11 danbin
  */
-class MainActivity : BaseKotlinActivity<ActivityMainBinding>() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(MainViewModel::class.java)
