@@ -7,5 +7,6 @@ package com.shouzhan.design.utils;
 public class PrefConstants {
 
     public static final String ACCESS_TOKEN = "accessToken";
+    public static final String ENV_CONFIG = "envConfig";
 
 }

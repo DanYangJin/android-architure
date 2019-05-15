@@ -1,6 +1,7 @@
 package com.shouzhan.design.utils;
 
 import com.shouzhan.design.BuildConfig;
+import com.shouzhan.design.datasource.local.Prefs;
 
 /**
  * @author danbin
@@ -19,7 +20,7 @@ public class HttpConstants {
     /**
      * 0.测试环境, 1.预发布环境, 2.正式环境
      */
-    public static final String HOST = HOSTS[BuildConfig.SERVER];
+    public static final String HOST = HOSTS[getEnvConfig()];
 
     /**
      * JAVA环境服务器域名
@@ -33,7 +34,7 @@ public class HttpConstants {
      * JAVA -- 商户福利
      * 0.测试环境, 1.预发布环境, 2.正式环境
      */
-    public static final String JAVA_HOST = JAVA_HOSTS[BuildConfig.SERVER];
+    public static final String JAVA_HOST = JAVA_HOSTS[getEnvConfig()];
 
     /**
      * JAVA--商户贷
@@ -48,7 +49,7 @@ public class HttpConstants {
      * JAVA -- 商户贷
      * 0.测试环境, 1.预发布环境, 2.正式环境
      */
-    public static final String JAVA_LOAN_HOST = JAVA_LOAN_HOSTS[BuildConfig.SERVER];
+    public static final String JAVA_LOAN_HOST = JAVA_LOAN_HOSTS[getEnvConfig()];
 
     /**
      * JAVA--绩效考核系统
@@ -63,7 +64,7 @@ public class HttpConstants {
      * JAVA -- 绩效考核系统
      * 0.测试环境, 1.预发布环境, 2.正式环境
      */
-    public static final String JAVA_PERFORMANCE_HOST = JAVA_PERFORMANCE_HOSTS[BuildConfig.SERVER];
+    public static final String JAVA_PERFORMANCE_HOST = JAVA_PERFORMANCE_HOSTS[getEnvConfig()];
 
     public static final String[] KEYS = {
             "0226dee8829c64a16c53a3029f8ddb69",
@@ -71,22 +72,33 @@ public class HttpConstants {
             "8bcd9eff9ddfe72935f915c0ff6b036a"
     };
 
-    public static final String KEY = KEYS[BuildConfig.SERVER];
+    public static final String KEY = KEYS[getEnvConfig()];
+
+    /**
+     * 环境切换
+     */
+    private static int getEnvConfig() {
+        if (BuildConfig.DEBUG) {
+            return Prefs.getIntPreference(PrefConstants.ENV_CONFIG, BuildConfig.SERVER);
+        } else {
+            return BuildConfig.SERVER;
+        }
+    }
 
     /**
      * 统一请求时间
-     * */
+     */
     public static final long CONNECT_TIME_OUT_MILLS = 10 * 1000L;
     public static final long READ_TIME_OUT_MILLS = 10 * 1000L;
 
     /**
      * 请求配置
-     * */
+     */
     public static final String APP_ID = "20181201010101";
 
     /**
      * 请求参数
-     * */
+     */
     public static final String RQ_APP_ID = "appid";
     public static final String RQ_METHOD = "method";
     public static final String RQ_VERSION = "version";

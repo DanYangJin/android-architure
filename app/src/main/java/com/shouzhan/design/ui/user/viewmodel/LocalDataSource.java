@@ -13,7 +13,7 @@ import java.util.Locale;
  * @author danbin
  * @version LocalTestDataSource.java, v 0.1 2019-02-27 上午12:18 danbin
  */
-public class LocalTestDataSource extends PositionalDataSource<DataInfo> {
+public class LocalDataSource extends PositionalDataSource<DataInfo> {
     @Override
     public void loadInitial(@NonNull LoadInitialParams params,
                             final @NonNull LoadInitialCallback<DataInfo> callback) {

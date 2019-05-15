@@ -1,8 +1,7 @@
-package com.shouzhan.design.ui.h5;
+package com.shouzhan.design.ui.h5
 
-import android.content.Context
-import android.content.Intent
 import android.view.View
+import android.webkit.WebViewClient
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseNoBindingActivity
 import com.shouzhan.design.utils.Constants
@@ -16,15 +15,7 @@ class CommonH5Activity : BaseNoBindingActivity() {
 
     override fun getLayoutId() = R.layout.activity_common_h5
 
-    companion object {
-        fun run(context: Context, url: String) {
-            var intent = Intent(context, CommonH5Activity.javaClass)
-            intent.putExtra(Constants.EXTRA_COMMON_H5_URL, url)
-            context.startActivity(intent)
-        }
-    }
-
-    var url:String? = null
+    private var url:String? = null
 
     override fun extraIntentData() {
         super.extraIntentData()
@@ -36,6 +27,7 @@ class CommonH5Activity : BaseNoBindingActivity() {
     }
 
     override fun initView() {
+        webview.webViewClient = WebViewClient()
         webview.loadUrl(url)
     }
 

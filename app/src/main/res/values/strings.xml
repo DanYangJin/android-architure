@@ -5,4 +5,6 @@
     <string name="list_footer_network_error">点击重新加载</string>
     <string name="list_footer_end">已全部加载完</string>
 
+    <string name="env_switch">环境切换</string>
+
 </resources>

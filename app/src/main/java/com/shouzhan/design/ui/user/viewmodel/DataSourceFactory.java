@@ -12,12 +12,12 @@ import com.shouzhan.design.ui.user.model.javabean.DataInfo;
 public class DataSourceFactory
         extends DataSource.Factory<Integer, DataInfo> {
 
-    private MutableLiveData<LocalTestDataSource> mSourceLiveData =
+    private MutableLiveData<LocalDataSource> mSourceLiveData =
             new MutableLiveData<>();
 
     @Override
     public DataSource<Integer, DataInfo> create() {
-        LocalTestDataSource source = new LocalTestDataSource();
+        LocalDataSource source = new LocalDataSource();
         mSourceLiveData.postValue(source);
         return source;
     }
