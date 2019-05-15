@@ -22,7 +22,7 @@ public class UserListAdapter extends BaseBindingRecyclerViewAdapter<UserListResu
     public BaseBindingRecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == UserGenderType.FEMALE) {
             return new UserFemaleViewHolder(parent, R.layout.item_user_female);
-        } else {
+        } else  {
             return new UserMaleViewHolder(parent, R.layout.item_user_male);
         }
     }

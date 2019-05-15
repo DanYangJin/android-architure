@@ -29,7 +29,6 @@ public class FsPinnedHeaderItemDecoration extends RecyclerView.ItemDecoration im
             RecyclerView.Adapter mAdapter = wrapAdapter.getInnerAdapter();
             if (mAdapter instanceof BaseBindingRecyclerViewAdapter && parent.getChildCount() > 0) {
                 BaseBindingRecyclerViewAdapter adapter = (BaseBindingRecyclerViewAdapter) mAdapter;
-                //找到要固定的pin view
                 View firstView = parent.getChildAt(0);
                 int firstAdapterPosition = parent.getChildAdapterPosition(firstView) - wrapAdapter.getHeaderViewsCount();
                 int pinnedHeaderPosition = getPinnedHeaderViewPosition(firstAdapterPosition, adapter);
@@ -37,7 +36,6 @@ public class FsPinnedHeaderItemDecoration extends RecyclerView.ItemDecoration im
                 if (pinnedHeaderPosition != -1) {
                     RecyclerView.ViewHolder pinnedHeaderViewHolder = adapter.onCreateViewHolder(parent, adapter.getItemViewType(pinnedHeaderPosition));
                     adapter.onBindViewHolder((BaseBindingRecyclerViewHolder) pinnedHeaderViewHolder, pinnedHeaderPosition);
-                    //要固定的view
                     View pinnedHeaderView = ((BaseBindingRecyclerViewHolder) pinnedHeaderViewHolder).itemView;
                     ensurePinnedHeaderViewLayout(pinnedHeaderView, parent);
                     int sectionPinOffset = 0;
@@ -96,9 +94,6 @@ public class FsPinnedHeaderItemDecoration extends RecyclerView.ItemDecoration im
 
     private void ensurePinnedHeaderViewLayout(View pinView, RecyclerView recyclerView) {
         if (pinView.isLayoutRequested()) {
-            /**
-             * 用的是RecyclerView的宽度测量，和RecyclerView的宽度一样
-             */
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) pinView.getLayoutParams();
             if (layoutParams == null) {
                 throw new NullPointerException("PinnedHeaderItemDecoration");
@@ -126,4 +121,5 @@ public class FsPinnedHeaderItemDecoration extends RecyclerView.ItemDecoration im
     public int getPinnedHeaderPosition() {
         return mPinnedHeaderPosition;
     }
+
 }

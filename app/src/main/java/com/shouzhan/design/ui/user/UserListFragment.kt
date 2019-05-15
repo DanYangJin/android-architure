@@ -76,7 +76,7 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
             }
         }
         viewModel.observerUserListResult().observe(this, Observer {
-            mTotalSize = 30
+            mTotalSize = it!!.total
             mCurrentSize += it!!.list!!.size
             if (mCurPage == 1) {
                 swipe_refresh_layout.isRefreshing = false

@@ -3,6 +3,4 @@
 
     <item android:id="@+id/id_login" android:title="登录"/>
 
-    <item android:id="@+id/id_rx_binding" android:title="RxBinding"/>
-
 </menu>
