@@ -1,5 +1,6 @@
 package com.shouzhan.design.base;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
@@ -14,6 +15,16 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class BaseViewModel extends ViewModel {
 
+    public enum PageStatus {
+        /***/
+        EMPTY, ERROR
+    }
+
+    public MutableLiveData<PageStatus> pageStatus = new MutableLiveData<>();
+
+    public MutableLiveData<PageStatus> observerPageStatus() {
+        return pageStatus;
+    }
 
     private HttpCompositeDisposable mHttpDisposable = new HttpCompositeDisposable();
 

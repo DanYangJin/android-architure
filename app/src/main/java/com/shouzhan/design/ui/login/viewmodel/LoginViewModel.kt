@@ -3,9 +3,8 @@ package com.shouzhan.design.ui.login.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
-import com.shouzhan.design.extens.logE
-import com.shouzhan.design.ui.login.model.remote.result.LoginResult
 import com.shouzhan.design.repository.LoginRepository
+import com.shouzhan.design.ui.login.model.remote.result.LoginResult
 
 /**
  * @author danbin
@@ -25,7 +24,7 @@ class LoginViewModel : BaseViewModel() {
 
             override fun onFailure(resultMsg: String?, resultCode: Int) {
                 super.onFailure(resultMsg, resultCode)
-                logE("onFailure@@@@")
+                pageStatus.value = PageStatus.ERROR
             }
         })
     }
