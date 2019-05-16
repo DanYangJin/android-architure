@@ -6,10 +6,8 @@ import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
 
 import com.shouzhan.design.base.BaseViewModel;
-import com.shouzhan.design.ui.user.model.javabean.DataInfo;
-
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import com.shouzhan.design.repository.UserListRepository;
+import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
 
 /**
  * @author danbin
@@ -17,29 +15,28 @@ import java.util.concurrent.Executors;
  */
 public class UserPagingViewModel extends BaseViewModel {
 
-    private Executor myExecutor = Executors.newSingleThreadExecutor();
+    private UserListRepository userRepository = new UserListRepository();
 
     private PagedList.Config myPagingConfig = new PagedList.Config.Builder()
-            .setInitialLoadSizeHint(20)
+            .setInitialLoadSizeHint(10)
             .setPageSize(10)
             .setPrefetchDistance(30)
             .setEnablePlaceholders(false)
             .build();
 
-    private DataSource.Factory<Integer, DataInfo> myConcertDataSource =
-            new DataSourceFactory();
+    private DataSource.Factory<Integer, UserListResult> myConcertDataSource =
+            new DataSourceFactory(getHttpDisposable(), userRepository);
 
-    public LiveData<PagedList<DataInfo>> getConcertList() {
+    public LiveData<PagedList<UserListResult>> getConcertList() {
         return concertList;
     }
 
-    private LiveData<PagedList<DataInfo>> concertList =
+    private LiveData<PagedList<UserListResult>> concertList =
             new LivePagedListBuilder<>(myConcertDataSource, myPagingConfig)
-                    .setFetchExecutor(myExecutor)
                     .build();
 
     public void invalidateDataSource() {
-        PagedList<DataInfo> pagedList = concertList.getValue();
+        PagedList<UserListResult> pagedList = concertList.getValue();
         if (pagedList != null) {
             pagedList.getDataSource().invalidate();
         }

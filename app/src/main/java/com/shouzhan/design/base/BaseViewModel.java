@@ -14,7 +14,6 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class BaseViewModel extends ViewModel {
 
-    private static final String TAG = BaseViewModel.class.getSimpleName();
 
     private HttpCompositeDisposable mHttpDisposable = new HttpCompositeDisposable();
 
@@ -24,17 +23,10 @@ public class BaseViewModel extends ViewModel {
         super.onCleared();
     }
 
-    /**
-     * @param observable
-     * @param observer
-     */
     public void addSubscribe(Observable observable, DisposableObserver observer) {
         mHttpDisposable.addSubscribe(observable, observer);
     }
 
-    /**
-     * @param disposable
-     */
     public void addDisposable(Disposable disposable) {
         mHttpDisposable.addDisposable(disposable);
     }

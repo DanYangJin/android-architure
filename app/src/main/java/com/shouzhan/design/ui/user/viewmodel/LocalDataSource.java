@@ -1,43 +1,58 @@
 package com.shouzhan.design.ui.user.viewmodel;
 
-import android.arch.paging.PositionalDataSource;
+import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
-import com.shouzhan.design.ui.user.model.javabean.DataInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import com.shouzhan.design.base.BasePageResult;
+import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
+import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback;
+import com.shouzhan.design.repository.UserListRepository;
+import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
 
 /**
  * @author danbin
- * @version LocalTestDataSource.java, v 0.1 2019-02-27 上午12:18 danbin
+ * @version LocalDataSource.java, v 0.1 2019-02-27 上午12:18 danbin
  */
-public class LocalDataSource extends PositionalDataSource<DataInfo> {
-    @Override
-    public void loadInitial(@NonNull LoadInitialParams params,
-                            final @NonNull LoadInitialCallback<DataInfo> callback) {
-        final int startPosition = 0;
-        List<DataInfo> list = buildDataList(startPosition, params.requestedLoadSize);
-        callback.onResult(list, 0);
+public class LocalDataSource extends PageKeyedDataSource<Integer, UserListResult> {
+
+    private static final String TAG = LocalDataSource.class.getSimpleName();
+
+    private HttpCompositeDisposable mHttpDisposable;
+    private UserListRepository mUserListRepository;
+
+    public LocalDataSource(HttpCompositeDisposable httpDisposable, UserListRepository userListRepository) {
+        this.mHttpDisposable = httpDisposable;
+        this.mUserListRepository = userListRepository;
     }
 
     @Override
-    public void loadRange(@NonNull final LoadRangeParams params,
-                          @NonNull final LoadRangeCallback<DataInfo> callback) {
-        List<DataInfo> list = buildDataList(params.startPosition, params.loadSize);
-        callback.onResult(list);
+    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, UserListResult> callback) {
+        Log.e(TAG, "loadInitial: " + params.requestedLoadSize);
+        mHttpDisposable.addSubscribe(mUserListRepository.getUserList(1), new PerformanceApiCallback<BasePageResult<UserListResult>>() {
+            @Override
+            protected void onSuccess(BasePageResult<UserListResult> data) {
+                callback.onResult(data.getList(), 1, 2);
+            }
+
+        });
     }
 
-    private List<DataInfo> buildDataList(int startPosition, int loadSize) {
-        List<DataInfo> list = new ArrayList<>();
-        DataInfo bean;
-        for (int i = startPosition; i < startPosition + loadSize; i++) {
-            bean = new DataInfo();
-            bean.id = i;
-            bean.content = String.format(Locale.getDefault(), "第%d条数据", i + 1);
-            list.add(bean);
-        }
-        return list;
+    @Override
+    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, UserListResult> callback) {
+        // ignored, since we only ever append to our initial load
     }
+
+    @Override
+    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, UserListResult> callback) {
+        Log.e(TAG, "loadAfter: " + params.key + " , " + params.requestedLoadSize);
+        mHttpDisposable.addSubscribe(mUserListRepository.getUserList(params.key), new PerformanceApiCallback<BasePageResult<UserListResult>>() {
+            @Override
+            protected void onSuccess(BasePageResult<UserListResult> data) {
+                callback.onResult(data.getList(), params.key + 1);
+            }
+
+        });
+    }
+
 }

@@ -7,7 +7,7 @@ import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserPagingAdapter
 import com.shouzhan.design.base.LazyFragment
 import com.shouzhan.design.extens.yes
-import com.shouzhan.design.ui.user.model.javabean.DataInfo
+import com.shouzhan.design.ui.user.model.remote.result.UserListResult
 import com.shouzhan.design.ui.user.viewmodel.UserPagingViewModel
 import kotlinx.android.synthetic.main.fragment_paging.*
 
@@ -43,7 +43,7 @@ class PagingFragment : LazyFragment() {
         recycler_view.layoutManager = LinearLayoutManager(mContext)
         mAdapter = UserPagingAdapter()
         recycler_view.adapter = mAdapter
-        viewModel.concertList.observe(this, Observer<PagedList<DataInfo>> {
+        viewModel.concertList.observe(this, Observer<PagedList<UserListResult>> {
             mAdapter?.submitList(viewModel.concertList.value)
         })
         swipe_refresh_layout.setProgressViewOffset(false, 0, 48)
