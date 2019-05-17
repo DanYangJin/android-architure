@@ -24,47 +24,58 @@ public class FsRecyclerViewGlobalConfig {
     public View mGlobalHeaderView = null;
 
     /**
-     * 构造器
-     * */
-    public static FsRecyclerViewGlobalConfig build() {
-        return new FsRecyclerViewGlobalConfig();
-    }
-
-    /**
-     * 设置属性
+     * 设置是否开启下拉刷新
      * */
     public FsRecyclerViewGlobalConfig setGlobalPullRefreshEnabled(boolean enabled) {
         this.mGlobalPullRefreshEnabled = enabled;
         return this;
     }
 
+    /**
+     * 设置是否开启上拉加载
+     * */
     public FsRecyclerViewGlobalConfig setGlobalLoadMoreEnabled(boolean enabled) {
         this.mGlobalLoadMoreEnabled = enabled;
         return this;
     }
 
+    /**
+     * 设置是否开启网络错误
+     * */
     public FsRecyclerViewGlobalConfig setGlobalNetErrorEnabled(boolean enabled) {
         this.mGlobalNetErrorEnabled = enabled;
         return this;
     }
 
-    public FsRecyclerViewGlobalConfig setGlobalEmptyView(View mGlobalEmptyView) {
-        this.mGlobalEmptyView = mGlobalEmptyView;
+    /**
+     * 设置空视图
+     * */
+    public FsRecyclerViewGlobalConfig setGlobalEmptyView(View emptyView) {
+        this.mGlobalEmptyView = emptyView;
         return this;
     }
 
-    public FsRecyclerViewGlobalConfig setGlobalNetErrorView(View mGlobalNetErrorView) {
-        this.mGlobalNetErrorView = mGlobalNetErrorView;
+    /**
+     * 设置网络错误视图
+     * */
+    public FsRecyclerViewGlobalConfig setGlobalNetErrorView(View netErrorView) {
+        this.mGlobalNetErrorView = netErrorView;
         return this;
     }
 
-    public FsRecyclerViewGlobalConfig setGlobalFooterView(View mGlobalFooterView) {
-        this.mGlobalFooterView = mGlobalFooterView;
+    /**
+     * 设置底部视图
+     * */
+    public FsRecyclerViewGlobalConfig setGlobalFooterView(View footerView) {
+        this.mGlobalFooterView = footerView;
         return this;
     }
 
-    public FsRecyclerViewGlobalConfig setGlobalHeaderView(View mGlobalHeaderView) {
-        this.mGlobalHeaderView = mGlobalHeaderView;
+    /**
+     * 设置头部视图
+     * */
+    public FsRecyclerViewGlobalConfig setGlobalHeaderView(View headerView) {
+        this.mGlobalHeaderView = headerView;
         return this;
     }
 

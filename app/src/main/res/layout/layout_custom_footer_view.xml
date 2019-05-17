@@ -6,7 +6,7 @@
     android:layout_centerVertical="true"
     android:background="@android:color/transparent">
 
-    <com.shouzhan.design.compontent.recyclerview.ProgressWheel
+    <com.shouzhan.design.compontent.view.ProgressWheel
         android:id="@+id/footer_loading_view"
         android:layout_width="40mm"
         android:layout_height="40mm"

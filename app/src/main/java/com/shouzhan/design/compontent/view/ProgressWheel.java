@@ -1,4 +1,4 @@
-package com.shouzhan.design.compontent.recyclerview;
+package com.shouzhan.design.compontent.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

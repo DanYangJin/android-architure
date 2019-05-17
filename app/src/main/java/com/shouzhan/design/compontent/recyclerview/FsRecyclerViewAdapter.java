@@ -6,6 +6,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shouzhan.design.callback.OnItemClickListener;
+import com.shouzhan.design.callback.OnItemLongClickListener;
+
 import java.util.ArrayList;
 import java.util.List;
 

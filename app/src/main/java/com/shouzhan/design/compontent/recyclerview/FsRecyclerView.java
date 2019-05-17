@@ -184,7 +184,7 @@ public class FsRecyclerView extends RecyclerView {
         @Override
         public void onChanged() {
             Adapter<?> adapter = getAdapter();
-            if (mNetErrorEnabled) {
+            if (mNetErrorEnabled && mNetErrorView != null) {
                 showNetErrorView();
             } else {
                 if (adapter instanceof FsRecyclerViewAdapter) {

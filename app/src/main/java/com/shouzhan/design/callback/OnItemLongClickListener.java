@@ -1,4 +1,4 @@
-package com.shouzhan.design.compontent.recyclerview;
+package com.shouzhan.design.callback;
 
 import android.view.View;
 
