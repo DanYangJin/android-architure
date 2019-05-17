@@ -20,6 +20,11 @@ import android.view.ViewParent;
 public class FsRecyclerView extends RecyclerView {
 
     /**
+     * 全局配置
+     */
+    private static FsRecyclerViewGlobalConfig mGlobalConfig = new FsRecyclerViewGlobalConfig();
+
+    /**
      * 触发在上下滑动监听器的容差距离
      */
     private static final int HIDE_THRESHOLD = 20;
@@ -29,13 +34,13 @@ public class FsRecyclerView extends RecyclerView {
     private static final int DEFAULT_PAGE_SIZE = 10;
     /**
      * 拖动速度
-     * */
+     */
     private static final float DRAG_RATE = 2.0f;
 
-    private boolean mPullRefreshEnabled = true;
+    private boolean mPullRefreshEnabled = mGlobalConfig.mGlobalPullRefreshEnabled;
     private boolean mRefreshingData = false;
 
-    private boolean mLoadMoreEnabled = true;
+    private boolean mLoadMoreEnabled = mGlobalConfig.mGlobalLoadMoreEnabled;
     private boolean mLoadingData = false;
 
     private OnRefreshListener mRefreshListener;
@@ -46,16 +51,24 @@ public class FsRecyclerView extends RecyclerView {
     /**
      * 设置空视图
      */
-    private View mEmptyView;
+    private View mEmptyView = mGlobalConfig.mGlobalEmptyView;
     /**
      * 设置底部上拉加载布局
      */
-    private View mFootView;
+    private View mFootView = mGlobalConfig.mGlobalFooterView;
     /**
      * 设置顶部上拉加载布局
      */
-    private View mHeadView;
+    private View mHeadView = mGlobalConfig.mGlobalHeaderView;
 
+    /**
+     * 设置无网络布局
+     */
+    private View mNetErrorView = mGlobalConfig.mGlobalNetErrorView;
+    /**
+     * 是否嵌入无网络布局
+     */
+    private boolean mNetErrorEnabled = mGlobalConfig.mGlobalNetErrorEnabled;
 
     private final RecyclerView.AdapterDataObserver mDataObserver = new DataObserver();
     private int mActivePointerId;
@@ -65,7 +78,6 @@ public class FsRecyclerView extends RecyclerView {
 
     private FsRecyclerViewAdapter mWrapAdapter;
 
-    private int mTouchSlop;
     private boolean mIsDrag;
     private float startY;
     private float startX;
@@ -132,10 +144,22 @@ public class FsRecyclerView extends RecyclerView {
 
     private void initView() {
         if (mPullRefreshEnabled) {
-            setRefreshHeader(new RefreshHeader(getContext()));
+            if (mHeadView != null) {
+                if (mHeadView instanceof IRefreshHeader) {
+                    setRefreshHeader((IRefreshHeader) mHeadView);
+                }
+            } else {
+                setRefreshHeader(new RefreshHeader(getContext()));
+            }
         }
         if (mLoadMoreEnabled) {
-            setLoadMoreFooter(new LoadingFooter(getContext()));
+            if (mFootView != null) {
+                if (mFootView instanceof ILoadMoreFooter) {
+                    setLoadMoreFooter((ILoadMoreFooter) mFootView);
+                }
+            } else {
+                setLoadMoreFooter(new LoadingFooter(getContext()));
+            }
         }
     }
 
@@ -160,30 +184,29 @@ public class FsRecyclerView extends RecyclerView {
         @Override
         public void onChanged() {
             Adapter<?> adapter = getAdapter();
-            if (adapter instanceof FsRecyclerViewAdapter) {
-                FsRecyclerViewAdapter lRecyclerViewAdapter = (FsRecyclerViewAdapter) adapter;
-                if (lRecyclerViewAdapter.getInnerAdapter() != null && mEmptyView != null) {
-                    int count = lRecyclerViewAdapter.getInnerAdapter().getItemCount();
-                    if (count == 0) {
-                        mEmptyView.setVisibility(View.VISIBLE);
-                        FsRecyclerView.this.setVisibility(View.GONE);
-                    } else {
-                        mEmptyView.setVisibility(View.GONE);
-                        FsRecyclerView.this.setVisibility(View.VISIBLE);
-                    }
-                }
+            if (mNetErrorEnabled) {
+                showNetErrorView();
             } else {
-                if (adapter != null && mEmptyView != null) {
-                    if (adapter.getItemCount() == 0) {
-                        mEmptyView.setVisibility(View.VISIBLE);
-                        FsRecyclerView.this.setVisibility(View.GONE);
-                    } else {
-                        mEmptyView.setVisibility(View.GONE);
-                        FsRecyclerView.this.setVisibility(View.VISIBLE);
+                if (adapter instanceof FsRecyclerViewAdapter) {
+                    FsRecyclerViewAdapter lRecyclerViewAdapter = (FsRecyclerViewAdapter) adapter;
+                    if (lRecyclerViewAdapter.getInnerAdapter() != null && mEmptyView != null) {
+                        int count = lRecyclerViewAdapter.getInnerAdapter().getItemCount();
+                        if (count == 0) {
+                            showEmptyView();
+                        } else {
+                            showFsRecyclerView();
+                        }
+                    }
+                } else {
+                    if (adapter != null && mEmptyView != null) {
+                        if (adapter.getItemCount() == 0) {
+                            showEmptyView();
+                        } else {
+                            showFsRecyclerView();
+                        }
                     }
                 }
             }
-
             if (mWrapAdapter != null) {
                 mWrapAdapter.notifyDataSetChanged();
                 if (mWrapAdapter.getInnerAdapter().getItemCount() < mPageSize) {
@@ -247,7 +270,7 @@ public class FsRecyclerView extends RecyclerView {
                 float distanceX = Math.abs(endX - startX);
                 float distanceY = Math.abs(endY - startY);
                 // 如果X轴位移大于Y轴位移，那么将事件交给viewPager处理。
-                if (distanceX > mTouchSlop && distanceX > distanceY) {
+                if (distanceX > 0 && distanceX > distanceY) {
                     mIsDrag = true;
                     return false;
                 }
@@ -342,12 +365,7 @@ public class FsRecyclerView extends RecyclerView {
     }
 
     public boolean isOnTop() {
-        return  mPullRefreshEnabled && (mRefreshHeader.getHeaderView().getParent() != null);
-    }
-
-    public void setEmptyView(View emptyView) {
-        this.mEmptyView = emptyView;
-        this.mDataObserver.onChanged();
+        return mPullRefreshEnabled && (mRefreshHeader.getHeaderView().getParent() != null);
     }
 
     public void setRefreshing(boolean refreshing) {
@@ -464,6 +482,48 @@ public class FsRecyclerView extends RecyclerView {
         mWrapAdapter.removeFooterView();
     }
 
+    public void setEmptyView(View emptyView) {
+        this.mEmptyView = emptyView;
+    }
+
+    private void showEmptyView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
+        if (mNetErrorView != null) {
+            mNetErrorView.setVisibility(View.GONE);
+        }
+        setVisibility(View.GONE);
+    }
+
+    public void setNetErrorEnabled(boolean enabled) {
+        this.mNetErrorEnabled = enabled;
+    }
+
+    private void showNetErrorView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
+        if (mNetErrorView != null) {
+            mNetErrorView.setVisibility(View.VISIBLE);
+        }
+        setVisibility(View.GONE);
+    }
+
+    private void showFsRecyclerView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
+        if (mNetErrorView != null) {
+            mNetErrorView.setVisibility(View.GONE);
+        }
+        setVisibility(View.VISIBLE);
+    }
+
+    public static void setGlobalConfig(FsRecyclerViewGlobalConfig config) {
+        mGlobalConfig = config;
+    }
+
     public void setOnRefreshListener(OnRefreshListener listener) {
         mRefreshListener = listener;
     }
@@ -510,7 +570,7 @@ public class FsRecyclerView extends RecyclerView {
         if (mPullRefreshEnabled && mRefreshListener != null) {
             mRefreshHeader.onRefreshing();
             int offSet = mRefreshHeader.getHeaderView().getMeasuredHeight();
-            mRefreshHeader.onMove(offSet,offSet);
+            mRefreshHeader.onMove(offSet, offSet);
             mRefreshingData = true;
 
             mFootView.setVisibility(GONE);

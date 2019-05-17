@@ -19,6 +19,8 @@ import com.shouzhan.design.BR;
  */
 public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity implements BaseViewPresenter, BaseBindingPresenter {
 
+    private static final String TAG = BaseActivity.class.getSimpleName();
+
     protected Context mContext;
     protected VB mBinding;
 
@@ -69,12 +71,12 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
     @Override
     public void showEmptyView() {
-        Log.e("Catch", "showEmptyView");
+        Log.e(TAG, "showEmptyView");
     }
 
     @Override
     public void showErrorView() {
-        Log.e("Catch", "showErrorView");
+        Log.e(TAG, "showErrorView");
     }
 
 }
