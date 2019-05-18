@@ -2,29 +2,28 @@ package com.shouzhan.design.ui.user
 
 import android.arch.lifecycle.Observer
 import android.content.Intent
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.R
-import com.shouzhan.design.adapter.UserListAdapter
+import com.shouzhan.design.adapter.UserListPinnedAdapter
 import com.shouzhan.design.base.LazyFragment
 import com.shouzhan.design.compontent.recyclerview.FsLoadRefreshListener
-import com.shouzhan.design.compontent.recyclerview.FsPinnedHeaderItemDecoration
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter
 import com.shouzhan.design.ui.home.MainActivity
 import com.shouzhan.design.ui.user.viewmodel.UserListViewModel
-import kotlinx.android.synthetic.main.fragment_user_list.*
+import kotlinx.android.synthetic.main.fragment_header.*
 
 /**
  * @author danbin
- * @version FragmentOne.java, v 0.1 2019-03-02 下午10:36 danbin
+ * @version HeaderFragment.java, v 0.1 2019-03-02 下午10:36 danbin
+ * 自定义下拉头布局
  */
-class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
+class HeaderFragment : LazyFragment() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserListViewModel::class.java)
     }
 
-    private lateinit var mDataAdapter: UserListAdapter
+    private lateinit var mDataAdapter: UserListPinnedAdapter
     private var mLuRecyclerViewAdapter: FsRecyclerViewAdapter? = null
 
     /**已经获取到多少条数据了 */
@@ -33,29 +32,32 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
     private var mTotalSize = 10
 
     companion object {
-        fun get(): UserListFragment {
-            return UserListFragment()
+        fun get(): HeaderFragment {
+            return HeaderFragment()
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_user_list
+    override fun getLayoutId(): Int = R.layout.fragment_header
 
     override fun initView() {
-        swipe_refresh_layout.setProgressViewOffset(false, 0, 48)
-        swipe_refresh_layout.setColorSchemeResources(R.color.colorPrimary)
-        swipe_refresh_layout.setOnRefreshListener(this)
-
-        mDataAdapter = UserListAdapter()
+        mDataAdapter = UserListPinnedAdapter()
         recycler_view.layoutManager = LinearLayoutManager(mContext)
+//        recycler_view.addItemDecoration(FsPinnedHeaderItemDecoration())
         mLuRecyclerViewAdapter = FsRecyclerViewAdapter(mDataAdapter)
         mLuRecyclerViewAdapter!!.setOnItemClickListener { _, _ ->
             startActivity(Intent(mContext, MainActivity::class.java))
         }
-        recycler_view.addItemDecoration(FsPinnedHeaderItemDecoration())
         recycler_view.adapter = mLuRecyclerViewAdapter
-        recycler_view.setRefreshEnabled(false)
         recycler_view.setHasFixedSize(true)
         recycler_view.setOnLoadRefreshListener(object : FsLoadRefreshListener() {
+            override fun onRefresh() {
+                super.onRefresh()
+                mCurrentSize = 0
+                mCurPage = 1
+                recycler_view.setRefreshing(true)
+                getUserData()
+            }
+
             override fun onLoadMore() {
                 super.onLoadMore()
                 if (mCurrentSize < mTotalSize) {
@@ -72,7 +74,6 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
                     mTotalSize = data.total
                     mCurrentSize += results.size
                     if (mCurPage == 1) {
-                        swipe_refresh_layout.isRefreshing = false
                         recycler_view.refreshComplete()
                         mDataAdapter.setNewData(results.toMutableList())
                     } else {
@@ -81,20 +82,11 @@ class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
                     }
                 }
             }
-
         })
     }
 
     override fun getData() {
-        swipe_refresh_layout.isRefreshing = true
-        onRefresh()
-    }
-
-    override fun onRefresh() {
-        mCurrentSize = 0
-        mCurPage = 1
-        recycler_view.setRefreshing(true)
-        getUserData()
+        recycler_view.forceToRefresh()
     }
 
     private fun getUserData() {

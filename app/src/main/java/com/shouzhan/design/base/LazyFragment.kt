@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import com.shouzhan.design.App
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.extens.no
-import com.shouzhan.design.extens.yes
 
 
 /**
@@ -20,19 +19,29 @@ import com.shouzhan.design.extens.yes
  */
 abstract class LazyFragment : Fragment(), BaseViewPresenter {
 
-    protected var isInitView = false
-    private var isFirstVisible = true
+    protected lateinit var mContext: Context
     private var mRootView: View? = null
 
-    protected lateinit var mContext: Context
+    /**
+     * View 的初始化状态，只有初始化完毕才加载数据
+     */
+    private var isViewInitiated: Boolean = false
+
+    /**
+     * View 是否可见，只有可见时加载数据
+     */
+    private var isVisibleToUser: Boolean = false
+
+    /**
+     * 数据是否已经初始化，避免重复请求数据
+     */
+    private var isDataInitiated: Boolean = false
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         logE("@@@setUserVisibleHint@@@===>${javaClass.simpleName} = $isVisibleToUser")
-        (isVisibleToUser && isInitView && isFirstVisible).yes {
-            getData()
-            isInitView = false
-        }
+        this.isVisibleToUser = isVisibleToUser
+        this.prepareFetchData()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,13 +59,24 @@ abstract class LazyFragment : Fragment(), BaseViewPresenter {
         super.onActivityCreated(savedInstanceState)
         logE("@@@onActivityCreated@@@")
         mContext = activity ?: throw Exception("activity 为null")
-        isInitView.no {
+        isViewInitiated.no {
             initView()
-            isInitView = true
+            isViewInitiated = true
         }
-        userVisibleHint.yes {
+        prepareFetchData()
+    }
+
+    /**
+     * 准备加载数据，只有在视图初始化完毕，Fragment 可见且数据未初始化的时候才去加载数据。
+     * */
+    private fun prepareFetchData() {
+        logE("prepareFetchData: " +
+                "isViewInitiated = $isViewInitiated, " +
+                "isVisibleToUser = $isVisibleToUser, " +
+                "isDataInitiated = $isDataInitiated")
+        if (isViewInitiated && isVisibleToUser && !isDataInitiated) {
+            isDataInitiated = true
             getData()
-            isFirstVisible = false
         }
     }
 
@@ -93,9 +113,15 @@ abstract class LazyFragment : Fragment(), BaseViewPresenter {
 
     override fun onDestroyView() {
         logE("@@@onDestroyView@@@")
-        (mRootView!!.parent as ViewGroup).removeView(mRootView)
+        mRootView?.let {
+            (it.parent as ViewGroup).removeView(mRootView)
+        }
         super.onDestroyView()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        logE("@@@onDestroy@@@")
+    }
 
 }

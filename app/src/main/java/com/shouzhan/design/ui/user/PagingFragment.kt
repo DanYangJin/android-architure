@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserPagingAdapter
 import com.shouzhan.design.base.LazyFragment
-import com.shouzhan.design.extens.yes
 import com.shouzhan.design.ui.user.model.remote.result.UserListResult
 import com.shouzhan.design.ui.user.viewmodel.UserPagingViewModel
 import kotlinx.android.synthetic.main.fragment_paging.*
@@ -22,16 +21,8 @@ class PagingFragment : LazyFragment() {
     }
 
     companion object {
-        private var instance: PagingFragment? = null
-            get() {
-                if (field == null) {
-                    field = PagingFragment()
-                }
-                return field
-            }
-
         fun get(): PagingFragment {
-            return instance!!
+            return PagingFragment()
         }
     }
 
@@ -51,12 +42,6 @@ class PagingFragment : LazyFragment() {
         swipe_refresh_layout.setOnRefreshListener {
             getData()
             swipe_refresh_layout.isRefreshing = false
-        }
-    }
-
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        (isVisibleToUser && isInitView).yes {
-            getData()
         }
     }
 

@@ -8,8 +8,6 @@ import android.support.multidex.MultiDex;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.shouzhan.design.compontent.recyclerview.FsRecyclerView;
-import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewGlobalConfig;
 import com.shouzhan.design.datasource.local.Prefs;
 import com.shouzhan.design.ui.h5.CommonH5Activity;
 import com.shouzhan.design.utils.Constants;
@@ -28,12 +26,6 @@ import me.jessyan.autosize.unit.Subunits;
 public class App extends Application {
 
     private static App INSTANCE = null;
-
-    static {
-        FsRecyclerViewGlobalConfig config = new FsRecyclerViewGlobalConfig();
-        config.setGlobalNetErrorEnabled(true);
-        FsRecyclerView.setGlobalConfig(config);
-    }
 
     @Override
     public void onCreate() {

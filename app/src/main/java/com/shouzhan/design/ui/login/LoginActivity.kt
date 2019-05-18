@@ -36,7 +36,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel!!.loginResult.observe(this, Observer { loginResult ->
+        viewModel.loginResult.observe(this, Observer { loginResult ->
             Log.e(TAG, "onChanged: " + loginResult!!.toString())
             Prefs.addStringPreference(PrefConstants.ACCESS_TOKEN, loginResult!!.accessToken)
             finish()

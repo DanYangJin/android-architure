@@ -77,4 +77,12 @@ public interface IRefreshHeader {
      * @return
      */
     int getType();
+
+    /**
+     * 获取测量高度
+     *
+     * @return
+     */
+    int getRealMeasuredHeight();
+
 }

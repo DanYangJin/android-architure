@@ -20,11 +20,6 @@ import android.view.ViewParent;
 public class FsRecyclerView extends RecyclerView {
 
     /**
-     * 全局配置
-     */
-    private static FsRecyclerViewGlobalConfig mGlobalConfig = new FsRecyclerViewGlobalConfig();
-
-    /**
      * 触发在上下滑动监听器的容差距离
      */
     private static final int HIDE_THRESHOLD = 20;
@@ -37,38 +32,37 @@ public class FsRecyclerView extends RecyclerView {
      */
     private static final float DRAG_RATE = 2.0f;
 
-    private boolean mPullRefreshEnabled = mGlobalConfig.mGlobalPullRefreshEnabled;
+    private boolean mPullRefreshEnabled = true;
     private boolean mRefreshingData = false;
 
-    private boolean mLoadMoreEnabled = mGlobalConfig.mGlobalLoadMoreEnabled;
+    private boolean mLoadMoreEnabled = true;
     private boolean mLoadingData = false;
 
-    private OnRefreshListener mRefreshListener;
-    private OnLoadMoreListener mLoadMoreListener;
+    private OnLoadRefreshListener mLoadRefreshListener;
     private OnScrollListener mScrollListener;
     private IRefreshHeader mRefreshHeader;
     private ILoadMoreFooter mLoadMoreFooter;
     /**
      * 设置空视图
      */
-    private View mEmptyView = mGlobalConfig.mGlobalEmptyView;
+    private View mEmptyView = null;
     /**
      * 设置底部上拉加载布局
      */
-    private View mFootView = mGlobalConfig.mGlobalFooterView;
+    private View mFootView = null;
     /**
      * 设置顶部上拉加载布局
      */
-    private View mHeadView = mGlobalConfig.mGlobalHeaderView;
+    private View mHeadView = null;
 
     /**
-     * 设置无网络布局
+     * 设置错误布局
      */
-    private View mNetErrorView = mGlobalConfig.mGlobalNetErrorView;
+    private View mErrorView = null;
     /**
-     * 是否嵌入无网络布局
+     * 是否显示错误布局
      */
-    private boolean mNetErrorEnabled = mGlobalConfig.mGlobalNetErrorEnabled;
+    private boolean mErrorEnabled = false;
 
     private final RecyclerView.AdapterDataObserver mDataObserver = new DataObserver();
     private int mActivePointerId;
@@ -161,6 +155,7 @@ public class FsRecyclerView extends RecyclerView {
                 setLoadMoreFooter(new LoadingFooter(getContext()));
             }
         }
+
     }
 
     @Override
@@ -184,8 +179,8 @@ public class FsRecyclerView extends RecyclerView {
         @Override
         public void onChanged() {
             Adapter<?> adapter = getAdapter();
-            if (mNetErrorEnabled && mNetErrorView != null) {
-                showNetErrorView();
+            if (mErrorEnabled && mErrorView != null) {
+                showErrorView();
             } else {
                 if (adapter instanceof FsRecyclerViewAdapter) {
                     FsRecyclerViewAdapter lRecyclerViewAdapter = (FsRecyclerViewAdapter) adapter;
@@ -330,10 +325,10 @@ public class FsRecyclerView extends RecyclerView {
                 mActivePointerId = -1;
                 if (isOnTop() && mPullRefreshEnabled && !mRefreshingData) {
                     if (mRefreshHeader != null && mRefreshHeader.onRelease()) {
-                        if (mRefreshListener != null) {
+                        if (mLoadRefreshListener != null) {
                             mRefreshingData = true;
                             mFootView.setVisibility(GONE);
-                            mRefreshListener.onRefresh();
+                            mLoadRefreshListener.onRefresh();
                         }
                     }
                 }
@@ -423,12 +418,13 @@ public class FsRecyclerView extends RecyclerView {
         mHeadView = mRefreshHeader.getHeaderView();
         mHeadView.setVisibility(VISIBLE);
 
-        //wxm:mFootView inflate的时候没有以RecyclerView为parent，所以要设置LayoutParams
+        //wxm:mHeaderView inflate的时候没有以RecyclerView为parent，所以要设置LayoutParams
         ViewGroup.LayoutParams layoutParams = mHeadView.getLayoutParams();
         if (layoutParams != null) {
             mHeadView.setLayoutParams(new LayoutParams(layoutParams));
         } else {
-            mHeadView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            mHeadView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT));
         }
     }
 
@@ -464,7 +460,8 @@ public class FsRecyclerView extends RecyclerView {
         if (layoutParams != null) {
             mFootView.setLayoutParams(new LayoutParams(layoutParams));
         } else {
-            mFootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            mFootView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+                    LayoutParams.WRAP_CONTENT));
         }
     }
 
@@ -490,22 +487,27 @@ public class FsRecyclerView extends RecyclerView {
         if (mEmptyView != null) {
             mEmptyView.setVisibility(View.VISIBLE);
         }
-        if (mNetErrorView != null) {
-            mNetErrorView.setVisibility(View.GONE);
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.GONE);
         }
         setVisibility(View.GONE);
     }
 
-    public void setNetErrorEnabled(boolean enabled) {
-        this.mNetErrorEnabled = enabled;
+    public void seErrorEnabled(boolean enabled) {
+        this.mErrorEnabled = enabled;
+        this.mDataObserver.onChanged();
     }
 
-    private void showNetErrorView() {
+    public void setErrorView(View errorView) {
+        this.mErrorView = errorView;
+    }
+
+    private void showErrorView() {
         if (mEmptyView != null) {
             mEmptyView.setVisibility(View.GONE);
         }
-        if (mNetErrorView != null) {
-            mNetErrorView.setVisibility(View.VISIBLE);
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.VISIBLE);
         }
         setVisibility(View.GONE);
     }
@@ -514,22 +516,14 @@ public class FsRecyclerView extends RecyclerView {
         if (mEmptyView != null) {
             mEmptyView.setVisibility(View.GONE);
         }
-        if (mNetErrorView != null) {
-            mNetErrorView.setVisibility(View.GONE);
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.GONE);
         }
         setVisibility(View.VISIBLE);
     }
 
-    public static void setGlobalConfig(FsRecyclerViewGlobalConfig config) {
-        mGlobalConfig = config;
-    }
-
-    public void setOnRefreshListener(OnRefreshListener listener) {
-        mRefreshListener = listener;
-    }
-
-    public void setOnLoadMoreListener(OnLoadMoreListener listener) {
-        mLoadMoreListener = listener;
+    public void setOnLoadRefreshListener(OnLoadRefreshListener listener) {
+        mLoadRefreshListener = listener;
     }
 
     public void setScrollListener(OnScrollListener listener) {
@@ -563,18 +557,18 @@ public class FsRecyclerView extends RecyclerView {
         void onScrollStateChanged(int state);
     }
 
-    public void refresh() {
-        if (mRefreshHeader.getVisibleHeight() > 0 || mRefreshingData) {
+    public void forceToRefresh() {
+        if (mRefreshHeader.getVisibleHeight() > 0 || mRefreshingData || mLoadingData) {
             return;
         }
-        if (mPullRefreshEnabled && mRefreshListener != null) {
+        if (mPullRefreshEnabled && mLoadRefreshListener != null) {
             mRefreshHeader.onRefreshing();
-            int offSet = mRefreshHeader.getHeaderView().getMeasuredHeight();
+            int offSet = mRefreshHeader.getRealMeasuredHeight();
             mRefreshHeader.onMove(offSet, offSet);
             mRefreshingData = true;
 
             mFootView.setVisibility(GONE);
-            mRefreshListener.onRefresh();
+            mLoadRefreshListener.onRefresh();
         }
     }
 
@@ -655,10 +649,10 @@ public class FsRecyclerView extends RecyclerView {
             mScrollListener.onScrollStateChanged(state);
         }
         if (state == RecyclerView.SCROLL_STATE_IDLE) {
-            if (mLoadMoreListener != null && isCanLoadingData && !mLoadingData && !mRefreshingData) {
+            if (mLoadRefreshListener != null && isCanLoadingData && !mLoadingData && !mRefreshingData) {
                 mLoadingData = true;
                 mLoadMoreFooter.onLoading();
-                mLoadMoreListener.onLoadMore();
+                mLoadRefreshListener.onLoadMore();
                 isCanLoadingData = false;
             }
         }

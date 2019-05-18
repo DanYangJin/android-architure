@@ -1,8 +1,8 @@
-package com.shouzhan.design.base;
+package com.shouzhan.design.base
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
-import java.util.List;
+import java.util.List
 
 /**
  * @author danbin

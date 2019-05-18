@@ -168,6 +168,11 @@ public class RefreshHeader extends LinearLayout implements IRefreshHeader {
     }
 
     @Override
+    public int getRealMeasuredHeight() {
+        return mMeasuredHeight;
+    }
+
+    @Override
     public int getType() {
         return TYPE_HEADER_NORMAL;
     }

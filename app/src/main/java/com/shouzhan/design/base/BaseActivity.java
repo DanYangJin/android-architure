@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.shouzhan.design.App;
 import com.shouzhan.design.BR;
@@ -71,12 +70,12 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
     @Override
     public void showEmptyView() {
-        Log.e(TAG, "showEmptyView");
+
     }
 
     @Override
     public void showErrorView() {
-        Log.e(TAG, "showErrorView");
+
     }
 
 }
