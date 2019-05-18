@@ -1,11 +1,11 @@
 package com.shouzhan.design.datasource.http;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.shouzhan.design.BuildConfig;
 import com.shouzhan.design.datasource.http.performance.PerformanceNetProvider;
 import com.shouzhan.design.utils.HttpConstants;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class HttpUtils {
      * 根据不同请求URL, 得到不同的请求Retrofit
      */
     Retrofit getRetrofit(String baseUrl, NetProvider provider) throws Exception {
-        if (StringUtils.isEmpty(baseUrl)) {
+        if (TextUtils.isEmpty(baseUrl)) {
             throw new IllegalAccessException("baseUrl can not be null");
         }
 
@@ -71,7 +71,7 @@ public class HttpUtils {
     }
 
     private OkHttpClient getOkHttpClient(String baseUrl, NetProvider provider) {
-        if (StringUtils.isEmpty(baseUrl)) {
+        if (TextUtils.isEmpty(baseUrl)) {
             throw new IllegalStateException("baseUrl can not be null");
         }
         if (mClientMap.get(baseUrl) != null) {

@@ -1,13 +1,12 @@
 package com.shouzhan.design.utils;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -44,7 +43,7 @@ public class Utils {
      * 格式化JSONString
      */
     public static String toPrettyFormat(String jsonString) {
-        if (StringUtils.isEmpty(jsonString)) {
+        if (TextUtils.isEmpty(jsonString)) {
             return null;
         }
         JsonParser parser = new JsonParser();

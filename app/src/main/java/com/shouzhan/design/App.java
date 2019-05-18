@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.shouzhan.design.callback.impl.CommonActivityLifecycleCallbacks;
 import com.shouzhan.design.datasource.local.Prefs;
 import com.shouzhan.design.ui.h5.CommonH5Activity;
 import com.shouzhan.design.utils.Constants;
@@ -30,6 +31,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        registerActivityLifecycleCallbacks(new CommonActivityLifecycleCallbacks());
         Fresco.initialize(getApplicationContext());
         INSTANCE = this;
         Prefs.init(this);

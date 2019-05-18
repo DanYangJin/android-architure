@@ -1,11 +1,12 @@
 package com.shouzhan.design.datasource.http.loan;
 
+import android.text.TextUtils;
+
 import com.shouzhan.design.datasource.http.RequestHandler;
 import com.shouzhan.design.datasource.http.RequestType;
 import com.shouzhan.design.utils.HttpConstants;
 import com.shouzhan.design.utils.Utils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class LoanRequestHandler implements RequestHandler {
     @Override
     public Request onBeforeRequest(Request request, Interceptor.Chain chain) {
         String method = request.method();
-        if (StringUtils.equals(method, RequestType.POST.name())) {
+        if (TextUtils.equals(method, RequestType.POST.name())) {
             return rebuildPostRequest(request);
         }
         return request;
@@ -76,7 +77,7 @@ public class LoanRequestHandler implements RequestHandler {
         try {
             String prettyFormat = Utils.toPrettyFormat(Utils.bodyToString(oldRequestBody));
             JSONObject jsonObject;
-            if (StringUtils.isEmpty(prettyFormat)) {
+            if (TextUtils.isEmpty(prettyFormat)) {
                 jsonObject = new JSONObject();
             } else {
                 jsonObject = new JSONObject(prettyFormat);

@@ -1,5 +1,7 @@
 package com.shouzhan.design.datasource.http.performance;
 
+import android.util.Log;
+
 import com.shouzhan.design.base.BaseResult;
 
 import io.reactivex.observers.DisposableObserver;
@@ -11,6 +13,7 @@ public abstract class PerformanceApiCallback<T> extends DisposableObserver<BaseR
 
     private static final String TAG = PerformanceApiCallback.class.getSimpleName();
     private static final int SUCCESS_CODE = 200;
+    private static final int TOKEN_EXPIRE_CODE = -105;
 
     @Override
     protected void onStart() {
@@ -19,10 +22,13 @@ public abstract class PerformanceApiCallback<T> extends DisposableObserver<BaseR
 
     @Override
     public void onNext(BaseResult<T> baseResult) {
-        if (baseResult.getResultCode() == SUCCESS_CODE) {
+        int resultCode = baseResult.getResultCode();
+        if (resultCode == SUCCESS_CODE) {
             onSuccess(baseResult.getData());
+        } else if (resultCode == TOKEN_EXPIRE_CODE) {
+
         } else {
-            onFailure(baseResult.getResultMessage(), baseResult.getResultCode());
+            onFailure(baseResult.getResultMessage(), resultCode);
         }
         onFinish();
     }
@@ -34,7 +40,7 @@ public abstract class PerformanceApiCallback<T> extends DisposableObserver<BaseR
      * @param resultCode
      */
     public void onFailure(String resultMsg, int resultCode) {
-//        Log.e(TAG, "onFailure: resultMsg= " + resultMsg + " resultCode= " + resultCode);
+        Log.e(TAG, "onFailure: resultMsg= " + resultMsg + " resultCode= " + resultCode);
     }
 
     /**
