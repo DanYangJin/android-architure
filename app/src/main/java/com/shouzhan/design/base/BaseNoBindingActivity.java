@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.shouzhan.design.App;
+import com.shouzhan.design.R;
 
 /**
  * @author danbin
@@ -16,6 +18,9 @@ import com.shouzhan.design.App;
 public abstract class BaseNoBindingActivity extends AppCompatActivity implements BaseViewPresenter, BaseBindingPresenter {
 
     protected Context mContext;
+
+    private View mEmptyView = null;
+    private View mErrorView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +38,26 @@ public abstract class BaseNoBindingActivity extends AppCompatActivity implements
      * @return
      */
     protected <T extends BaseViewModel> T vmProviders(@NonNull Class<T> modelClass) {
-        return ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass);
+        T viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass);
+        viewModel.observerPageStatus().observe(this, pageStatus -> {
+            switch (pageStatus) {
+                case EMPTY:
+                    showEmptyView();
+                    break;
+                case ERROR:
+                    showEmptyView();
+                    break;
+                default:
+                    break;
+            }
+        });
+        return viewModel;
+    }
+
+    @Override
+    public void initView() {
+        mEmptyView = findViewById(R.id.empty_rl);
+        mErrorView = findViewById(R.id.error_rl);
     }
 
     @Override
@@ -48,12 +72,22 @@ public abstract class BaseNoBindingActivity extends AppCompatActivity implements
 
     @Override
     public void showEmptyView() {
-
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void showErrorView() {
-
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.VISIBLE);
+        }
     }
 
 }

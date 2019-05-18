@@ -1,5 +1,6 @@
 package com.shouzhan.design.base
 
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.view.ViewGroup
 import com.shouzhan.design.App
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.extens.no
+import kotlinx.android.synthetic.main.layout_empty_view.*
+import kotlinx.android.synthetic.main.layout_error_view.*
 
 
 /**
@@ -87,28 +90,42 @@ abstract class LazyFragment : Fragment(), BaseViewPresenter {
      * @return
      */
     protected fun <T : BaseViewModel> vmProviders(@NonNull modelClass: Class<T>): T {
-        return ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        logE("@@@onResume@@@")
+        val viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass)
+        viewModel.observerPageStatus().observe(this, Observer {
+            it?.let { pageStatus ->
+                when (pageStatus) {
+                    BaseViewModel.PageStatus.EMPTY -> showEmptyView()
+                    BaseViewModel.PageStatus.ERROR -> showEmptyView()
+                }
+            }
+        })
+        return viewModel
     }
 
     override fun extraIntentData() {
-        logE("@@@extraIntentData@@@")
+
     }
 
     override fun showLoadingView() {
-        logE("@@@showLoadingView@@@")
+
     }
 
     override fun showEmptyView() {
-        logE("@@@showEmptyView@@@")
+        empty_rl?.let {
+            it.visibility = View.VISIBLE
+        }
+        error_rl?.let {
+            it.visibility = View.GONE
+        }
     }
 
     override fun showErrorView() {
-        logE("@@@showErrorView@@@")
+        empty_rl?.let {
+            it.visibility = View.GONE
+        }
+        error_rl?.let {
+            it.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {

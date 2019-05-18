@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.shouzhan.design.App;
 import com.shouzhan.design.BR;
+import com.shouzhan.design.R;
 
 /**
  * @author danbin
@@ -18,10 +20,11 @@ import com.shouzhan.design.BR;
  */
 public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity implements BaseViewPresenter, BaseBindingPresenter {
 
-    private static final String TAG = BaseActivity.class.getSimpleName();
-
     protected Context mContext;
     protected VB mBinding;
+
+    private View mEmptyView = null;
+    private View mErrorView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +62,12 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     }
 
     @Override
+    public void initView() {
+        mEmptyView = findViewById(R.id.empty_rl);
+        mErrorView = findViewById(R.id.error_rl);
+    }
+
+    @Override
     public void extraIntentData() {
 
     }
@@ -70,12 +79,22 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
     @Override
     public void showEmptyView() {
-
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void showErrorView() {
-
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.VISIBLE);
+        }
     }
 
 }

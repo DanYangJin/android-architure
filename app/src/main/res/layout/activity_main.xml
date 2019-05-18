@@ -24,10 +24,13 @@
             android:id="@+id/head_iv"
             android:layout_width="130dp"
             android:layout_height="130dp"
+            android:layout_gravity="center"
             app:imageUrl="@{vm.headImage}"
-            app:placeholder="@{@drawable/ic_launcher_background}"
-            android:layout_gravity="center"/>
+            app:placeholder="@{@drawable/ic_launcher_background}" />
 
+        <include layout="@layout/layout_empty_view" />
+
+        <include layout="@layout/layout_error_view" />
 
     </android.support.design.widget.CoordinatorLayout>
 
