@@ -8,10 +8,10 @@ import com.jakewharton.rxbinding3.view.clicks
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
-import com.shouzhan.design.datasource.local.Prefs
 import com.shouzhan.design.extens.logE
 import com.shouzhan.design.ui.login.viewmodel.LoginViewModel
 import com.shouzhan.design.utils.PrefConstants
+import com.shouzhan.framework.utils.Prefs
 import kotlinx.android.synthetic.main.activity_login.*
 import java.util.concurrent.TimeUnit
 

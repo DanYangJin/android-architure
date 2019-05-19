@@ -1,7 +1,7 @@
 package com.shouzhan.design.utils;
 
 import com.shouzhan.design.BuildConfig;
-import com.shouzhan.design.datasource.local.Prefs;
+import com.shouzhan.framework.utils.Prefs;
 
 /**
  * @author danbin

@@ -9,10 +9,10 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.shouzhan.design.callback.impl.CommonActivityLifecycleCallbacks;
-import com.shouzhan.design.datasource.local.Prefs;
 import com.shouzhan.design.ui.h5.CommonH5Activity;
 import com.shouzhan.design.utils.Constants;
 import com.shouzhan.design.utils.EnvSwitchKit;
+import com.shouzhan.framework.utils.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,14 +1,12 @@
 package com.shouzhan.design.utils;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,21 +51,6 @@ public class Utils {
         prettyJson = prettyJson
                 .replace("%2C", ",");
         return "{}".equals(prettyJson) ? "" : prettyJson;
-    }
-
-    /**
-     * 关闭流文件
-     *
-     * @param c
-     */
-    public static void silentClose(Closeable c) {
-        if (c != null) {
-            try {
-                c.close();
-            } catch (IOException e) {
-                Log.e(TAG, "" + e.getMessage());
-            }
-        }
     }
 
     /**

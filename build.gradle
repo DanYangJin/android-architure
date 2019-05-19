@@ -9,6 +9,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
         google()
         jcenter()
+        maven { url "https://dl.bintray.com/danyangjin/android-framework" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
