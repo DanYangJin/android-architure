@@ -2,28 +2,34 @@
 
 buildscript {
     ext.kotlin_version = '1.3.11'
-    ext.android_plugin_version = '3.2.0'
+    ext.android_plugin_version = '3.3.2'
+    ext.booster_version = '0.11.0'
 
     repositories {
+        // 首展android repo
+        maven { url "https://nexus-server.51fubei.com/nexus/content/groups/android-public/" }
         maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
         maven { url 'https://jitpack.io' }
         google()
         jcenter()
-        maven { url "https://dl.bintray.com/danyangjin/android-framework" }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$android_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
+        classpath "com.didiglobal.booster:booster-task-all:$booster_version"
+        classpath "com.didiglobal.booster:booster-transform-all:$booster_version"
     }
 }
 
 allprojects {
     repositories {
+        // 首展android repo
+        maven { url "https://nexus-server.51fubei.com/nexus/content/groups/android-public/" }
         maven { url "https://mirrors.huaweicloud.com/repository/maven/" }
         maven { url 'https://jitpack.io' }
         google()
         jcenter()
-        maven { url "https://dl.bintray.com/danyangjin/android-framework" }
     }
 }
 

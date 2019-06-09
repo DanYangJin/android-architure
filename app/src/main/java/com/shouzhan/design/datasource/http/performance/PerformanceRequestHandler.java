@@ -1,8 +1,8 @@
 package com.shouzhan.design.datasource.http.performance;
 
+import com.fshows.android.stark.utils.Prefs;
 import com.shouzhan.design.datasource.http.RequestHandler;
 import com.shouzhan.design.utils.PrefConstants;
-import com.shouzhan.framework.utils.Prefs;
 
 import java.io.BufferedReader;
 import java.io.IOException;

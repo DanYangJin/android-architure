@@ -2,11 +2,11 @@ package com.shouzhan.design.datasource.http.php;
 
 import android.text.TextUtils;
 
+import com.fshows.android.stark.utils.MD5Util;
 import com.shouzhan.design.datasource.http.RequestHandler;
 import com.shouzhan.design.datasource.http.RequestType;
 import com.shouzhan.design.utils.HttpConstants;
 import com.shouzhan.design.utils.Utils;
-import com.shouzhan.framework.utils.MD5Utils;
 
 import org.json.JSONObject;
 
@@ -114,7 +114,7 @@ public class PhpRequestHandler implements RequestHandler {
                 .append("352de3dd930f4f7c6e9eaf8a4365cd36")
                 .append(HttpConstants.KEY);
         LogUtils.e("common_before_sign:" + builder.toString());
-        return MD5Utils.getStringMD5(builder.toString());
+        return MD5Util.getStringMD5(builder.toString());
     }
 
 

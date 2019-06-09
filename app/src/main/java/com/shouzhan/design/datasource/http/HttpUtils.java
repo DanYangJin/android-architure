@@ -81,7 +81,7 @@ public class HttpUtils {
         if (provider.configConnectTimeoutSecs() != 0L) {
             builder.connectTimeout(provider.configConnectTimeoutSecs(), TimeUnit.SECONDS);
         } else {
-            builder.callTimeout(HttpConstants.CONNECT_TIME_OUT_MILLS, TimeUnit.SECONDS);
+            builder.connectTimeout(HttpConstants.CONNECT_TIME_OUT_MILLS, TimeUnit.SECONDS);
         }
         if (provider.configReadTimeoutSecs() != 0L) {
             builder.readTimeout(provider.configReadTimeoutSecs(), TimeUnit.SECONDS);

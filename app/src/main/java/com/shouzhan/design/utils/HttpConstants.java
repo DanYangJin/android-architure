@@ -1,7 +1,7 @@
 package com.shouzhan.design.utils;
 
+import com.fshows.android.stark.utils.Prefs;
 import com.shouzhan.design.BuildConfig;
-import com.shouzhan.framework.utils.Prefs;
 
 /**
  * @author danbin
