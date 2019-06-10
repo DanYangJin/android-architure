@@ -33,10 +33,13 @@ allprojects {
     }
 }
 
+apply plugin: 'com.didiglobal.booster'
+
 ext {
 
 
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
