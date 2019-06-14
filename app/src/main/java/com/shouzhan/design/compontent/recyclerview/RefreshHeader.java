@@ -2,6 +2,7 @@ package com.shouzhan.design.compontent.recyclerview;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.drawable.Animatable;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -11,7 +12,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.facebook.common.util.UriUtil;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.shouzhan.design.R;
+
+import javax.annotation.Nullable;
 
 /**
  *
@@ -24,6 +33,7 @@ public class RefreshHeader extends LinearLayout implements IRefreshHeader {
     private int mState = STATE_NORMAL;
     private int mMeasuredHeight;
     private RelativeLayout mLoadingRl;
+    private SimpleDraweeView mLoadingGif;
 
     public RefreshHeader(Context context) {
         this(context, null);
@@ -42,11 +52,30 @@ public class RefreshHeader extends LinearLayout implements IRefreshHeader {
     private void initView() {
         LayoutInflater.from(mContext).inflate(R.layout.layout_refresh_header, this);
         mLoadingRl = findViewById(R.id.gif_container);
+        mLoadingGif = findViewById(R.id.loading_gif);
+        initDraweeController();
         measure(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mMeasuredHeight = getMeasuredHeight();
         setGravity(Gravity.CENTER_HORIZONTAL);
         setVisibleHeight(0);
         setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
+    private void initDraweeController() {
+        DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
+                .setAutoPlayAnimations(false)
+                .setUri(UriUtil.parseUriOrNull("res://" + mContext.getPackageName() + "/" + R.mipmap.refresh_header_iv))
+                .setControllerListener(new BaseControllerListener<ImageInfo>(){
+                    @Override
+                    public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable animatable) {
+                        super.onFinalImageSet(id, imageInfo, animatable);
+                        if (animatable != null) {
+                            animatable.start();
+                        }
+                    }
+                })
+                .build();
+        mLoadingGif.setController(mDraweeController);
     }
 
     public void setState(int state) {
