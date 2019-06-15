@@ -1,4 +1,4 @@
-package com.shouzhan.design.ui.user.model.javabean;
+package com.shouzhan.design.model.javabean;
 
 /**
  * @author danbin

@@ -9,7 +9,7 @@ import com.shouzhan.design.adapter.holder.UserMaleViewHolder;
 import com.shouzhan.design.annotation.UserGenderType;
 import com.shouzhan.design.base.BaseBindingRecyclerViewAdapter;
 import com.shouzhan.design.base.BaseBindingRecyclerViewHolder;
-import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
+import com.shouzhan.design.model.remote.result.UserListResult;
 
 /**
  * @author danbin

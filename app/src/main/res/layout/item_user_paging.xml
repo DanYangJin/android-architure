@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.shouzhan.design.ui.user.model.javabean.DataInfo" />
+            type="com.shouzhan.design.model.javabean.DataInfo" />
     </data>
 
     <android.support.constraint.ConstraintLayout

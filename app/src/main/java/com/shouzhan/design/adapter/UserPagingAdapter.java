@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.shouzhan.design.R;
 import com.shouzhan.design.adapter.holder.UserPagingViewHolder;
-import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
+import com.shouzhan.design.model.remote.result.UserListResult;
 
 /**
  * @author danbin

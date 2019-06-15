@@ -10,7 +10,7 @@
 
         <variable
             name="loginresult"
-            type="com.shouzhan.design.ui.login.model.remote.result.LoginResult" />
+            type="com.shouzhan.design.model.remote.result.LoginResult" />
 
         <variable
             name="presenter"

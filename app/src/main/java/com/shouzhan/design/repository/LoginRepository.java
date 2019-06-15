@@ -1,9 +1,9 @@
 package com.shouzhan.design.repository;
 
 import com.shouzhan.design.datasource.http.ApiService;
-import com.shouzhan.design.ui.login.model.remote.request.LoginRequest;
+import com.shouzhan.design.model.remote.request.LoginRequest;
 import com.shouzhan.design.base.BaseResult;
-import com.shouzhan.design.ui.login.model.remote.result.LoginResult;
+import com.shouzhan.design.model.remote.result.LoginResult;
 
 import io.reactivex.Observable;
 

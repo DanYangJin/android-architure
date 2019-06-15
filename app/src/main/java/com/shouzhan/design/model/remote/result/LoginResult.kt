@@ -1,4 +1,4 @@
-package com.shouzhan.design.ui.login.model.remote.result
+package com.shouzhan.design.model.remote.result
 
 import android.os.Parcel
 import android.os.Parcelable

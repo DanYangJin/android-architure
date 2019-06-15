@@ -4,7 +4,7 @@ import android.view.ViewGroup;
 
 import com.shouzhan.design.base.BaseBindingRecyclerViewHolder;
 import com.shouzhan.design.databinding.ItemUserFemaleBinding;
-import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
+import com.shouzhan.design.model.remote.result.UserListResult;
 
 /**
  * @author danbin

@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserPagingAdapter
 import com.shouzhan.design.base.LazyFragment
-import com.shouzhan.design.ui.user.model.remote.result.UserListResult
+import com.shouzhan.design.model.remote.result.UserListResult
 import com.shouzhan.design.ui.user.viewmodel.UserPagingViewModel
 import kotlinx.android.synthetic.main.fragment_paging.*
 

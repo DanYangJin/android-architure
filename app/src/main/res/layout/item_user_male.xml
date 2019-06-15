@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.shouzhan.design.ui.user.model.remote.result.UserListResult" />
+            type="com.shouzhan.design.model.remote.result.UserListResult" />
     </data>
 
     <android.support.constraint.ConstraintLayout

@@ -1,4 +1,4 @@
-package com.shouzhan.design.ui.user.model.remote.request
+package com.shouzhan.design.model.remote.request
 
 import com.shouzhan.design.base.BasePageRequest
 

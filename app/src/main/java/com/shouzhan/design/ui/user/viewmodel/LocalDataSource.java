@@ -8,7 +8,7 @@ import com.shouzhan.design.base.BasePageResult;
 import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback;
 import com.shouzhan.design.repository.UserListRepository;
-import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
+import com.shouzhan.design.model.remote.result.UserListResult;
 
 /**
  * @author danbin

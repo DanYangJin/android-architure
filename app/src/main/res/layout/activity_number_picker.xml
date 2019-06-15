@@ -11,7 +11,9 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@color/color_fff"
-            />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <com.shouzhan.design.compontent.picker.TimeWheelView
             android:id="@+id/time_wheel_view"

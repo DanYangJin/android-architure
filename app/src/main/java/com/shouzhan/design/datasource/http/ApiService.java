@@ -2,9 +2,9 @@ package com.shouzhan.design.datasource.http;
 
 import com.shouzhan.design.base.BasePageResult;
 import com.shouzhan.design.base.BaseResult;
-import com.shouzhan.design.ui.user.model.remote.result.UserListResult;
-import com.shouzhan.design.ui.login.model.remote.request.LoginRequest;
-import com.shouzhan.design.ui.login.model.remote.result.LoginResult;
+import com.shouzhan.design.model.remote.result.UserListResult;
+import com.shouzhan.design.model.remote.request.LoginRequest;
+import com.shouzhan.design.model.remote.result.LoginResult;
 import com.shouzhan.design.utils.HttpConstants;
 
 import io.reactivex.Observable;

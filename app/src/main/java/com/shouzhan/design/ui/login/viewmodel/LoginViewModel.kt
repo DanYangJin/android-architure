@@ -4,7 +4,7 @@ import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
 import com.shouzhan.design.repository.LoginRepository
-import com.shouzhan.design.ui.login.model.remote.result.LoginResult
+import com.shouzhan.design.model.remote.result.LoginResult
 
 /**
  * @author danbin
