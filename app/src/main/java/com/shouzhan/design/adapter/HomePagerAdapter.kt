@@ -17,7 +17,6 @@ class HomePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     init {
         fragments.add(UserListFragment.get())
         fragments.add(HeaderFragment.get())
-//        fragments.add(PagingFragment.get())
     }
 
     override fun getItem(position: Int): LazyFragment {

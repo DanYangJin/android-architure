@@ -17,13 +17,20 @@ import kotlinx.android.synthetic.main.activity_user.*
  */
 class UserActivity : BaseNoBindingActivity() {
 
+    private var titles = mutableListOf("测试1", "测试2")
+
     override fun getLayoutId(): Int {
         return R.layout.activity_user
     }
 
     override fun initView() {
+        setSupportActionBar(toolbar)
+        home_tab_layout.setupWithViewPager(home_view_pager)
         var adapter = HomePagerAdapter(supportFragmentManager)
         home_view_pager.adapter = adapter
+        repeat(titles.size) {
+            home_tab_layout.getTabAt(it)?.text = titles[it]
+        }
     }
 
     override fun getData() {
