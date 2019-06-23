@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.widget.Toast
-import com.shouzhan.design.BuildConfig
 
 /**
  * @author danbin
@@ -35,10 +33,4 @@ fun <T : Fragment> T.toast(text: CharSequence) {
  */
 fun <T : Fragment> T.toast(@StringRes resId: Int) {
     toast(getString(resId))
-}
-
-fun Any.logE(msg : String?) {
-    if (BuildConfig.DEBUG) {
-        Log.e(javaClass.simpleName, msg)
-    }
 }

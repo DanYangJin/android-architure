@@ -7,7 +7,7 @@ import com.fshows.android.stark.utils.FileCacheUtil
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
-import com.shouzhan.design.extens.toast
+import com.shouzhan.design.extens.logE
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import com.shouzhan.design.utils.Constants
 import com.shouzhan.design.utils.TakePhotoManager
@@ -60,17 +60,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
     }
 
     override fun onTakePath(path: String?) {
+        logE(path)
         Luban.with(this)
             .load(path)
-            .ignoreBy(100)
             .setTargetDir(FileCacheUtil.getFileDirPath(mContext, Constants.DIR_IMAGE_CACHE))
+            .ignoreBy(100)
             .filter { path -> !(StringUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")) }
             .setCompressListener(object : OnCompressListener {
                 override fun onStart() {
                 }
 
                 override fun onSuccess(file: File) {
-                    toast("onTakePath: $" + file.absoluteFile)
+                    viewModel.refreshHeadImage("file://" + file.absolutePath)
                 }
 
                 override fun onError(e: Throwable) {
