@@ -10,14 +10,14 @@ import com.shouzhan.design.compontent.recyclerview.FsLoadRefreshListener
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter
 import com.shouzhan.design.ui.home.MainActivity
 import com.shouzhan.design.ui.user.viewmodel.UserListViewModel
-import kotlinx.android.synthetic.main.fragment_header.*
+import kotlinx.android.synthetic.main.fragment_custom_header.*
 
 /**
  * @author danbin
  * @version HeaderFragment.java, v 0.1 2019-03-02 下午10:36 danbin
  * 自定义下拉头布局
  */
-class HeaderFragment : LazyFragment() {
+class CustomHeaderFragment : LazyFragment() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserListViewModel::class.java)
@@ -32,12 +32,12 @@ class HeaderFragment : LazyFragment() {
     private var mTotalSize = 10
 
     companion object {
-        fun get(): HeaderFragment {
-            return HeaderFragment()
+        fun get(): CustomHeaderFragment {
+            return CustomHeaderFragment()
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.fragment_header
+    override fun getLayoutId(): Int = R.layout.fragment_custom_header
 
     override fun initView() {
         mDataAdapter = UserListPinnedAdapter()
