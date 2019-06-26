@@ -1,22 +1,21 @@
 package com.shouzhan.design.datasource.http;
 
 import android.text.TextUtils;
-
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.Gson;
 import com.shouzhan.design.BuildConfig;
 import com.shouzhan.design.datasource.http.performance.PerformanceNetProvider;
 import com.shouzhan.design.utils.HttpConstants;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author danbin
@@ -97,7 +96,9 @@ public class HttpUtils {
         if (handler != null) {
             builder.addInterceptor(new NetInterceptor(handler));
         }
-
+        if (BuildConfig.DEBUG) {
+            builder.addNetworkInterceptor(new StethoInterceptor());
+        }
         ArrayList<Interceptor> interceptors = provider.configInterceptors();
         if (!empty(interceptors)) {
             for (Interceptor interceptor : interceptors) {
