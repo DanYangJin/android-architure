@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import com.shouzhan.design.R;
 import com.shouzhan.design.adapter.holder.UserFemaleViewHolder;
 import com.shouzhan.design.adapter.holder.UserMaleViewHolder;
-import com.shouzhan.design.annotation.UserGenderType;
+import com.shouzhan.design.model.annotation.UserGenderType;
 import com.shouzhan.design.base.BaseBindingRecyclerViewAdapter;
 import com.shouzhan.design.base.BaseBindingRecyclerViewHolder;
 import com.shouzhan.design.model.remote.result.UserListResult;

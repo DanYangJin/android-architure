@@ -1,4 +1,4 @@
-package com.shouzhan.design.annotation;
+package com.shouzhan.design.model.annotation;
 
 /**
  * @author danbin
