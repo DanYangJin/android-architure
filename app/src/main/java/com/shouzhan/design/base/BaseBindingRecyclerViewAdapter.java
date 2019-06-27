@@ -2,8 +2,6 @@ package com.shouzhan.design.base;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-
 import com.shouzhan.design.BR;
 
 import java.util.ArrayList;
@@ -68,7 +66,6 @@ public abstract class BaseBindingRecyclerViewAdapter<T>  extends RecyclerView.Ad
      * @return true or false
      */
     public boolean isPinnedPosition(int position) {
-        Log.e(TAG, "isPinnedPosition: " + position);
         return false;
     }
 

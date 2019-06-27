@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+
+    <TextView
+            android:id="@+id/category_name"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="哈哈哈"
+            android:textSize="28sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:background="@android:color/black"/>
+
+
+</layout>
+
+
