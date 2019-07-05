@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.fshows.android.stark.utils.FileCacheUtil
+import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
@@ -33,7 +34,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
     }
 
     override fun getLayoutId(): Int {
-        return com.shouzhan.design.R.layout.activity_main
+        return R.layout.activity_main
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

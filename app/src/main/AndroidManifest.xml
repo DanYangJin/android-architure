@@ -18,17 +18,20 @@
 
         <activity
                 android:name="com.shouzhan.design.ui.home.MainActivity"
-                android:screenOrientation="portrait"></activity>
+                android:screenOrientation="portrait"/>
 
         <activity
                 android:name="com.shouzhan.design.ui.user.UserActivity"
                 android:screenOrientation="portrait"
                 android:theme="@style/NoActionBarTheme">
-        </activity>
 
-        <activity
-                android:name="com.shouzhan.design.ui.home.NumberPickerActivity"
-                android:screenOrientation="portrait"/>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity>
 
         <activity
                 android:name="com.shouzhan.design.ui.login.LoginActivity"
@@ -41,13 +44,12 @@
         <activity
                 android:name="com.shouzhan.design.ui.home.ProductListActivity"
                 android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
+        <activity
+                android:name="com.shouzhan.design.ui.home.DatePickerActivity"
+                android:screenOrientation="portrait">
+        </activity>
 
         <provider
                 android:name="android.support.v4.content.FileProvider"
