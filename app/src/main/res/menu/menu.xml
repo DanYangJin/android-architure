@@ -3,4 +3,6 @@
 
     <item android:id="@+id/id_login" android:title="登录"/>
 
+    <item android:id="@+id/id_flex_layout" android:title="FlexLayout"/>
+
 </menu>

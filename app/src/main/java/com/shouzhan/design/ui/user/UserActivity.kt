@@ -7,6 +7,7 @@ import android.view.View
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseNoBindingActivity
+import com.shouzhan.design.ui.home.FlexboxActivity
 import com.shouzhan.design.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_user.*
 
@@ -46,6 +47,9 @@ class UserActivity : BaseNoBindingActivity() {
         when(item!!.itemId) {
             R.id.id_login -> {
                 startActivity(Intent(mContext, LoginActivity::class.java))
+            }
+            R.id.id_flex_layout -> {
+                startActivity(Intent(mContext, FlexboxActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)
