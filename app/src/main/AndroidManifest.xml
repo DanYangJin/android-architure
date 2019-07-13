@@ -43,18 +43,14 @@
 
         <activity
                 android:name="com.shouzhan.design.ui.home.ProductListActivity"
-                android:screenOrientation="portrait">
-        </activity>
+                android:screenOrientation="portrait"/>
 
         <activity
                 android:name="com.shouzhan.design.ui.home.DatePickerActivity"
-                android:screenOrientation="portrait">
-        </activity>
+                android:screenOrientation="portrait"/>
 
         <activity
-                android:name="com.shouzhan.design.ui.home.FlexboxActivity"
-                android:screenOrientation="portrait">
-        </activity>
+                android:name="com.shouzhan.design.ui.home.FlexboxActivity"/>
 
         <provider
                 android:name="android.support.v4.content.FileProvider"
