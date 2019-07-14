@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 
 /**
  * @author danbin
- * @version AppComponent.java, v 0.1 2019-02-24 下午4:19 danbin
+ * @version AppComponent.java, v 0.1 2019-07-14 13:20 danbin
  */
 @Singleton
 @Component(modules = {
@@ -31,12 +31,17 @@ public interface AppComponent {
         Builder application(Application application);
 
         /**
-         * 构造器
+         * build
          *
          * @return
          */
         AppComponent build();
     }
 
+    /**
+     * build
+     *
+     * @param app
+     */
     void inject(App app);
 }

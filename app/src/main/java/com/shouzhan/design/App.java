@@ -32,8 +32,9 @@ import java.util.List;
 public class App extends Application implements HasActivityInjector {
 
     private static App INSTANCE = null;
+
     @Inject
-    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+    DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
 
     @Override
     public void onCreate() {
@@ -85,6 +86,6 @@ public class App extends Application implements HasActivityInjector {
 
     @Override
     public AndroidInjector<Activity> activityInjector() {
-        return dispatchingAndroidInjector;
+        return dispatchingActivityInjector;
     }
 }

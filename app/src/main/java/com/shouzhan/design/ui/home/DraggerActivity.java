@@ -1,13 +1,13 @@
 package com.shouzhan.design.ui.home;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import com.fshows.android.stark.utils.FsLogUtil;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityDraggerBinding;
-import com.shouzhan.design.ui.home.viewmodel.DraggerViewModel;
+import com.shouzhan.design.model.javabean.Student;
 
 import javax.inject.Inject;
 
@@ -18,10 +18,10 @@ import javax.inject.Inject;
  */
 public class DraggerActivity extends BaseActivity<ActivityDraggerBinding> {
 
-    @Inject
-    ViewModelProvider.AndroidViewModelFactory viewModelFactory;
+    private static final String TAG = DraggerActivity.class.getSimpleName();
 
-    private DraggerViewModel viewModel;
+    @Inject
+    Student mStudent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +41,7 @@ public class DraggerActivity extends BaseActivity<ActivityDraggerBinding> {
 
     @Override
     public void getData() {
-        viewModel = viewModelFactory.create(DraggerViewModel.class);
-        viewModel.requestHomeData();
+        FsLogUtil.error(TAG, mStudent.name);
     }
 
 }

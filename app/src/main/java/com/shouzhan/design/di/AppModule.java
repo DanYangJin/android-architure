@@ -1,31 +1,20 @@
 package com.shouzhan.design.di;
 
-import android.arch.lifecycle.ViewModelProvider;
-import com.shouzhan.design.datasource.http.ApiService;
+import com.shouzhan.design.model.javabean.Student;
 import dagger.Module;
 import dagger.Provides;
 
-import javax.inject.Singleton;
 
 /**
  * @author danbin
- * @version AppModule.java, v 0.1 2019-02-24 下午4:05 danbin
+ * @version AppModule.java, v 0.1 2019-07-14 13:20 danbin
  */
 @Module
 class AppModule {
 
-    @Singleton
     @Provides
-    ApiService provideApiService() {
-        return ApiService.Builder.getJavaPerformanceServer();
+    static Student provideStudent() {
+        return new Student();
     }
-
-    @Singleton
-    @Provides
-    ViewModelProvider.Factory provideViewModelFactory(
-            ViewModelSubComponent.Builder viewModelSubComponent) {
-        return new ViewModelsFactory(viewModelSubComponent.build());
-    }
-
 
 }

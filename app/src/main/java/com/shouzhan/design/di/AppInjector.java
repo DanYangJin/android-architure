@@ -13,13 +13,10 @@ import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * @author danbin
- * @version AppInjector.java, v 0.1 2019-02-24 下午4:19 danbin
+ * @version AppInjector.java, v 0.1 2019-07-14 13:20 danbin
  */
 public class AppInjector {
-
-    private AppInjector() {
-
-    }
+    private AppInjector() {}
 
     public static void init(App app) {
         DaggerAppComponent.builder().application(app)
@@ -81,5 +78,4 @@ public class AppInjector {
                             }, true);
         }
     }
-
 }
