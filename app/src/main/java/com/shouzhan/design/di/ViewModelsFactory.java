@@ -4,7 +4,6 @@ package com.shouzhan.design.di;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.util.ArrayMap;
-import com.shouzhan.design.App;
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel;
 
 import javax.inject.Inject;
@@ -17,13 +16,12 @@ import java.util.concurrent.Callable;
  * @version ViewModelsFactory.java, v 0.1 2019-02-24 下午4:19 danbin
  */
 @Singleton
-public class ViewModelsFactory extends ViewModelProvider.AndroidViewModelFactory {
+public class ViewModelsFactory implements ViewModelProvider.Factory {
 
     private final ArrayMap<Class, Callable<? extends ViewModel>> creators;
 
     @Inject
     public ViewModelsFactory(ViewModelSubComponent viewModelSubComponent) {
-        super(App.getInstance());
         creators = new ArrayMap<>();
         // View models cannot be injected directly because they won't be bound to the owner's view model scope.
         creators.put(MainViewModel.class, () -> viewModelSubComponent.homeViewModel());

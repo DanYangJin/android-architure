@@ -1,8 +1,9 @@
 package com.shouzhan.design.ui.home.viewmodel;
 
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import androidx.annotation.NonNull;
 import com.fshows.android.stark.utils.FsLogUtil;
-import com.shouzhan.design.base.BaseViewModel;
-import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback;
 import com.shouzhan.design.repository.DraggerRepository;
 
 import javax.inject.Inject;
@@ -11,29 +12,20 @@ import javax.inject.Inject;
  * @author danbin
  * @version HomeViewModel.java, v 0.1 2019-07-14 08:56 danbin
  */
-public class DraggerViewModel extends BaseViewModel {
+public class DraggerViewModel extends AndroidViewModel {
 
     private static final String TAG = DraggerViewModel.class.getSimpleName();
 
     private DraggerRepository repository;
 
     @Inject
-    public DraggerViewModel(DraggerRepository repository) {
+    public DraggerViewModel(@NonNull DraggerRepository repository, @NonNull Application application) {
+        super(application);
         this.repository = repository;
     }
 
-    public void requestHomeData(int page) {
-        addSubscribe(repository.getUserList(page), new PerformanceApiCallback() {
-            @Override
-            protected void onSuccess(Object data) {
-                FsLogUtil.error(TAG, "requestHomeData");
-            }
-
-            @Override
-            public void onNext(Object o) {
-
-            }
-        });
+    public void requestHomeData() {
+        FsLogUtil.error(TAG, "requestHomeData");
     }
 
 }

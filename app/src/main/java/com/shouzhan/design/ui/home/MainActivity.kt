@@ -54,7 +54,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
 
     override fun onClick(view: View) {
         when(view.id) {
-            com.shouzhan.design.R.id.select_btn -> {
+            R.id.select_btn -> {
                 takePhotoManager.requestPickPhoto()
             }
         }

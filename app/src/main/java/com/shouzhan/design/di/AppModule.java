@@ -22,7 +22,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    ViewModelProvider.AndroidViewModelFactory provideViewModelFactory(
+    ViewModelProvider.Factory provideViewModelFactory(
             ViewModelSubComponent.Builder viewModelSubComponent) {
         return new ViewModelsFactory(viewModelSubComponent.build());
     }
