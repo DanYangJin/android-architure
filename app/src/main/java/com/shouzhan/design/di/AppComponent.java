@@ -1,6 +1,7 @@
 package com.shouzhan.design.di;
 
-import com.shouzhan.design.ui.home.DraggerActivity;
+import com.shouzhan.design.App;
+import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 
@@ -12,16 +13,34 @@ import javax.inject.Singleton;
 @Singleton
 @Component(modules = {
         AndroidInjectionModule.class,
-        AppModule.class
+        AppModule.class,
+        DaggerActivityModule.class
 })
 public interface AppComponent {
+    @Component.Builder
+    interface Builder {
+        /**
+         * application
+         *
+         * @param app
+         * @return
+         */
+        @BindsInstance
+        Builder application(App app);
+
+        /**
+         * build
+         *
+         * @return
+         */
+        AppComponent build();
+    }
 
     /**
      * inject
      *
-     * @param activity
+     * @param app
      * @return
-     * */
-    void inject(DraggerActivity activity);
-
+     */
+    void inject(App app);
 }

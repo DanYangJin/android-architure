@@ -53,7 +53,7 @@
                 android:name="com.shouzhan.design.ui.home.FlexboxActivity"/>
 
         <activity
-                android:name="com.shouzhan.design.ui.home.DraggerActivity"
+                android:name="com.shouzhan.design.ui.home.DaggerActivity"
                 android:screenOrientation="portrait"/>
 
         <provider
