@@ -8,7 +8,7 @@ import dagger.android.ContributesAndroidInjector;
  * @author danbin
  */
 @Module
-public abstract class DaggerActivityModule {
+public abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector()
     abstract DaggerActivity contributeDaggerActivity();
