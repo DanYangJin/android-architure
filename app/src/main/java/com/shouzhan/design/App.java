@@ -1,6 +1,5 @@
 package com.shouzhan.design;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -11,17 +10,12 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.fshows.android.stark.utils.Prefs;
 import com.shouzhan.design.callback.impl.CommonActivityLifecycleCallbacks;
-import com.shouzhan.design.di.AppInjector;
 import com.shouzhan.design.ui.h5.CommonH5Activity;
 import com.shouzhan.design.utils.Constants;
 import com.shouzhan.design.utils.EnvSwitchKit;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +23,9 @@ import java.util.List;
  * @author danbin
  * @version App.java, v 0.1 2019-02-24 下午4:24 danbin
  */
-public class App extends Application implements HasActivityInjector {
+public class App extends Application {
 
     private static App INSTANCE = null;
-
-    @Inject
-    DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
 
     @Override
     public void onCreate() {
@@ -46,7 +37,6 @@ public class App extends Application implements HasActivityInjector {
         Prefs.init(this);
         configUnits();
         initDoraemonKit();
-        AppInjector.init(this);
     }
 
     public static App getInstance() {
@@ -84,8 +74,4 @@ public class App extends Application implements HasActivityInjector {
         MultiDex.install(this);
     }
 
-    @Override
-    public AndroidInjector<Activity> activityInjector() {
-        return dispatchingActivityInjector;
-    }
 }

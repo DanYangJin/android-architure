@@ -7,6 +7,8 @@ import com.fshows.android.stark.utils.FsLogUtil;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityDraggerBinding;
+import com.shouzhan.design.di.AppComponent;
+import com.shouzhan.design.di.DaggerAppComponent;
 import com.shouzhan.design.model.javabean.Student;
 
 import javax.inject.Inject;
@@ -16,16 +18,18 @@ import javax.inject.Inject;
  * @author danbin
  * @version DraggerActivity.java, v 0.1 2019-02-27 上午12:11 danbin
  */
-public class DraggerActivity extends BaseActivity<ActivityDraggerBinding> {
+public class DraggerActivity extends BaseActivity<ActivityDraggerBinding>  {
 
     private static final String TAG = DraggerActivity.class.getSimpleName();
 
     @Inject
-    Student mStudent;
+    public Student mStudent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppComponent component = DaggerAppComponent.builder().build();
+        component.inject(this);
         getData();
     }
 
@@ -41,7 +45,8 @@ public class DraggerActivity extends BaseActivity<ActivityDraggerBinding> {
 
     @Override
     public void getData() {
-        FsLogUtil.error(TAG, mStudent.name);
+        FsLogUtil.error(TAG, "stu: " + mStudent.name);
     }
+
 
 }
