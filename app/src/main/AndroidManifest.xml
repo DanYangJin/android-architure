@@ -52,6 +52,10 @@
         <activity
                 android:name="com.shouzhan.design.ui.home.FlexboxActivity"/>
 
+        <activity
+                android:name="com.shouzhan.design.ui.home.DraggerActivity"
+                android:screenOrientation="portrait"/>
+
         <provider
                 android:name="android.support.v4.content.FileProvider"
                 android:authorities="${applicationId}.fileprovider"

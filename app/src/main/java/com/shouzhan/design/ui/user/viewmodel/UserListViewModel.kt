@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BasePageResult
 import com.shouzhan.design.base.BaseViewModel
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
-import com.shouzhan.design.repository.UserListRepository
 import com.shouzhan.design.model.remote.result.UserListResult
+import com.shouzhan.design.repository.UserListRepository
 
 
 /**
@@ -16,7 +16,8 @@ class UserListViewModel : BaseViewModel() {
 
     private val userListResult = MutableLiveData<BasePageResult<UserListResult>>()
 
-    private var userRepository: UserListRepository = UserListRepository()
+    private var userRepository: UserListRepository =
+        UserListRepository()
 
     fun observerUserListResult(): MutableLiveData<BasePageResult<UserListResult>> {
         return userListResult
