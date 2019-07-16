@@ -20,7 +20,7 @@ package com.shouzhan.design.base;
  * @author danbin
  * @version BasePresenter.java, v 0.1 2019-01-23 上午5:26 danbin
  */
-public interface BasePresenter<V extends BaseView, VM extends BaseViewModel> {
+public interface BasePresenter<V extends BaseView> {
 
     /**
      * Binds presenter with a view when resumed. The Presenter will perform initialization here.
@@ -34,10 +34,4 @@ public interface BasePresenter<V extends BaseView, VM extends BaseViewModel> {
      */
     void dropView();
 
-    /**
-     * Binds presenter with a view when resumed. The Presenter will perform initialization here.
-     *
-     * @param vm the view associated with this presenter
-     */
-    void takeViewModel(VM vm);
 }

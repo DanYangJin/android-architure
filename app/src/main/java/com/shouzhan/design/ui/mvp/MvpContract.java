@@ -13,7 +13,7 @@ public interface MvpContract {
 
     }
 
-    interface Presenter extends BasePresenter<View, MvpViewModel> {
+    interface Presenter extends BasePresenter<View> {
 
     }
 
