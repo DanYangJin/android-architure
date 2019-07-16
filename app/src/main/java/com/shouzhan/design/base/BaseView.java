@@ -22,4 +22,14 @@ package com.shouzhan.design.base;
  */
 public interface BaseView<T> {
 
+    /**
+     * 显示网络请求loading
+     */
+    void showLoading();
+
+    /**
+     * 隐藏网络请求loading
+     */
+    void hideLoading();
+
 }
