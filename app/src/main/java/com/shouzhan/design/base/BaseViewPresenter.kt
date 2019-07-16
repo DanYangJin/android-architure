@@ -4,7 +4,8 @@ import android.support.annotation.LayoutRes
 
 /**
  * @author danbin
- * @version BaseImpl.java, v 0.1 2019-01-23 上午5:26 danbin
+ * @version BaseViewPresenter.java, v 0.1 2019-01-23 上午5:26 danbin
+ * 控制器通用Presenter
  */
 interface BaseViewPresenter {
 
