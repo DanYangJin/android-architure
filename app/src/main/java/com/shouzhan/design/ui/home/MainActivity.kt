@@ -8,7 +8,9 @@ import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
+import com.shouzhan.design.datasource.db.UserRoomDatabase
 import com.shouzhan.design.extens.logE
+import com.shouzhan.design.model.db.User
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import com.shouzhan.design.utils.Constants
 import com.shouzhan.design.utils.TakePhotoManager
@@ -33,6 +35,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
         TakePhotoManager(this, this)
     }
 
+    private val userRoomDatabase by lazy(LazyThreadSafetyMode.NONE) {
+        UserRoomDatabase.getInstance(mContext);
+    }
+
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
@@ -50,6 +56,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
 
     override fun getData() {
         viewModel.refreshHeadImage("https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1551108895&di=745684775de1e4b78f063fd0785ea90f&src=http://pic5.nipic.com/20100127/2177138_082501971985_2.jpg")
+        var user = User()
+        user.id = 1
+        user.name = "danyangjin"
+        user.password = "123456"
+        user.school = "hahahah "
+        userRoomDatabase.userDao().insert(user)
+        var userList = userRoomDatabase.userDao().userList
     }
 
     override fun onClick(view: View) {

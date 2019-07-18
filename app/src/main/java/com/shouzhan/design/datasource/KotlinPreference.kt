@@ -1,4 +1,4 @@
-package com.shouzhan.design.datasource.local
+package com.shouzhan.design.datasource
 
 import android.annotation.SuppressLint
 import android.content.Context
