@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.IKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
 import com.fshows.android.stark.utils.Prefs;
@@ -14,7 +13,6 @@ import com.shouzhan.design.callback.impl.CommonActivityLifecycleCallbacks;
 import com.shouzhan.design.di.AppInjector;
 import com.shouzhan.design.ui.h5.CommonH5Activity;
 import com.shouzhan.design.utils.Constants;
-import com.shouzhan.design.utils.EnvSwitchKit;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
@@ -22,8 +20,6 @@ import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author danbin
@@ -60,9 +56,7 @@ public class App extends Application implements HasActivityInjector {
     }
 
     private void initDoraemonKit() {
-        List<IKit> selfKits = new ArrayList<>();
-        selfKits.add(new EnvSwitchKit());
-        DoraemonKit.install(this, selfKits);
+        DoraemonKit.install(this);
         DoraemonKit.setWebDoorCallback((context, url) -> {
                     Intent intent = new Intent(App.this, CommonH5Activity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
