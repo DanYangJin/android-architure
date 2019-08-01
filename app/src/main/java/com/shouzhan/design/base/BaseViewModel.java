@@ -2,9 +2,7 @@ package com.shouzhan.design.base;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-
 import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
-
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -15,14 +13,9 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class BaseViewModel extends ViewModel {
 
-    public enum PageStatus {
-        /***/
-        EMPTY, ERROR
-    }
+    public MutableLiveData<ControllerStatus> pageStatus = new MutableLiveData<>();
 
-    public MutableLiveData<PageStatus> pageStatus = new MutableLiveData<>();
-
-    public MutableLiveData<PageStatus> observerPageStatus() {
+    public MutableLiveData<ControllerStatus> observerPageStatus() {
         return pageStatus;
     }
 

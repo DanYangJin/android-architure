@@ -7,7 +7,7 @@ import android.support.annotation.LayoutRes
  * @version BaseViewPresenter.java, v 0.1 2019-01-23 上午5:26 danbin
  * 控制器通用Presenter
  */
-interface BaseViewPresenter {
+interface BaseControllerPresenter {
 
     /**
      * 获取布局
@@ -46,4 +46,9 @@ interface BaseViewPresenter {
     fun showErrorView()
 
 
+}
+
+enum class ControllerStatus {
+    EMPTY,
+    ERROR
 }

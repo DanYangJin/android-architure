@@ -9,12 +9,19 @@ import com.shouzhan.design.base.BaseView;
  */
 public interface MvpContract {
 
-    interface View extends BaseView<Presenter> {
-
+    interface View extends BaseView {
+        /**
+         * 更新标题
+         * @param title
+         * */
+        void updateTitleBar(String title);
     }
 
-    interface Presenter extends BasePresenter<View> {
-
+    interface Presenter extends BasePresenter<MvpContract.View> {
+        /**
+         * 点击切换标题按钮
+         * */
+        void switchTitle();
     }
 
 }

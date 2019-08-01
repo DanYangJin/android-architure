@@ -15,7 +15,7 @@ import com.shouzhan.design.R;
  * @author danbin
  * @version BaseActivity.java, v 0.1 2019-02-26 下午11:23 danbin
  */
-public abstract class BaseNoBindingActivity extends AppCompatActivity implements BaseViewPresenter, BaseBindingPresenter {
+public abstract class BaseNoBindingActivity extends AppCompatActivity implements BaseControllerPresenter, BaseBindingPresenter {
 
     protected Context mContext;
 

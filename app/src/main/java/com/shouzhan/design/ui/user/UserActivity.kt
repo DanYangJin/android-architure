@@ -7,9 +7,9 @@ import android.view.View
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseNoBindingActivity
-import com.shouzhan.design.ui.home.DaggerActivity
 import com.shouzhan.design.ui.home.FlexboxActivity
 import com.shouzhan.design.ui.login.LoginActivity
+import com.shouzhan.design.ui.mvp.MvpActivity
 import kotlinx.android.synthetic.main.activity_user.*
 
 /**
@@ -53,7 +53,7 @@ class UserActivity : BaseNoBindingActivity() {
                 startActivity(Intent(mContext, FlexboxActivity::class.java))
             }
             R.id.id_dragger -> {
-                startActivity(Intent(mContext, DaggerActivity::class.java))
+                startActivity(Intent(mContext, MvpActivity::class.java))
             }
         }
         return super.onOptionsItemSelected(item)

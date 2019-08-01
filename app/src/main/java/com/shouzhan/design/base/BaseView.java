@@ -20,16 +20,7 @@ package com.shouzhan.design.base;
  * @author danbin
  * @version BaseView.java, v 0.1 2019-01-23 上午5:26 danbin
  */
-public interface BaseView<T> {
+public interface BaseView<P> {
 
-    /**
-     * 显示网络请求loading
-     */
-    void showLoading();
-
-    /**
-     * 隐藏网络请求loading
-     */
-    void hideLoading();
 
 }

@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.layout_error_view.*
  * @author danbin
  * @version LazyFragment.java, v 0.1 2019-02-26 下午10:49 danbin
  */
-abstract class LazyFragment : Fragment(), BaseViewPresenter {
+abstract class LazyFragment : Fragment(), BaseControllerPresenter {
 
     protected lateinit var mContext: Context
     private var mRootView: View? = null
@@ -94,8 +94,8 @@ abstract class LazyFragment : Fragment(), BaseViewPresenter {
         viewModel.observerPageStatus().observe(this, Observer {
             it?.let { pageStatus ->
                 when (pageStatus) {
-                    BaseViewModel.PageStatus.EMPTY -> showEmptyView()
-                    BaseViewModel.PageStatus.ERROR -> showEmptyView()
+                    ControllerStatus.EMPTY -> showEmptyView()
+                    ControllerStatus.ERROR -> showEmptyView()
                 }
             }
         })
@@ -134,11 +134,6 @@ abstract class LazyFragment : Fragment(), BaseViewPresenter {
             (it.parent as ViewGroup).removeView(mRootView)
         }
         super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        logE("@@@onDestroy@@@")
     }
 
 }

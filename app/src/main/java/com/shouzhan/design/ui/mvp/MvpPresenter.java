@@ -10,15 +10,26 @@ public class MvpPresenter implements MvpContract.Presenter {
 
     @Nullable
     private MvpContract.View mvpView;
+//    @Nullable
+//    private MvpViewModel mvpViewModel;
+//
+//    public MvpPresenter(MvpViewModel mvpViewModel) {
+//        this.mvpViewModel = mvpViewModel;
+//    }
 
     @Override
-    public void takeView(MvpContract.View view) {
+    public void bindView(MvpContract.View view) {
         this.mvpView = view;
     }
 
     @Override
-    public void dropView() {
-        this.mvpView = null;
+    public void destroy() {
+
+    }
+
+    @Override
+    public void switchTitle() {
+        mvpView.updateTitleBar("飞飞飞");
     }
 
 }
