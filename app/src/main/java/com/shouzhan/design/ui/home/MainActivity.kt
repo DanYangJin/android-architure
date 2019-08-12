@@ -2,15 +2,13 @@ package com.shouzhan.design.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import com.fshows.android.stark.utils.FileCacheUtil
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
-import com.shouzhan.design.extens.logE
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
-import com.shouzhan.design.utils.Constants
 import com.shouzhan.design.utils.TakePhotoManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.apache.commons.lang3.StringUtils
@@ -61,21 +59,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
     }
 
     override fun onTakePath(path: String?) {
-        logE(path)
+        Log.e("Catch", "onTakePath: $path")
         Luban.with(this)
             .load(path)
-            .setTargetDir(FileCacheUtil.getFileDirPath(mContext, Constants.DIR_IMAGE_CACHE))
             .ignoreBy(100)
             .filter { path -> !(StringUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")) }
             .setCompressListener(object : OnCompressListener {
                 override fun onStart() {
+                    Log.e("Catch", "onStart")
                 }
 
                 override fun onSuccess(file: File) {
+                    Log.e("Catch", "onSuccess")
                     viewModel.refreshHeadImage("file://" + file.absolutePath)
                 }
 
                 override fun onError(e: Throwable) {
+                    Log.e("Catch", "onError: " + e.message)
                 }
             }).launch()
     }
