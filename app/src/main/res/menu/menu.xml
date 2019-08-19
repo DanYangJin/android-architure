@@ -7,4 +7,6 @@
 
     <item android:id="@+id/id_dragger" android:title="Dragger"/>
 
+    <item android:id="@+id/id_reflection" android:title="反射"/>
+
 </menu>
