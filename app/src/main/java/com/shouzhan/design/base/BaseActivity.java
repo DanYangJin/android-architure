@@ -51,9 +51,6 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
                 case EMPTY:
                     showEmptyView();
                     break;
-                case ERROR:
-                    showEmptyView();
-                    break;
                 default:
                     break;
             }

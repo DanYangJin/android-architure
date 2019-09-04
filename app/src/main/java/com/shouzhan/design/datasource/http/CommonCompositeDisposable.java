@@ -1,5 +1,7 @@
 package com.shouzhan.design.datasource.http;
 
+import android.annotation.SuppressLint;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -10,11 +12,11 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author lijie on 2018/12/3
  */
-public class HttpCompositeDisposable {
+public class CommonCompositeDisposable {
 
     private CompositeDisposable mCompositeDisposable;
 
-    public HttpCompositeDisposable() {
+    public CommonCompositeDisposable() {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
@@ -31,6 +33,7 @@ public class HttpCompositeDisposable {
      * @param observable
      * @param observer
      */
+    @SuppressLint("CheckResult")
     public void addSubscribe(Observable observable, DisposableObserver observer) {
         mCompositeDisposable.add(observer);
         observable.subscribeOn(Schedulers.io())

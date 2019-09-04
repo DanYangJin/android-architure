@@ -34,7 +34,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:textSize="32sp"
                 android:text="切换标题"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                />
     </android.support.constraint.ConstraintLayout>
 
 

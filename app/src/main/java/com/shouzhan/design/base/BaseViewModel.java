@@ -2,7 +2,7 @@ package com.shouzhan.design.base;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
+import com.shouzhan.design.datasource.http.CommonCompositeDisposable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
@@ -13,13 +13,13 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class BaseViewModel extends ViewModel {
 
-    public MutableLiveData<ControllerStatus> pageStatus = new MutableLiveData<>();
+    public MutableLiveData<ControllerStatus> mPageStatus = new MutableLiveData<>();
 
     public MutableLiveData<ControllerStatus> observerPageStatus() {
-        return pageStatus;
+        return mPageStatus;
     }
 
-    private HttpCompositeDisposable mHttpDisposable = new HttpCompositeDisposable();
+    private CommonCompositeDisposable mHttpDisposable = new CommonCompositeDisposable();
 
     @Override
     protected void onCleared() {
@@ -35,7 +35,7 @@ public class BaseViewModel extends ViewModel {
         mHttpDisposable.addDisposable(disposable);
     }
 
-    public HttpCompositeDisposable getHttpDisposable() {
+    public CommonCompositeDisposable getHttpDisposable() {
         return mHttpDisposable;
     }
 

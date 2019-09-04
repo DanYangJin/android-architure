@@ -20,7 +20,22 @@ package com.shouzhan.design.base;
  * @author danbin
  * @version BaseView.java, v 0.1 2019-01-23 上午5:26 danbin
  */
-public interface BaseView<P> {
+public interface IBasePresenter {
 
-
+    /**
+     * 注册监听
+     */
+    void initObserver();
+    /**
+     * 初始化
+     */
+    void init();
+    /**
+     * 销毁
+     */
+    void onDestroy();
+    /**
+     * 是否可以更新UI
+     */
+    boolean canUpdateUi();
 }

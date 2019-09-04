@@ -3,7 +3,7 @@ package com.shouzhan.design.ui.user.viewmodel;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
 
-import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
+import com.shouzhan.design.datasource.http.CommonCompositeDisposable;
 import com.shouzhan.design.repository.UserListRepository;
 import com.shouzhan.design.model.remote.result.UserListResult;
 
@@ -17,10 +17,10 @@ public class DataSourceFactory
     private MutableLiveData<LocalDataSource> mSourceLiveData =
             new MutableLiveData<>();
 
-    private HttpCompositeDisposable mHttpDisposable;
+    private CommonCompositeDisposable mHttpDisposable;
     private UserListRepository mUserListRepository;
 
-    public DataSourceFactory(HttpCompositeDisposable httpDisposable, UserListRepository userListRepository) {
+    public DataSourceFactory(CommonCompositeDisposable httpDisposable, UserListRepository userListRepository) {
         this.mHttpDisposable = httpDisposable;
         this.mUserListRepository = userListRepository;
     }

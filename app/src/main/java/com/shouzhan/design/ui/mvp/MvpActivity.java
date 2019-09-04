@@ -1,5 +1,7 @@
 package com.shouzhan.design.ui.mvp;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import com.fshows.android.stark.utils.FsLogUtil;
 import com.shouzhan.design.R;
@@ -13,6 +15,13 @@ import com.shouzhan.design.databinding.ActivityMvpBinding;
 public class MvpActivity extends BaseActivity<ActivityMvpBinding> implements MvpContract.View {
 
     private static final String TAG = MvpActivity.class.getSimpleName();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        new MvpPresenter(mContext, mBinding.getRoot(), this);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -32,7 +41,6 @@ public class MvpActivity extends BaseActivity<ActivityMvpBinding> implements Mvp
     @Override
     public void initView() {
         super.initView();
-        mBinding.setMvpPresenter(new MvpPresenter());
     }
 
 
@@ -40,6 +48,16 @@ public class MvpActivity extends BaseActivity<ActivityMvpBinding> implements Mvp
     public void updateTitleBar(String title) {
         FsLogUtil.error(TAG, "updateTitleBar: " + title);
         mBinding.titleTv.setText(title);
+    }
+
+    @Override
+    public void showLoading() {
+        showLoadingView();
+    }
+
+    @Override
+    public void hideLoading() {
+
     }
 
 }

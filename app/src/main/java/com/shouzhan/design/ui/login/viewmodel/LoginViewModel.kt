@@ -25,7 +25,7 @@ class LoginViewModel : BaseViewModel() {
 
             override fun onFailure(resultMsg: String?, resultCode: Int) {
                 super.onFailure(resultMsg, resultCode)
-                pageStatus.value = ControllerStatus.ERROR
+                mPageStatus.value = ControllerStatus.ERROR
             }
         })
     }

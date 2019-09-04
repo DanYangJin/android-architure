@@ -1,7 +1,7 @@
 package com.shouzhan.design.ui.mvp;
 
-import com.shouzhan.design.base.BasePresenter;
-import com.shouzhan.design.base.BaseView;
+import com.shouzhan.design.base.IBasePresenter;
+import com.shouzhan.design.base.IBaseView;
 
 /**
  * @author danbin
@@ -9,7 +9,7 @@ import com.shouzhan.design.base.BaseView;
  */
 public interface MvpContract {
 
-    interface View extends BaseView {
+    interface View extends IBaseView {
         /**
          * 更新标题
          * @param title
@@ -17,7 +17,7 @@ public interface MvpContract {
         void updateTitleBar(String title);
     }
 
-    interface Presenter extends BasePresenter<MvpContract.View> {
+    interface Presenter extends IBasePresenter {
         /**
          * 点击切换标题按钮
          * */

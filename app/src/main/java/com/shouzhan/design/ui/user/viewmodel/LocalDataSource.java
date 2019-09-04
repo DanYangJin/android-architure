@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.shouzhan.design.base.BasePageResult;
-import com.shouzhan.design.datasource.http.HttpCompositeDisposable;
+import com.shouzhan.design.datasource.http.CommonCompositeDisposable;
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback;
 import com.shouzhan.design.repository.UserListRepository;
 import com.shouzhan.design.model.remote.result.UserListResult;
@@ -18,10 +18,10 @@ public class LocalDataSource extends PageKeyedDataSource<Integer, UserListResult
 
     private static final String TAG = LocalDataSource.class.getSimpleName();
 
-    private HttpCompositeDisposable mHttpDisposable;
+    private CommonCompositeDisposable mHttpDisposable;
     private UserListRepository mUserListRepository;
 
-    public LocalDataSource(HttpCompositeDisposable httpDisposable, UserListRepository userListRepository) {
+    public LocalDataSource(CommonCompositeDisposable httpDisposable, UserListRepository userListRepository) {
         this.mHttpDisposable = httpDisposable;
         this.mUserListRepository = userListRepository;
     }

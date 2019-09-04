@@ -1,35 +1,53 @@
 package com.shouzhan.design.ui.mvp;
 
-import android.support.annotation.Nullable;
+import android.content.Context;
+import android.view.View;
+
+import com.jakewharton.rxbinding3.view.RxView;
+import com.shouzhan.design.R;
+import com.shouzhan.design.base.BasePresenter;
+import com.shouzhan.design.utils.SoundPoolUtil;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author danbin
  * @version MvpPresenter.java, v 0.1 2019-07-17 00:40 danbin
  */
-public class MvpPresenter implements MvpContract.Presenter {
+public class MvpPresenter extends BasePresenter<Context, MvpContract.View> implements MvpContract.Presenter {
 
-    @Nullable
-    private MvpContract.View mvpView;
-//    @Nullable
-//    private MvpViewModel mvpViewModel;
-//
-//    public MvpPresenter(MvpViewModel mvpViewModel) {
-//        this.mvpViewModel = mvpViewModel;
-//    }
+    private SoundPoolUtil mSoundPool;
+    private View mRootView;
 
-    @Override
-    public void bindView(MvpContract.View view) {
-        this.mvpView = view;
-    }
-
-    @Override
-    public void destroy() {
-
+    public MvpPresenter(Context context, View rootView, MvpContract.View view) {
+        super(context, view);
+        this.mRootView = rootView;
+        this.mSoundPool = new SoundPoolUtil(context);
+        this.init();
     }
 
     @Override
     public void switchTitle() {
-        mvpView.updateTitleBar("飞飞飞");
+        mView.updateTitleBar("飞飞飞");
+        mSoundPool.play(1);
+    }
+
+    @Override
+    public void initObserver() {
+
+    }
+
+    @Override
+    public void init() {
+        mDisposable.addDisposable(
+                RxView.clicks(mRootView.findViewById(R.id.switch_btn))
+                        .throttleFirst(2, TimeUnit.SECONDS)
+                        .subscribe(o -> switchTitle()));
+    }
+
+    @Override
+    public boolean canUpdateUi() {
+        return false;
     }
 
 }

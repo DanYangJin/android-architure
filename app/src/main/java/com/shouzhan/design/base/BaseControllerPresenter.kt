@@ -50,5 +50,6 @@ interface BaseControllerPresenter {
 
 enum class ControllerStatus {
     EMPTY,
-    ERROR
+    ERROR,
+    LOADING
 }
