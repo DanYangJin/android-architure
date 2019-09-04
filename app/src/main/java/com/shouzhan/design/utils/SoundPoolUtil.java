@@ -36,11 +36,6 @@ public class SoundPoolUtil {
         mSoundIds.put(1, mSoundPool.load(mContext, R.raw.voice_one, 1));
         mSoundIds.put(2, mSoundPool.load(mContext, R.raw.voice_two, 1));
         mSoundIds.put(3, mSoundPool.load(mContext, R.raw.voice_three, 1));
-        mSoundPool.setOnLoadCompleteListener((soundPool, sampleId, status) -> {
-            if (status == 0) {
-                soundPool.play(sampleId, 14, 14, 0, 0, 1);
-            }
-        });
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

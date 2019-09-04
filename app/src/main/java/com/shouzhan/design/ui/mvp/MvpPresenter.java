@@ -6,9 +6,7 @@ import android.view.View;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BasePresenter;
-import com.shouzhan.design.utils.AudioPlayServer;
-
-import java.util.concurrent.TimeUnit;
+import com.shouzhan.design.utils.SoundPoolUtil;
 
 /**
  * @author danbin
@@ -16,20 +14,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class MvpPresenter extends BasePresenter<Context, MvpContract.View> implements MvpContract.Presenter {
 
+    private SoundPoolUtil mSoundPool;
     private View mRootView;
 
     public MvpPresenter(Context context, View rootView, MvpContract.View view) {
         super(context, view);
         this.mRootView = rootView;
+        this.mSoundPool = new SoundPoolUtil(context);
         this.init();
     }
 
     @Override
     public void switchTitle() {
         mView.updateTitleBar("飞飞飞");
-        AudioPlayServer.run(mContext, 1);
-        AudioPlayServer.run(mContext, 2);
-        AudioPlayServer.run(mContext, 3);
+        mSoundPool.play(1);
     }
 
     @Override
@@ -41,7 +39,6 @@ public class MvpPresenter extends BasePresenter<Context, MvpContract.View> imple
     public void init() {
         mDisposable.addDisposable(
                 RxView.clicks(mRootView.findViewById(R.id.switch_btn))
-                        .throttleFirst(2, TimeUnit.SECONDS)
                         .subscribe(o -> switchTitle()));
     }
 
