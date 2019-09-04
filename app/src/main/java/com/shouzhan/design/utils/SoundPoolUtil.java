@@ -18,9 +18,9 @@ public class SoundPoolUtil {
 
     private Context mContext;
 
-    private SoundPool mSoundPool;
-
     private SparseIntArray mSoundIds = new SparseIntArray(10);
+
+    private SoundPool mSoundPool;
 
     public SoundPoolUtil(Context context) {
         this.mContext = context;
@@ -33,10 +33,22 @@ public class SoundPoolUtil {
         } else {
             createOldSoundPool();
         }
+        initSounds();
+    }
+
+    private void initSounds() {
+        mSoundIds.put(0, mSoundPool.load(mContext, R.raw.voice_zero, 1));
         mSoundIds.put(1, mSoundPool.load(mContext, R.raw.voice_one, 1));
         mSoundIds.put(2, mSoundPool.load(mContext, R.raw.voice_two, 1));
         mSoundIds.put(3, mSoundPool.load(mContext, R.raw.voice_three, 1));
+        mSoundIds.put(4, mSoundPool.load(mContext, R.raw.voice_four, 1));
+        mSoundIds.put(5, mSoundPool.load(mContext, R.raw.voice_five, 1));
+        mSoundIds.put(6, mSoundPool.load(mContext, R.raw.voice_six, 1));
+        mSoundIds.put(7, mSoundPool.load(mContext, R.raw.voice_seven, 1));
+        mSoundIds.put(8, mSoundPool.load(mContext, R.raw.voice_eight, 1));
+        mSoundIds.put(9, mSoundPool.load(mContext, R.raw.voice_nine, 1));
     }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void createNewSoundPool() {

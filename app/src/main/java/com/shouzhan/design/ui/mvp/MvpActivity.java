@@ -2,8 +2,9 @@ package com.shouzhan.design.ui.mvp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.View;
-import com.fshows.android.stark.utils.FsLogUtil;
+
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityMvpBinding;
@@ -14,14 +15,21 @@ import com.shouzhan.design.databinding.ActivityMvpBinding;
  */
 public class MvpActivity extends BaseActivity<ActivityMvpBinding> implements MvpContract.View {
 
-    private static final String TAG = MvpActivity.class.getSimpleName();
+    private MvpPresenter mPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new MvpPresenter(mContext, mBinding.getRoot(), this);
+        mPresenter = new MvpPresenter(mContext, mBinding.getRoot(), this);
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (mPresenter.onKeyUp(keyCode, event)) {
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 
     @Override
     public void onClick(View view) {
@@ -46,7 +54,6 @@ public class MvpActivity extends BaseActivity<ActivityMvpBinding> implements Mvp
 
     @Override
     public void updateTitleBar(String title) {
-        FsLogUtil.error(TAG, "updateTitleBar: " + title);
         mBinding.titleTv.setText(title);
     }
 
@@ -59,5 +66,6 @@ public class MvpActivity extends BaseActivity<ActivityMvpBinding> implements Mvp
     public void hideLoading() {
 
     }
+
 
 }
