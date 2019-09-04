@@ -3,6 +3,7 @@ package com.shouzhan.design.ui.mvp;
 import android.content.Context;
 import android.view.View;
 
+import com.fshows.android.stark.utils.CommonThreadPoolExecutor;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BasePresenter;
@@ -18,6 +19,7 @@ public class MvpPresenter extends BasePresenter<Context, MvpContract.View> imple
 
     private SoundPoolUtil mSoundPool;
     private View mRootView;
+    private CommonThreadPoolExecutor mExecutor = new CommonThreadPoolExecutor();
 
     public MvpPresenter(Context context, View rootView, MvpContract.View view) {
         super(context, view);
@@ -29,7 +31,12 @@ public class MvpPresenter extends BasePresenter<Context, MvpContract.View> imple
     @Override
     public void switchTitle() {
         mView.updateTitleBar("飞飞飞");
+//        mExecutor.execute(() -> mSoundPool.play(1));
+//        mExecutor.execute(() -> mSoundPool.play(2));
+//        mExecutor.execute(() -> mSoundPool.play(3));
         mSoundPool.play(1);
+        mSoundPool.play(2);
+        mSoundPool.play(3);
     }
 
     @Override
