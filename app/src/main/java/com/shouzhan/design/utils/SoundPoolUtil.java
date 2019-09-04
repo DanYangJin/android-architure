@@ -61,7 +61,7 @@ public class SoundPoolUtil {
         mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
     }
 
-    public void play(int num) {
+    public synchronized void play(int num) {
         mSoundPool.play(mSoundIds.get(num), 1, 1, 0, 0, 1);
     }
 

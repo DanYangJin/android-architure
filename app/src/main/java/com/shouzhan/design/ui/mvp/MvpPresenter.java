@@ -3,11 +3,10 @@ package com.shouzhan.design.ui.mvp;
 import android.content.Context;
 import android.view.View;
 
-import com.fshows.android.stark.utils.CommonThreadPoolExecutor;
 import com.jakewharton.rxbinding3.view.RxView;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BasePresenter;
-import com.shouzhan.design.utils.SoundPoolUtil;
+import com.shouzhan.design.utils.AudioPlayServer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,26 +16,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class MvpPresenter extends BasePresenter<Context, MvpContract.View> implements MvpContract.Presenter {
 
-    private SoundPoolUtil mSoundPool;
     private View mRootView;
-    private CommonThreadPoolExecutor mExecutor = new CommonThreadPoolExecutor();
 
     public MvpPresenter(Context context, View rootView, MvpContract.View view) {
         super(context, view);
         this.mRootView = rootView;
-        this.mSoundPool = new SoundPoolUtil(context);
         this.init();
     }
 
     @Override
     public void switchTitle() {
         mView.updateTitleBar("飞飞飞");
-//        mExecutor.execute(() -> mSoundPool.play(1));
-//        mExecutor.execute(() -> mSoundPool.play(2));
-//        mExecutor.execute(() -> mSoundPool.play(3));
-        mSoundPool.play(1);
-        mSoundPool.play(2);
-        mSoundPool.play(3);
+        AudioPlayServer.run(mContext, 1);
+        AudioPlayServer.run(mContext, 2);
+        AudioPlayServer.run(mContext, 3);
     }
 
     @Override
