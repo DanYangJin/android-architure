@@ -29,7 +29,7 @@ public interface IBasePresenter {
     /**
      * 初始化
      */
-    void init();
+    void initUI();
     /**
      * 销毁
      */

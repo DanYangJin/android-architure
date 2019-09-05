@@ -2,32 +2,28 @@ package com.shouzhan.design.ui.mvp;
 
 import android.content.Context;
 import android.view.KeyEvent;
-import android.view.View;
 
-import com.jakewharton.rxbinding3.view.RxView;
-import com.shouzhan.design.R;
 import com.shouzhan.design.base.BasePresenter;
+import com.shouzhan.design.databinding.ActivityMvpBinding;
 import com.shouzhan.design.utils.SoundPoolUtil;
 
 /**
  * @author danbin
  * @version MvpPresenter.java, v 0.1 2019-07-17 00:40 danbin
  */
-public class MvpPresenter extends BasePresenter<Context, MvpContract.View> implements MvpContract.Presenter {
+public class MvpPresenter extends BasePresenter<Context, MvpContract.View, ActivityMvpBinding> implements MvpContract.Presenter {
 
     private SoundPoolUtil mSoundPool;
-    private View mRootView;
 
-    public MvpPresenter(Context context, View rootView, MvpContract.View view) {
-        super(context, view);
-        this.mRootView = rootView;
+    public MvpPresenter(Context context, ActivityMvpBinding binding, MvpContract.View view) {
+        super(context, view, binding);
         this.mSoundPool = new SoundPoolUtil(context);
-        this.init();
+        this.initUI();
     }
 
     @Override
     public void switchTitle() {
-        mSoundPool.play(1);
+        mView.updateTitleBar("更新标题啦");
     }
 
     @Override
@@ -36,10 +32,10 @@ public class MvpPresenter extends BasePresenter<Context, MvpContract.View> imple
     }
 
     @Override
-    public void init() {
-        mDisposable.addDisposable(
-                RxView.clicks(mRootView.findViewById(R.id.switch_btn))
-                        .subscribe(o -> switchTitle()));
+    public void initUI() {
+//        mDisposable.addDisposable(
+//                RxView.clicks(mBinding.switchBtn)
+//                        .subscribe(o -> switchTitle()));
     }
 
     @Override

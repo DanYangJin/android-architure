@@ -5,6 +5,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.arch.lifecycle.ViewModelProvider;
+import android.databinding.ViewDataBinding;
 import android.support.annotation.CallSuper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,18 +19,20 @@ import com.shouzhan.design.datasource.http.CommonCompositeDisposable;
  * @author danbin
  * @version BasePresenter.java, v 0.1 2019-09-04 09:58 danbin
  */
-public abstract class BasePresenter<C, V extends IBaseView> implements IBasePresenter, LifecycleObserver {
+public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataBinding> implements IBasePresenter, LifecycleObserver {
     private static final String TAG = BasePresenter.class.getSimpleName();
 
     protected CommonCompositeDisposable mDisposable = new CommonCompositeDisposable();
     protected C mContext;
     protected V mView;
+    protected VB mBinding;
     private Lifecycle mLifecycle;
 
 
-    public BasePresenter(C context, V view) {
+    public BasePresenter(C context, V view, VB binding) {
         this.mContext = context;
         this.mView = view;
+        this.mBinding = binding;
         this.initLifecycle();
     }
 

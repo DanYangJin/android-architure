@@ -4,7 +4,7 @@
     <data>
 
         <variable
-                name="mvp_presenter"
+                name="mp"
                 type="com.shouzhan.design.ui.mvp.MvpPresenter"/>
 
     </data>
@@ -35,7 +35,7 @@
                 android:textSize="32sp"
                 android:text="切换标题"
                 android:layout_marginTop="20dp"
-                />
+                android:onClick="@{()-> mp.switchTitle()}"/>
     </android.support.constraint.ConstraintLayout>
 
 

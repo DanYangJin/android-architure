@@ -20,7 +20,8 @@ public class MvpActivity extends BaseActivity<ActivityMvpBinding> implements Mvp
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new MvpPresenter(mContext, mBinding.getRoot(), this);
+        mPresenter = new MvpPresenter(mContext, mBinding, this);
+        mBinding.setMp(mPresenter);
     }
 
     @Override
