@@ -6,7 +6,7 @@ import com.fshows.android.stark.utils.MD5Util;
 import com.shouzhan.design.datasource.http.RequestHandler;
 import com.shouzhan.design.datasource.http.RequestType;
 import com.shouzhan.design.utils.HttpConstants;
-import com.shouzhan.design.utils.Utils;
+import com.shouzhan.design.utils.Util;
 
 import org.json.JSONObject;
 
@@ -89,7 +89,7 @@ public class PhpRequestHandler implements RequestHandler {
         assert oldRequestBody != null;
         try {
             JSONObject jsonObject;
-            String prettyFormat = Utils.toPrettyFormat(Utils.bodyToString(oldRequestBody));
+            String prettyFormat = Util.toPrettyFormat(Util.bodyToString(oldRequestBody));
             if (TextUtils.isEmpty(prettyFormat)) {
                 jsonObject = new JSONObject();
             } else {
@@ -110,7 +110,7 @@ public class PhpRequestHandler implements RequestHandler {
      */
     public String getSign(JSONObject jsonObject) {
         StringBuilder builder = new StringBuilder();
-        builder.append(Utils.toPrettyFormat(jsonObject.toString()))
+        builder.append(Util.toPrettyFormat(jsonObject.toString()))
                 .append("352de3dd930f4f7c6e9eaf8a4365cd36")
                 .append(HttpConstants.KEY);
         LogUtils.e("common_before_sign:" + builder.toString());

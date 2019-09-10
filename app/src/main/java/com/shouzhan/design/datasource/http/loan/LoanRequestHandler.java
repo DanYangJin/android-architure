@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.shouzhan.design.datasource.http.RequestHandler;
 import com.shouzhan.design.datasource.http.RequestType;
 import com.shouzhan.design.utils.HttpConstants;
-import com.shouzhan.design.utils.Utils;
+import com.shouzhan.design.utils.Util;
 
 import org.json.JSONObject;
 
@@ -75,7 +75,7 @@ public class LoanRequestHandler implements RequestHandler {
         RequestBody oldRequestBody = request.body();
         assert oldRequestBody != null;
         try {
-            String prettyFormat = Utils.toPrettyFormat(Utils.bodyToString(oldRequestBody));
+            String prettyFormat = Util.toPrettyFormat(Util.bodyToString(oldRequestBody));
             JSONObject jsonObject;
             if (TextUtils.isEmpty(prettyFormat)) {
                 jsonObject = new JSONObject();
