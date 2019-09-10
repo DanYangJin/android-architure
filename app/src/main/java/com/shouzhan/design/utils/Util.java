@@ -72,6 +72,8 @@ public class Util {
         FsLogUtil.error(TAG, "density: " + density);
         float scaledDensity = dm.scaledDensity;
         FsLogUtil.error(TAG, "scaledDensity: " + scaledDensity);
+        float xdpi = dm.xdpi;
+        FsLogUtil.error(TAG, "xdpi: " + xdpi);
         Configuration config = context.getResources().getConfiguration();
         int smallestScreenWidthDp = config.smallestScreenWidthDp;
         FsLogUtil.error(TAG, "smallestScreenWidthDp: " + smallestScreenWidthDp);

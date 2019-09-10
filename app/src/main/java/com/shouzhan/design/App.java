@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
+
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
@@ -13,13 +14,14 @@ import com.shouzhan.design.callback.impl.CommonActivityLifecycleCallbacks;
 import com.shouzhan.design.di.AppInjector;
 import com.shouzhan.design.ui.h5.CommonH5Activity;
 import com.shouzhan.design.utils.Constants;
+
+import javax.inject.Inject;
+
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import me.jessyan.autosize.AutoSizeConfig;
 import me.jessyan.autosize.unit.Subunits;
-
-import javax.inject.Inject;
 
 /**
  * @author danbin

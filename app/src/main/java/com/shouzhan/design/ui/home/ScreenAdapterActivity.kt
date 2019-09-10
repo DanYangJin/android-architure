@@ -21,6 +21,10 @@ class ScreenAdapterActivity : BaseActivity<ActivityScreenAdapterBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 修改屏幕分辨率密度
+//        val displayMetrics = resources.displayMetrics
+//        displayMetrics.density = 1f
+//        displayMetrics.xdpi = 25f
         // 打印设备信息
         Util.printDeviceInfo(this)
         // 打印布局宽高, 以dp为单位
