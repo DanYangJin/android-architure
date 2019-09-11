@@ -17,4 +17,7 @@
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_20">20sp</dimen>
 
+    <dimen name="test_view_dp_width">200dp</dimen>
+    <dimen name="test_view_dp_height">100dp</dimen>
+
 </resources>

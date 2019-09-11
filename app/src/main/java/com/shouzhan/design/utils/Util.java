@@ -14,6 +14,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import okhttp3.RequestBody;
 import okio.Buffer;
@@ -72,8 +77,8 @@ public class Util {
         FsLogUtil.error(TAG, "density: " + density);
         float scaledDensity = dm.scaledDensity;
         FsLogUtil.error(TAG, "scaledDensity: " + scaledDensity);
-        float xdpi = dm.xdpi;
-        FsLogUtil.error(TAG, "xdpi: " + xdpi);
+//        float xdpi = dm.xdpi;
+//        FsLogUtil.error(TAG, "xdpi: " + xdpi);
         Configuration config = context.getResources().getConfiguration();
         int smallestScreenWidthDp = config.smallestScreenWidthDp;
         FsLogUtil.error(TAG, "smallestScreenWidthDp: " + smallestScreenWidthDp);
@@ -116,6 +121,65 @@ public class Util {
 
     public static void dumpTextSize(TextView textView) {
         FsLogUtil.error(TAG, "dumpTextSize: " + textView.getTextSize());
+    }
+
+    public static void formatNanoTime() {
+        long now = System.currentTimeMillis();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINESE);
+        FsLogUtil.error(TAG, "formatNanoTime: " + sdf.format(new Date(now)));
+    }
+
+    public static void convertDpi() {
+        final String rLine = "<dimen name=\"test_view_dp_width\">200dp</dimen>";
+        final String UNITS = "sp|dip|dp|px";
+        final String REGULAR = String.format("\\>[\\s]*[-]?[0-9]+[.]?[0-9]*(%s)[\\s]*\\<", UNITS);
+        Pattern p = Pattern.compile(REGULAR);
+        String wLine;
+        FsLogUtil.error(TAG, "rLine: " + rLine);
+        Matcher m = p.matcher(rLine);
+        if (m.find()) {
+            String g = m.group();
+            FsLogUtil.error(TAG, "匹配后内容: " + g);
+            String unitName = getUnitName(g, UNITS.split("[|]"));
+            double value = getUnitValue(g);
+            double dimen = value * 1080 / 750 / 2.5;
+            String text = String.format(">%.2f%s<", dimen, unitName);
+            wLine = rLine.replaceAll(REGULAR, text);
+        } else {
+            wLine = rLine;
+        }
+        FsLogUtil.error(TAG, "wLine: " + wLine);
+    }
+
+    private static String getUnitName(String value, final String[] units) {
+        String name = "";
+        String regular = "";
+        for (int i = 0; i < units.length; i++) {
+            if (i > 0) {
+                regular += "|";
+            }
+            regular += units[i];
+        }
+        if (units.length > 0) {
+            regular = "(" + regular;
+            regular = regular + ")";
+            Pattern p = Pattern.compile(regular);
+            Matcher m = p.matcher(value);
+            if (m.find()) {
+                name = m.group();
+            }
+        }
+        return name;
+    }
+
+    private static double getUnitValue(String text) {
+        final String REG = "[-]?[0-9]+[.]?[0-9]*";
+        Pattern p = Pattern.compile(REG);
+        Matcher m = p.matcher(text);
+        if (!m.find()) {
+            throw new IllegalArgumentException("getUnitValue. must content dimen value. text: " + text);
+        }
+        return Double.parseDouble(m.group());
     }
 
 }
