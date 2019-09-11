@@ -32,15 +32,39 @@
                 app:layout_constraintTop_toBottomOf="@id/test_view_dp" />
 
         <TextView
-                android:id="@+id/test_tv_size"
+                android:id="@+id/test_tv_size_sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="测试字体大小Sp"
+                android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/test_view_mm"
+                app:layout_constraintTop_toBottomOf="@id/test_view_mm" />
+
+        <TextView
+                android:id="@+id/test_tv_size_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20sp"
-                android:text="测试字体大小"/>
+                android:text="测试字体大小Dp"
+                android:textSize="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_tv_size_sp" />
+
+        <ImageView
+                android:id="@+id/test_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@null"
+                android:src="@mipmap/cat_19"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/test_tv_size_dp"
+                android:background="@android:color/holo_blue_bright"/>
+
 
     </android.support.constraint.ConstraintLayout>
 

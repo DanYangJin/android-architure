@@ -2,8 +2,10 @@ package com.shouzhan.design.ui.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
+import com.fshows.android.stark.utils.UiHandlerUtil;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityScreenAdapterBinding;
@@ -31,9 +33,15 @@ public class ScreenAdapterActivity extends BaseActivity<ActivityScreenAdapterBin
         // 打印布局宽高, 以mm为单位
         Util.dumpLayoutParams(mBinding.testViewMm.getLayoutParams());
         // 打印tv的字体大小
-        Util.dumpTextSize(mBinding.testTvSize);
+        Util.dumpTextSize(mBinding.testTvSizeSp);
         Util.formatNanoTime();
         Util.convertDpi();
+        // 打印iv的宽高
+        UiHandlerUtil.runOnUiThread(() -> {
+            Log.e("imageview2", "width: " + mBinding.testIv.getWidth());
+            Log.e("imageview2", "height: " + mBinding.testIv.getHeight());
+        }, 5000);
+
     }
 
 

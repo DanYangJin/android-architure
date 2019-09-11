@@ -99,18 +99,22 @@ public class Util {
         builder.append("{width: ");
         if (ViewGroup.LayoutParams.MATCH_PARENT == params.width) {
             builder.append("match_parent");
-        } else if (ViewGroup.LayoutParams.WRAP_CONTENT == params.width) {
-            builder.append("wrap_content");
-        } else {
+        }
+//        else if (ViewGroup.LayoutParams.WRAP_CONTENT == params.width) {
+//            builder.append("wrap_content");
+//        }
+        else {
             builder.append(params.width);
         }
 
         builder.append(", height: ");
         if (ViewGroup.LayoutParams.MATCH_PARENT == params.height) {
             builder.append("match_parent");
-        } else if (ViewGroup.LayoutParams.WRAP_CONTENT == params.height) {
-            builder.append("wrap_content");
-        } else {
+        }
+//        else if (ViewGroup.LayoutParams.WRAP_CONTENT == params.height) {
+//            builder.append("wrap_content");
+//        }
+        else {
             builder.append(params.height);
         }
         builder.append("}");
