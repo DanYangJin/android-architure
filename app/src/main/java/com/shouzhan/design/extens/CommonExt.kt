@@ -1,9 +1,12 @@
 package com.shouzhan.design.extens
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
+import android.util.TypedValue
 import android.widget.Toast
 
 /**
@@ -34,3 +37,13 @@ fun <T : Fragment> T.toast(text: CharSequence) {
 fun <T : Fragment> T.toast(@StringRes resId: Int) {
     toast(getString(resId))
 }
+
+fun Float.dp2px(context: Context) : Int{
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this,
+        context.resources.displayMetrics).toInt()
+}
+
+inline fun <reified T : Activity> Activity?.startActivity() {
+    this?.startActivity(Intent(this, T::class.java))
+}
+
