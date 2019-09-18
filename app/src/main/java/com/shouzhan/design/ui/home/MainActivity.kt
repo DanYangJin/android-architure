@@ -12,6 +12,7 @@ import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import com.shouzhan.design.utils.TakePhotoManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.apache.commons.lang3.StringUtils
+import org.json.JSONObject
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
@@ -51,7 +52,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
     }
 
     override fun onClick(view: View) {
-        when(view.id) {
+        when (view.id) {
             R.id.select_btn -> {
                 takePhotoManager.requestPickPhoto()
             }
@@ -83,6 +84,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         takePhotoManager.onActivityResult(mContext, requestCode, resultCode, data)
+    }
+
+    fun dealJsonObject(jsonObject: JSONObject?, fail: () -> Unit) {
+        jsonObject?.takeIf {
+            jsonObject.has("city_info")
+        }?.takeIf {
+            with(it.getJSONObject("city_info")) {
+                return@takeIf has("name") && has("data")
+            }
+        }?.let {
+            it.getJSONObject("city_info")
+        }.apply {
+
+        } ?: fail()
+    }
+
+    fun readFile() {
+        File("readme").readLines().forEach(::print)
     }
 
 }
