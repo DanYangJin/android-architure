@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/id_login" android:title="登录"/>
+    <item android:id="@+id/id_login" android:title="Login"/>
 
     <item android:id="@+id/id_flex_box" android:title="FlexLayout"/>
 
     <item android:id="@+id/id_dragger" android:title="Dragger"/>
 
-    <item android:id="@+id/id_reflection" android:title="反射"/>
 
 </menu>
