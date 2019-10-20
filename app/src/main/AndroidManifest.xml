@@ -33,11 +33,6 @@
         <activity
                 android:name="com.shouzhan.design.ui.h5.CommonH5Activity"
                 android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <activity
@@ -70,6 +65,16 @@
                 android:name="com.shouzhan.design.ui.home.JdkProxyActivity"
                 android:screenOrientation="portrait">
 
+        </activity>
+
+        <activity
+            android:name="com.shouzhan.design.ui.grid.GridActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <provider
