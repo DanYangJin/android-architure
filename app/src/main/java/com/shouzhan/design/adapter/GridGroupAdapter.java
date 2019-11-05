@@ -3,11 +3,10 @@ package com.shouzhan.design.adapter;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
-import com.fshows.android.parker.recyclerview.adapter.BaseBindingRecyclerViewAdapter;
-import com.fshows.android.parker.recyclerview.adapter.BaseBindingRecyclerViewHolder;
 import com.shouzhan.design.R;
 import com.shouzhan.design.adapter.holder.GridGroupViewHolder;
-import com.shouzhan.design.adapter.holder.GridViewHolder;
+import com.shouzhan.design.base.BaseBindingRecyclerViewAdapter;
+import com.shouzhan.design.base.BaseBindingRecyclerViewHolder;
 
 
 /**

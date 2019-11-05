@@ -3,12 +3,14 @@ package com.shouzhan.design.ui.grid;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.fshows.android.parker.recyclerview.FsRecyclerView;
+import com.shouzhan.design.compontent.recyclerview.FsRecyclerView;
 import com.fshows.android.stark.utils.FsLogUtil;
 import com.google.common.collect.Lists;
 import com.shouzhan.design.R;
 import com.shouzhan.design.adapter.GridGroupAdapter;
 import com.shouzhan.design.base.BaseNoBindingActivity;
+import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter;
+import com.shouzhan.design.compontent.recyclerview.OnLoadRefreshListener;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class GridActivity extends BaseNoBindingActivity {
 
     private FsRecyclerView mFsRecyclerView;
     private GridGroupAdapter mGridAdapter;
+    private FsRecyclerViewAdapter mFsRecyclerViewAdapter;
 
     @Override
     public void onClick(View view) {
@@ -37,10 +40,11 @@ public class GridActivity extends BaseNoBindingActivity {
         mFsRecyclerView = findViewById(R.id.recycler_view);
         mFsRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mGridAdapter = new GridGroupAdapter();
-        mFsRecyclerView.setAdapter(mGridAdapter);
-        mFsRecyclerView.setPullRefreshEnabled(false);
-        mFsRecyclerView.setLoadingMoreEnabled(true);
-        mFsRecyclerView.setLoadingListener(new FsRecyclerView.LoadingListener() {
+        mFsRecyclerViewAdapter = new FsRecyclerViewAdapter(mGridAdapter);
+        mFsRecyclerView.setAdapter(mFsRecyclerViewAdapter);
+        mFsRecyclerView.setRefreshEnabled(false);
+        mFsRecyclerView.setLoadMoreEnabled(true);
+        mFsRecyclerView.setOnLoadRefreshListener(new OnLoadRefreshListener() {
             @Override
             public void onRefresh() {
                 FsLogUtil.error("Catch", "onRefresh");
@@ -54,7 +58,7 @@ public class GridActivity extends BaseNoBindingActivity {
         });
         List<String> dataList = Lists.newArrayList();
         dataList.add("1");
-        mGridAdapter.addAll(dataList);
+        mGridAdapter.addData(dataList);
     }
 
     @Override
