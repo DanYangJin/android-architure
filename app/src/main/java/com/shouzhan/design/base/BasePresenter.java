@@ -56,7 +56,6 @@ public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataB
         T viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass);
         initObserve(viewModel);
         return viewModel;
-
     }
 
     @Override

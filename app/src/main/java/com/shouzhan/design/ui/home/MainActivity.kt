@@ -8,7 +8,8 @@ import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
-import com.shouzhan.design.ui.home.viewmodel.MainViewModel
+import com.shouzhan.design.ui.home.contract.MainContract
+import com.shouzhan.design.ui.home.presenter.MainPresenter
 import com.shouzhan.design.utils.TakePhotoManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.apache.commons.lang3.StringUtils
@@ -22,10 +23,10 @@ import java.io.File
  * @author danbin
  * @version MainActivity.java, v 0.1 2019-02-27 上午12:11 danbin
  */
-class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
+class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, MainContract.View {
 
-    private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        vmProviders(MainViewModel::class.java)
+    private val presenter by lazy(LazyThreadSafetyMode.NONE) {
+        MainPresenter(this, this, mBinding)
     }
 
     private val takePhotoManager by lazy(LazyThreadSafetyMode.NONE) {
@@ -38,23 +39,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding.vm = viewModel
+//        mBinding.vm = viewModel
         getData()
     }
 
     override fun initView() {
         super.initView()
         select_btn.setOnClickListener(this)
+//        viewModel.sameLiveData.observe(this, Observer {
+//            FsLogUtil.error("Catch", "it: $it")
+//        })
     }
 
     override fun getData() {
-        viewModel.refreshHeadImage("https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1551108895&di=745684775de1e4b78f063fd0785ea90f&src=http://pic5.nipic.com/20100127/2177138_082501971985_2.jpg")
+//        viewModel.refreshHeadImage("https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1551108895&di=745684775de1e4b78f063fd0785ea90f&src=http://pic5.nipic.com/20100127/2177138_082501971985_2.jpg")
+        presenter.updateSameLiveData()
     }
 
     override fun onClick(view: View) {
         when (view.id) {
             R.id.select_btn -> {
-                takePhotoManager.requestPickPhoto()
+//                takePhotoManager.requestPickPhoto()
+                startActivity(Intent(this, FlexboxActivity::class.java))
             }
         }
     }
@@ -72,7 +78,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
 
                 override fun onSuccess(file: File) {
                     Log.e("Catch", "onSuccess")
-                    viewModel.refreshHeadImage("file://" + file.absolutePath)
+//                    viewModel.refreshHeadImage("file://" + file.absolutePath)
                 }
 
                 override fun onError(e: Throwable) {
@@ -102,6 +108,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener {
 
     fun readFile() {
         File("readme").readLines().forEach(::print)
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
     }
 
 }
