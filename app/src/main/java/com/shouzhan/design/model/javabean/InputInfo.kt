@@ -6,6 +6,6 @@ package com.shouzhan.design.model.javabean
  */
 class InputInfo {
 
-    var inputTxt: String = "哈哈哈"
+    var inputTxt: String? = "哈哈哈"
 
 }

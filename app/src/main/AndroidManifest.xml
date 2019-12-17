@@ -36,7 +36,7 @@
                 android:screenOrientation="portrait"/>
 
         <activity
-                android:name="com.shouzhan.design.ui.h5.CommonH5Activity"
+                android:name="com.shouzhan.design.ui.home.CommonH5Activity"
                 android:screenOrientation="portrait">
         </activity>
 
@@ -73,7 +73,7 @@
         </activity>
 
         <activity
-            android:name="com.shouzhan.design.ui.grid.GridActivity"
+            android:name="com.shouzhan.design.ui.home.GridActivity"
             android:screenOrientation="portrait">
         </activity>
 

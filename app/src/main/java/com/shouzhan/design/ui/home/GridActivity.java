@@ -1,4 +1,4 @@
-package com.shouzhan.design.ui.grid;
+package com.shouzhan.design.ui.home;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;

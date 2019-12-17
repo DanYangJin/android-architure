@@ -12,7 +12,7 @@ import com.facebook.stetho.Stetho;
 import com.fshows.android.stark.utils.Prefs;
 import com.shouzhan.design.callback.impl.CommonActivityLifecycleCallbacks;
 import com.shouzhan.design.di.AppInjector;
-import com.shouzhan.design.ui.h5.CommonH5Activity;
+import com.shouzhan.design.ui.home.CommonH5Activity;
 import com.shouzhan.design.utils.Constants;
 
 import javax.inject.Inject;

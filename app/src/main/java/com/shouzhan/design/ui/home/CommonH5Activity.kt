@@ -1,4 +1,4 @@
-package com.shouzhan.design.ui.h5
+package com.shouzhan.design.ui.home
 
 import android.view.View
 import android.webkit.WebViewClient
