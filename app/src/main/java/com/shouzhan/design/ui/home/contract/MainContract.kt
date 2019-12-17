@@ -15,10 +15,11 @@ interface MainContract {
 
     interface Presenter : IBasePresenter {
 
-        fun updateSameLiveData()
+        fun updateLiveData()
 
         fun refreshHeadImage(headUrl: String)
 
+        fun showLiveData()
     }
 
 }

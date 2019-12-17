@@ -11,5 +11,6 @@ class MainViewModel : BaseViewModel() {
 
     val headImage = ObservableField<String>()
     val inputTxt = ObservableField<String>()
+    val rememberMe = ObservableField<Boolean>(true)
 
 }

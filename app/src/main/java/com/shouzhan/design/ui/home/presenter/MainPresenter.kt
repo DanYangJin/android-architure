@@ -3,8 +3,10 @@ package com.shouzhan.design.ui.home.presenter
 
 import android.content.Context
 import android.databinding.ViewDataBinding
+import com.fshows.android.stark.utils.FsLogUtil
 import com.shouzhan.design.base.BasePresenter
 import com.shouzhan.design.databinding.ActivityMainBinding
+import com.shouzhan.design.model.javabean.InputInfo
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 
@@ -19,6 +21,10 @@ class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDa
         vmProviders(MainViewModel::class.java)
     }
 
+    private val input by lazy(LazyThreadSafetyMode.NONE) {
+        InputInfo()
+    }
+
     init {
         initObserver()
     }
@@ -29,15 +35,20 @@ class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDa
 
     override fun initObserver() {
         (mBinding as ActivityMainBinding).vm = viewModel
+        (mBinding as ActivityMainBinding).input = input
     }
 
-    override fun updateSameLiveData() {
+    override fun updateLiveData() {
         viewModel.inputTxt.set("哈哈哈哈")
     }
 
 
     override fun refreshHeadImage(headUrl: String) {
         viewModel.headImage.set(headUrl)
+    }
+
+    override fun showLiveData() {
+        FsLogUtil.error("Catch", "showLiveData: ${input.inputTxt}")
     }
 
 }

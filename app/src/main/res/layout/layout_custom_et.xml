@@ -6,8 +6,7 @@
     <EditText
         android:id="@+id/input_et"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:textSize="15sp"
+        android:layout_height="wrap_content"
         />
 
 </RelativeLayout>

@@ -38,7 +38,7 @@
     </declare-styleable>
 
     <declare-styleable name="CustomEditText">
-        <attr name="input_text" format="string" />
+        <attr name="inputText" format="string" />
     </declare-styleable>
 
 </resources>

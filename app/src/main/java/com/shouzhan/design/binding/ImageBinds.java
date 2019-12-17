@@ -27,4 +27,38 @@ public class ImageBinds {
         draweeView.setImageURI(uri);
     }
 
+//    @BindingAdapter(value = {"app:inputText"}, requireAll = false)
+//    public static void setInputText(CustomEditText view, String newValue) {
+//        view.setEtText(newValue);
+//    }
+//
+//    @InverseBindingAdapter(attribute = "app:inputText", event = "app:inputTextAttrChanged")
+//    public static String getInputText(CustomEditText view) {
+//        if ("".equals(view.getEtText())) {
+//            return null;
+//        } else {
+//            return view.getEtText();
+//        }
+//    }
+//
+//    @BindingAdapter("app:inputTextAttrChanged")
+//    public static void setListeners(CustomEditText view, InverseBindingListener attrChange) {
+//        view.getEt().addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                attrChange.onChange();
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
+//    }
+
 }

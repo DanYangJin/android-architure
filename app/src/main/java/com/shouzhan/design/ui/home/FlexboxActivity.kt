@@ -33,7 +33,7 @@ class FlexboxActivity : BaseActivity<ActivityFlexBoxBinding>(), MainContract.Vie
 //            adapter = CatAdapter()
 //        }
         update_btn.setOnClickListener {
-            presenter.updateSameLiveData()
+            presenter.updateLiveData()
         }
 
     }

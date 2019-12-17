@@ -25,10 +25,6 @@ import java.io.File
  */
 class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, MainContract.View {
 
-//    private val presenter by lazy(LazyThreadSafetyMode.NONE) {
-//        MainPresenter(this, this, mBinding)
-//    }
-
     private lateinit var presenter: MainPresenter
 
     private val takePhotoManager by lazy(LazyThreadSafetyMode.NONE) {
@@ -61,7 +57,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
                 takePhotoManager.requestPickPhoto()
             }
             R.id.update_btn -> {
-                presenter.updateSameLiveData()
+                presenter.showLiveData()
             }
         }
     }
