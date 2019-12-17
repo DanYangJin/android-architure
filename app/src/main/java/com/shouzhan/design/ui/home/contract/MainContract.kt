@@ -17,6 +17,8 @@ interface MainContract {
 
         fun updateSameLiveData()
 
+        fun refreshHeadImage(headUrl: String)
+
     }
 
 }

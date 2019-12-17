@@ -1,49 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-                name="vm"
-                type="com.shouzhan.design.ui.home.viewmodel.MainViewModel"/>
+            name="vm"
+            type="com.shouzhan.design.ui.home.viewmodel.MainViewModel" />
 
         <variable
-                name="presenter"
-                type="com.shouzhan.design.base.BaseBindingPresenter"/>
+            name="presenter"
+            type="com.shouzhan.design.base.BaseBindingPresenter" />
 
     </data>
 
     <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
         <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/head_iv"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginTop="30dp"
-                app:imageUrl="@{vm.headImage}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:placeholder="@{@drawable/ic_launcher_background}"/>
+            android:id="@+id/head_iv"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="30dp"
+            app:imageUrl="@{vm.headImage}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:placeholder="@{@drawable/ic_launcher_background}" />
 
         <Button
-                android:id="@+id/select_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/color_fff"
-                android:textSize="15sp"
-                android:text="选择图片"
-                app:layout_constraintTop_toBottomOf="@+id/head_iv"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
+            android:id="@+id/select_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择图片"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/head_iv" />
 
-        <include layout="@layout/layout_empty_view"/>
+        <Button
+            android:id="@+id/update_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="更新数据"
+            android:textSize="15sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/select_btn" />
 
-        <include layout="@layout/layout_error_view"/>
+
+        <EditText
+            android:id="@+id/et_input"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@={vm.inputTxt}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/update_btn" />
+
+        <TextView
+            android:id="@+id/tv_input"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="@{vm.inputTxt}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_input"
+            tools:text="哈哈哈哈" />
+
+        <include layout="@layout/layout_empty_view" />
+
+        <include layout="@layout/layout_error_view" />
 
     </android.support.constraint.ConstraintLayout>
 

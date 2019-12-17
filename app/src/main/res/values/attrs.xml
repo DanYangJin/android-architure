@@ -37,4 +37,8 @@
         <attr name="WheelView_bgColorCenter" format="color"/>
     </declare-styleable>
 
+    <declare-styleable name="CustomEditText">
+        <attr name="input_text" format="string" />
+    </declare-styleable>
+
 </resources>

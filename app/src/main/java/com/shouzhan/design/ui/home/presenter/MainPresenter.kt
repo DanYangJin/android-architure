@@ -1,12 +1,10 @@
 package com.shouzhan.design.ui.home.presenter
 
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.Observer
 import android.content.Context
 import android.databinding.ViewDataBinding
-import com.fshows.android.stark.utils.FsLogUtil
 import com.shouzhan.design.base.BasePresenter
+import com.shouzhan.design.databinding.ActivityMainBinding
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 
@@ -30,14 +28,16 @@ class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDa
     }
 
     override fun initObserver() {
-        viewModel.sameLiveData.observe(mContext as LifecycleOwner, Observer {
-            FsLogUtil.error("Catch", "it: $it")
-        })
+        (mBinding as ActivityMainBinding).vm = viewModel
     }
 
     override fun updateSameLiveData() {
-        viewModel.sameLiveData.value = "哈哈哈"
+        viewModel.inputTxt.set("哈哈哈哈")
     }
 
+
+    override fun refreshHeadImage(headUrl: String) {
+        viewModel.headImage.set(headUrl)
+    }
 
 }
