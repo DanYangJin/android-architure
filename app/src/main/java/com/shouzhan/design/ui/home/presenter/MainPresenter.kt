@@ -1,6 +1,8 @@
 package com.shouzhan.design.ui.home.presenter
 
 
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.Observer
 import android.content.Context
 import android.databinding.ViewDataBinding
 import com.fshows.android.stark.utils.FsLogUtil
@@ -9,6 +11,7 @@ import com.shouzhan.design.databinding.ActivityMainBinding
 import com.shouzhan.design.model.javabean.InputInfo
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
+import com.shouzhan.design.utils.LocationObserver
 
 /**
  * @author danbin
@@ -21,21 +24,30 @@ class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDa
         vmProviders(MainViewModel::class.java)
     }
 
+    private val locationObserver by lazy(LazyThreadSafetyMode.NONE) {
+        LocationObserver(mLifecycle)
+    }
+
+
     private val input by lazy(LazyThreadSafetyMode.NONE) {
         InputInfo()
     }
 
     init {
+        mLifecycle.addObserver(locationObserver)
+        initUI()
         initObserver()
     }
 
     override fun initUI() {
-
+        (mBinding as ActivityMainBinding).vm = viewModel
+        (mBinding as ActivityMainBinding).input = input
     }
 
     override fun initObserver() {
-        (mBinding as ActivityMainBinding).vm = viewModel
-        (mBinding as ActivityMainBinding).input = input
+        locationObserver.location.observe(mContext as LifecycleOwner, Observer {
+            FsLogUtil.error("Catch", "location: $it")
+        })
     }
 
     override fun updateLiveData() {

@@ -26,7 +26,7 @@ public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataB
     protected C mContext;
     protected V mView;
     protected VB mBinding;
-    private Lifecycle mLifecycle;
+    protected Lifecycle mLifecycle;
 
 
     public BasePresenter(C context, V view, VB binding) {
