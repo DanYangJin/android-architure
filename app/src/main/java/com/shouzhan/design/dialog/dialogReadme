@@ -1,0 +1,7 @@
+对话框重构
+1、需求点：满足首页多弹窗依次弹出效果以及弹窗基础类统一
+2、技术点：构造者模式、工厂模式、优先级队列
+3、相关博客
+    https://github.com/kotlings/MutilDialogManger.git
+    https://www.cnblogs.com/piaocz/articles/2231388.html
+
