@@ -8,6 +8,7 @@ import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
+import com.shouzhan.design.dialog.*
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
 import com.shouzhan.design.utils.TakePhotoManager
@@ -31,6 +32,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
         TakePhotoManager(this, this)
     }
 
+    private val dialogManager by lazy(LazyThreadSafetyMode.NONE) {
+        DialogManager.getInstance(supportFragmentManager)
+    }
+
     override fun getLayoutId(): Int {
         return R.layout.activity_main
     }
@@ -48,7 +53,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     }
 
     override fun getData() {
-
+        showDialogFragment()
     }
 
     override fun onClick(view: View) {
@@ -63,31 +68,50 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     }
 
     override fun onTakePath(path: String?) {
-        Log.e("Catch", "onTakePath: $path")
         Luban.with(this)
-            .load(path)
-            .ignoreBy(100)
-            .filter { path -> !(StringUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")) }
-            .setCompressListener(object : OnCompressListener {
-                override fun onStart() {
-                    Log.e("Catch", "onStart")
-                }
+                .load(path)
+                .ignoreBy(100)
+                .filter { path -> !(StringUtils.isEmpty(path) || path.toLowerCase().endsWith(".gif")) }
+                .setCompressListener(object : OnCompressListener {
+                    override fun onStart() {
+                        Log.e("Catch", "onStart")
+                    }
 
-                override fun onSuccess(file: File) {
-                    Log.e("Catch", "onSuccess")
-                    presenter.refreshHeadImage("file://" + file.absolutePath)
-                }
+                    override fun onSuccess(file: File) {
+                        Log.e("Catch", "onSuccess")
+                        presenter.refreshHeadImage("file://" + file.absolutePath)
+                    }
 
-                override fun onError(e: Throwable) {
-                    Log.e("Catch", "onError: " + e.message)
-                }
-            }).launch()
+                    override fun onError(e: Throwable) {
+                        Log.e("Catch", "onError: " + e.message)
+                    }
+                }).launch()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         takePhotoManager.onActivityResult(mContext, requestCode, resultCode, data)
     }
+
+    private fun showDialogFragment() {
+        lateinit var f1: AlertDialogFragment
+        for (i in 1..10) {
+            f1 = AlertDialogFragment.instantiate(mContext,
+                    AlertDialogFragment::class.java.name) as AlertDialogFragment
+            val b1 = CommonDialogBuilder.builder(mContext)
+                    .setDialogCancel(R.string.common_cancel)
+                    .setDialogMsg("哈哈哈$i")
+                    .setDialogConfirm(R.string.common_confirm)
+            f1.builder = b1
+            var d1: PriorityQueueInfo = when {
+                i % 2 == 0 -> PriorityQueueInfo(Priority.PRIORITY_NORMAL, f1, "first_$i")
+                i % 3 == 0 -> PriorityQueueInfo(Priority.PRIORITY_LOW, f1, "first_$i")
+                else -> PriorityQueueInfo(Priority.PRIORITY_HEIGHT, f1, "first_$i")
+            }
+            dialogManager.pushToQueue(d1)
+        }
+    }
+
 
     fun dealJsonObject(jsonObject: JSONObject?, fail: () -> Unit) {
         jsonObject?.takeIf {

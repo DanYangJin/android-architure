@@ -7,4 +7,10 @@
 
     <string name="env_switch">环境切换</string>
 
+    <string name="common_cancel">取消</string>
+    <string name="common_confirm">确定</string>
+    <string name="common_confirm_sure">确认</string>
+    <string name="common_title">提示</string>
+    <string name="common_msg">测试中</string>
+
 </resources>

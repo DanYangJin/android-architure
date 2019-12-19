@@ -1,0 +1,36 @@
+<resources>
+
+    <!-- common sp-->
+    <dimen name="sp_12">6.92sp</dimen>
+    <dimen name="sp_14">8.08sp</dimen>
+    <dimen name="sp_16">9.23sp</dimen>
+    <dimen name="sp_20">11.54sp</dimen>
+
+    <!-- common dp -->
+    <dimen name="common_dp_4">2.31dp</dimen>
+    <dimen name="common_dp_6">3.46dp</dimen>
+    <dimen name="common_dp_10">5.77dp</dimen>
+    <dimen name="common_dp_14">8.08dp</dimen>
+    <dimen name="common_dp_18">10.38dp</dimen>
+    <dimen name="common_dp_20">11.54dp</dimen>
+    <dimen name="common_dp_22">12.69dp</dimen>
+    <dimen name="common_dp_30">17.31dp</dimen>
+    <dimen name="common_dp_36">20.77dp</dimen>
+    <dimen name="common_dp_40">23.08dp</dimen>
+    <dimen name="common_dp_60">34.62dp</dimen>
+    <dimen name="common_dp_72">41.54dp</dimen>
+
+    <!--common dialog-->
+    <dimen name="common_divider_height">0.58dp</dimen>
+    <dimen name="common_dialog_radius">8.08dp</dimen>
+
+    <!--alert dialog-->
+    <dimen name="common_alert_dialog_width">311.54dp</dimen>
+    <dimen name="common_alert_dialog_height">161.54dp</dimen>
+    <dimen name="common_alert_no_title_dialog_height">100.38dp</dimen>
+    <dimen name="common_alert_dialog_title_height">46.15dp</dimen>
+    <dimen name="common_alert_dialog_content_layout_padding_rl">36.92dp</dimen>
+    <dimen name="common_alert_dialog_btn_layout_height">46.15dp</dimen>
+
+
+</resources>
