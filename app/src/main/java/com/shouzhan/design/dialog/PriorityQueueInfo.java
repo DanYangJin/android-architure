@@ -1,12 +1,10 @@
 package com.shouzhan.design.dialog;
 
-import android.util.Log;
-
 /**
  * @author danbin
  * @version PriorityQueueInfo.java, v 0.1 2019-12-19 23:31 danbin
  */
-public class PriorityQueueInfo implements Comparable<PriorityQueueInfo> {
+public class PriorityQueueInfo {
 
     /**
      * 对话框显示优先级
@@ -28,45 +26,22 @@ public class PriorityQueueInfo implements Comparable<PriorityQueueInfo> {
     }
 
     public PriorityQueueInfo(int priority, BaseDialogFragment dialogFragment, String tag) {
-        Log.e("Catch", "tag: " + tag);
         mDialogFragment = dialogFragment;
-        mPriority = priority;
         mDialogTag = tag;
-    }
-
-    public void setPriority(int priority) {
-        this.mPriority = priority;
-    }
-
-    public int getPriority() {
-        return mPriority;
+        mPriority = priority;
     }
 
     public BaseDialogFragment getDialogFragment() {
         return mDialogFragment;
     }
 
-    public void setDialogFragment(BaseDialogFragment dialogFragment) {
-        mDialogFragment = dialogFragment;
-    }
-
     public String getDialogTag() {
         return mDialogTag;
     }
 
-    public void setDialogTag(String dialogTag) {
-        mDialogTag = dialogTag;
+    public int getPriority() {
+        return mPriority;
     }
 
-    @Override
-    public int compareTo(PriorityQueueInfo o) {
-        if (this.mPriority > o.getPriority()) {
-            return -1;
-        } else if (this.mPriority < o.getPriority()) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
 
 }

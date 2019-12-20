@@ -104,9 +104,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
                     .setDialogConfirm(R.string.common_confirm)
             f1.builder = b1
             var d1: PriorityQueueInfo = when {
-                i % 2 == 0 -> PriorityQueueInfo(Priority.PRIORITY_NORMAL, f1, "first_$i")
-                i % 3 == 0 -> PriorityQueueInfo(Priority.PRIORITY_LOW, f1, "first_$i")
-                else -> PriorityQueueInfo(Priority.PRIORITY_HEIGHT, f1, "first_$i")
+                i % 2 == 0 -> PriorityQueueInfo(Priority.PRIORITY_HEIGHT, f1, "first_$i")
+                i % 3 == 0 -> PriorityQueueInfo(f1, "first_$i")
+                else -> PriorityQueueInfo(Priority.PRIORITY_LOW, f1, "first_$i")
             }
             dialogManager.pushToQueue(d1)
         }

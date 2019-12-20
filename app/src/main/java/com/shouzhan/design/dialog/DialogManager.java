@@ -2,6 +2,11 @@ package com.shouzhan.design.dialog;
 
 import android.support.v4.app.FragmentManager;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.ComparatorCompat;
+import com.annimon.stream.Stream;
+
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -90,7 +95,15 @@ public class DialogManager {
     }
 
     private void orderDialogQueue() {
-        // TODO 根据优先级排序
+        try {
+            List<PriorityQueueInfo> infoLists =  Stream.of(mPriorityQueue)
+                    .sorted(ComparatorCompat.comparing(PriorityQueueInfo::getPriority).reversed())
+                    .collect(Collectors.toList());
+            mPriorityQueue.clear();
+            Stream.of(infoLists).forEach(n -> mPriorityQueue.add(n));
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
