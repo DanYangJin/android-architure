@@ -1,10 +1,9 @@
 package com.shouzhan.design.dialog;
 
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
 import java.util.Queue;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * @author danbin
@@ -13,10 +12,9 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class DialogManager {
 
-    private static Queue<PriorityQueueInfo> mPriorityQueue = new PriorityBlockingQueue<>();
+    private static Queue<PriorityQueueInfo> mPriorityQueue = new ConcurrentLinkedQueue<>();
     private static DialogManager mInstance;
     private FragmentManager mFragmentManager;
-    private PriorityQueueInfo mCurPriorityQueueInfo;
 
     public static DialogManager getInstance(FragmentManager fm) {
         if (mInstance == null) {
@@ -46,17 +44,14 @@ public class DialogManager {
      * 将对话框放入队列中
      */
     public void pushToQueue(PriorityQueueInfo dialogPriorityInfo) {
-        if (dialogPriorityInfo != null) {
-            Log.e("Catch", "pushToQueue...");
-            BaseDialogFragment fragment = dialogPriorityInfo.getDialogFragment();
-            if (fragment == null) {
-                return;
-            }
-            mPriorityQueue.add(dialogPriorityInfo);
-            fragment.setDismissListener(this::nextTask);
-            if (canShow()) {
-                startNextIf();
-            }
+        BaseDialogFragment fragment = dialogPriorityInfo.getDialogFragment();
+        if (fragment == null) {
+            return;
+        }
+        mPriorityQueue.add(dialogPriorityInfo);
+        fragment.setDismissListener(this::nextTask);
+        if (canShow()) {
+            startNextIf();
         }
     }
 
@@ -64,8 +59,15 @@ public class DialogManager {
      * 提供外部下一个任务的方法,在弹窗消失时候调用
      */
     private void nextTask() {
-        removeTask(mCurPriorityQueueInfo);
+        removeTopTask();
         startNextIf();
+    }
+
+    /**
+     * 移除队列的头,获取最新队列头
+     */
+    private void removeTopTask() {
+        mPriorityQueue.poll();
     }
 
     /**
@@ -75,7 +77,8 @@ public class DialogManager {
         if (mPriorityQueue == null || mPriorityQueue.isEmpty()) {
             return;
         }
-        mCurPriorityQueueInfo = mPriorityQueue.element();
+        orderDialogQueue();
+        PriorityQueueInfo mCurPriorityQueueInfo = mPriorityQueue.element();
         if (mCurPriorityQueueInfo == null) {
             return;
         }
@@ -86,10 +89,8 @@ public class DialogManager {
         }
     }
 
-    private void removeTask(PriorityQueueInfo priorityQueueInfo) {
-        if (priorityQueueInfo != null) {
-            mPriorityQueue.remove(priorityQueueInfo);
-        }
+    private void orderDialogQueue() {
+        // TODO 根据优先级排序
     }
 
 }
