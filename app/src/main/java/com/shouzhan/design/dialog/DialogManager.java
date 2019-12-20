@@ -41,7 +41,7 @@ public class DialogManager {
      *
      * @return
      */
-    public boolean canShow() {
+    public boolean hasNextShowDialog() {
         return mPriorityQueue.size() < 2;
     }
 
@@ -55,7 +55,7 @@ public class DialogManager {
         }
         mPriorityQueue.add(dialogPriorityInfo);
         fragment.setDismissListener(this::nextTask);
-        if (canShow()) {
+        if (hasNextShowDialog()) {
             startNextIf();
         }
     }

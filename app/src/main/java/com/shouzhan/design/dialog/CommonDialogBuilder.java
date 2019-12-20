@@ -1,7 +1,6 @@
 package com.shouzhan.design.dialog;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleRes;
 
 import com.shouzhan.design.R;
@@ -50,12 +49,6 @@ public class CommonDialogBuilder {
      * */
     @StyleRes
     private int mDialogStyleRes = R.style.CommonDialogFragmentStyleTheme;
-
-    /**
-     * 对话框自定义布局
-     * */
-    @LayoutRes
-    private int mDialogLayoutRes;
 
     public static CommonDialogBuilder builder(Context mContext) {
         return new CommonDialogBuilder(mContext);
@@ -116,11 +109,6 @@ public class CommonDialogBuilder {
         return this;
     }
 
-    public CommonDialogBuilder setDialogLayoutRes(@LayoutRes int layoutRes) {
-        this.mDialogLayoutRes = layoutRes;
-        return this;
-    }
-
     public CommonDialogBuilder setShowCancelButton(boolean isShowCancelButton) {
         this.isShowCancelButton = isShowCancelButton;
         return this;
@@ -158,7 +146,4 @@ public class CommonDialogBuilder {
         return mDialogStyleRes;
     }
 
-    public int getDialogLayoutRes() {
-        return mDialogLayoutRes;
-    }
 }

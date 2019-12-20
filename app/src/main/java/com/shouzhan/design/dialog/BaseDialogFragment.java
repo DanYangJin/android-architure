@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shouzhan.design.R;
@@ -52,12 +52,13 @@ public abstract class BaseDialogFragment extends DialogFragment implements OnKey
      * */
     protected CommonDialogBuilder mBuilder;
     /**
-     * 对话框消失回调
+     * 对话框dismiss回调
      * */
     private DialogDismissListener mDismissListener;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.e(TAG, "@@@@onCreateView");
         if (mRootView == null) {
             mRootView = inflater.inflate(setContentView(), container, false);
             initUi();
@@ -84,9 +85,8 @@ public abstract class BaseDialogFragment extends DialogFragment implements OnKey
         Dialog dlg = getDialog();
         Objects.requireNonNull(dlg.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams params = dlg.getWindow().getAttributes();
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        params.width = dm.widthPixels;
-        params.height = dm.heightPixels;
+        params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+        params.width = RelativeLayout.LayoutParams.WRAP_CONTENT;
         dlg.getWindow().setGravity(Gravity.CENTER);
         dlg.getWindow().setAttributes(params);
     }
@@ -107,7 +107,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements OnKey
     @NotNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Log.i(TAG, "@@@@onCreateDialog");
+        Log.e(TAG, "@@@@onCreateDialog");
         if (mBuilder == null) {
             mBuilder = CommonDialogBuilder.builder(getContext());
         }

@@ -1,20 +1,12 @@
 package com.shouzhan.design.dialog;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shouzhan.design.R;
 
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.Objects;
 
 /**
  * @author danbin
@@ -41,18 +33,6 @@ public class AlertDialogFragment extends BaseDialogFragment {
         } else {
             mMsgTv.setText(msg);
         }
-    }
-
-    @Override
-    public void changeDialogSize() {
-        Dialog dlg = getDialog();
-        dlg.setCanceledOnTouchOutside(false);
-        Objects.requireNonNull(dlg.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        WindowManager.LayoutParams params = dlg.getWindow().getAttributes();
-        params.width = RelativeLayout.LayoutParams.WRAP_CONTENT;
-        params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
-        dlg.getWindow().setGravity(Gravity.CENTER);
-        dlg.getWindow().setAttributes(params);
     }
 
     @Override
