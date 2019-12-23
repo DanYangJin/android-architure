@@ -50,7 +50,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements OnKey
     /**
      * 对话框构造者
      * */
-    protected CommonDialogBuilder mBuilder;
+    protected DialogBuilder mBuilder;
     /**
      * 对话框dismiss回调
      * */
@@ -109,7 +109,7 @@ public abstract class BaseDialogFragment extends DialogFragment implements OnKey
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Log.e(TAG, "@@@@onCreateDialog");
         if (mBuilder == null) {
-            mBuilder = CommonDialogBuilder.builder(getContext());
+            mBuilder = DialogBuilder.builder(getContext());
         }
         Dialog dlg = new Dialog(Objects.requireNonNull(getActivity()), mBuilder.getDialogStyleRes());
         dlg.setCancelable(mBuilder.isCancelable());
@@ -117,11 +117,11 @@ public abstract class BaseDialogFragment extends DialogFragment implements OnKey
         return dlg;
     }
 
-    public void setBuilder(CommonDialogBuilder builder) {
+    public void setBuilder(DialogBuilder builder) {
         this.mBuilder = builder;
     }
 
-    public CommonDialogBuilder getBuilder() {
+    public DialogBuilder getBuilder() {
         return mBuilder;
     }
 

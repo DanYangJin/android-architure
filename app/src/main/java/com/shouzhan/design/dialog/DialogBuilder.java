@@ -7,9 +7,9 @@ import com.shouzhan.design.R;
 
 /**
  * @author danbin
- * @version CommonDialogBuilder.java, v 0.1 2019-12-19 21:20 danbin
+ * @version DialogBuilder.java, v 0.1 2019-12-19 21:20 danbin
  */
-public class CommonDialogBuilder {
+public class DialogBuilder {
 
     /**
      * 上下文
@@ -50,66 +50,66 @@ public class CommonDialogBuilder {
     @StyleRes
     private int mDialogStyleRes = R.style.CommonDialogFragmentStyleTheme;
 
-    public static CommonDialogBuilder builder(Context mContext) {
-        return new CommonDialogBuilder(mContext);
+    public static DialogBuilder builder(Context mContext) {
+        return new DialogBuilder(mContext);
     }
 
-    public CommonDialogBuilder(Context mContext) {
+    public DialogBuilder(Context mContext) {
         this.mContext = mContext;
     }
 
-    public CommonDialogBuilder setDialogTitle(int res) {
+    public DialogBuilder setDialogTitle(int res) {
         return setDialogTitle(mContext.getString(res));
     }
 
-    public CommonDialogBuilder setDialogTitle(String title) {
+    public DialogBuilder setDialogTitle(String title) {
         this.mDialogTitle = title;
         return this;
     }
 
-    public CommonDialogBuilder setDialogMsg(int res) {
+    public DialogBuilder setDialogMsg(int res) {
         return setDialogMsg(mContext.getString(res));
     }
 
-    public CommonDialogBuilder setDialogMsg(String msg) {
+    public DialogBuilder setDialogMsg(String msg) {
         this.mDialogMsg = msg;
         return this;
     }
 
-    public CommonDialogBuilder setDialogConfirm(int res) {
+    public DialogBuilder setDialogConfirm(int res) {
         return setDialogConfirm(mContext.getString(res));
     }
 
-    public CommonDialogBuilder setDialogConfirm(String confirm) {
+    public DialogBuilder setDialogConfirm(String confirm) {
         this.mDialogConfirm = confirm;
         return this;
     }
 
-    public CommonDialogBuilder setDialogCancel(int res) {
+    public DialogBuilder setDialogCancel(int res) {
         return setDialogCancel(mContext.getString(res));
     }
 
-    public CommonDialogBuilder setDialogCancel(String cancel) {
+    public DialogBuilder setDialogCancel(String cancel) {
         this.mDialogCancel = cancel;
         return this;
     }
 
-    public CommonDialogBuilder setCancelable(boolean isCancelable) {
+    public DialogBuilder setCancelable(boolean isCancelable) {
         this.isCancelable = isCancelable;
         return this;
     }
 
-    public CommonDialogBuilder setShowTitle(boolean isShowTitle) {
+    public DialogBuilder setShowTitle(boolean isShowTitle) {
         this.isShowTitle = isShowTitle;
         return this;
     }
 
-    public CommonDialogBuilder setDialogStyleRes(@StyleRes int styleRes) {
+    public DialogBuilder setDialogStyleRes(@StyleRes int styleRes) {
         this.mDialogStyleRes = styleRes;
         return this;
     }
 
-    public CommonDialogBuilder setShowCancelButton(boolean isShowCancelButton) {
+    public DialogBuilder setShowCancelButton(boolean isShowCancelButton) {
         this.isShowCancelButton = isShowCancelButton;
         return this;
     }

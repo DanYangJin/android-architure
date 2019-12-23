@@ -1,10 +1,10 @@
 package com.shouzhan.design.ui.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
@@ -37,7 +37,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_main
+        return com.shouzhan.design.R.layout.activity_main
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,15 +53,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     }
 
     override fun getData() {
-        showDialogFragment()
+//        showDialogFragment()
+        dealRxJava2()
     }
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.select_btn -> {
+            com.shouzhan.design.R.id.select_btn -> {
                 takePhotoManager.requestPickPhoto()
             }
-            R.id.update_btn -> {
+            com.shouzhan.design.R.id.update_btn -> {
                 presenter.showLiveData()
             }
         }
@@ -98,10 +99,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
         for (i in 1..10) {
             f1 = AlertDialogFragment.instantiate(mContext,
                     AlertDialogFragment::class.java.name) as AlertDialogFragment
-            val b1 = CommonDialogBuilder.builder(mContext)
-                    .setDialogCancel(R.string.common_cancel)
+            val b1 = DialogBuilder.builder(mContext)
+                    .setDialogCancel(com.shouzhan.design.R.string.common_cancel)
                     .setDialogMsg("哈哈哈$i")
-                    .setDialogConfirm(R.string.common_confirm)
+                    .setDialogConfirm(com.shouzhan.design.R.string.common_confirm)
             f1.builder = b1
             var d1: PriorityQueueInfo = when {
                 i % 2 == 0 -> PriorityQueueInfo(Priority.PRIORITY_HEIGHT, f1, "first_$i")
@@ -111,6 +112,114 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
             dialogManager.pushToQueue(d1)
         }
     }
+
+    @SuppressLint("CheckResult")
+    private fun dealRxJava2() {
+//        Observable.create(ObservableOnSubscribe<Int> {
+//            it.onNext(1)
+//            it.onComplete()
+//        }).map { t -> "this is result $t" }.subscribe(object : Observer<String> {
+//            override fun onComplete() {
+//                FsLogUtil.info("Catch", "onComplete")
+//            }
+//
+//            override fun onSubscribe(d: Disposable) {
+//                FsLogUtil.info("Catch", "onSubscribe")
+//            }
+//
+//            override fun onError(e: Throwable) {
+//                FsLogUtil.info("Catch", "onError")
+//            }
+//
+//            override fun onNext(t: String) {
+//                FsLogUtil.info("Catch", "onNext: $t")
+//            }
+//        })
+//        Observable.zip(getStringObservable(), getIntObservable(),
+//                BiFunction<String, Int, String> {
+//                    p0, p1 -> p0 + p1
+//                }
+//        ).subscribe {
+//            FsLogUtil.info("Catch", "zip value: $it")
+//        }
+//        Observable.concat(Observable.just(1, 2, 3),
+//                Observable.just(2)).subscribe {
+//            FsLogUtil.info("Catch", "concat value: $it")
+//        }
+//        Observable.create(ObservableOnSubscribe<Int> {
+//            it.onNext(1)
+//            it.onNext(2)
+//            it.onNext(3)
+//        }).concatMap {
+//            val list = ArrayList<String>()
+//            for (i in 0..2) {
+//                list.add("I am value $i")
+//            }
+//            val delayTime = (1 + Math.random() * 10).toLong()
+//            Observable.fromIterable<String>(list).delay(delayTime, TimeUnit.MILLISECONDS)
+//        }.subscribeOn(Schedulers.newThread())
+//                .observeOn(Schedulers.io())
+//                .subscribe {
+//                    FsLogUtil.error("Catch", "this result is $it")
+//                }
+//        Observable.just(1, 1, 1, 2, 2, 3, 4, 5)
+//                .distinct()
+//                .subscribe {
+//                    FsLogUtil.error("Catch", "this result is: $it")
+//                }
+//        Observable.just(1, 1, 1, 2, 2, 3, 4, 5)
+//                .filter {
+//                    it > 2
+//                }
+//                .subscribe {
+//                    FsLogUtil.error("Catch", "this result is: $it")
+//                }
+//        Observable.just(1, 2, 3, 4, 5)
+//                .buffer(3, 4)
+//                .subscribe { integers ->
+//                    Log.e("Catch", "buffer size : " + integers.size + "\n")
+//                    for (i in integers) {
+//                        Log.e("Catch", i.toString() + "")
+//                    }
+//                    Log.e("Catch", "\n")
+//                }
+//        Observable.interval(3, 2, TimeUnit.SECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe{
+//                    Log.e("Catch", "timer : $it")
+//                }
+
+//        Observable.just(1, 2, 3)
+//                .last(4)
+//                .subscribe { integer ->
+//                    Log.e("Catch", "last : $integer\n")
+//                }
+
+//        Observable.just(1, 2, 3)
+//                .reduce(2, {
+//                    integer, integer2 -> integer + integer2
+//                })
+//                .subscribe {
+//                    integer -> Log.e("Catch", "accept: reduce : $integer\n")
+//                }
+    }
+
+//    private fun getStringObservable() : Observable<String>{
+//        return Observable.create {
+//            it.onNext("A")
+//            it.onNext("B")
+//            it.onNext("C")
+//            it.onNext("D")
+//        }
+//    }
+//
+//    private fun getIntObservable() : Observable<Int>{
+//        return Observable.create {
+//            it.onNext(1)
+//            it.onNext(2)
+//            it.onNext(3)
+//        }
+//    }
 
 
     fun dealJsonObject(jsonObject: JSONObject?, fail: () -> Unit) {
