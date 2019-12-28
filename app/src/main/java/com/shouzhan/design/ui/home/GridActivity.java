@@ -3,14 +3,15 @@ package com.shouzhan.design.ui.home;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerView;
 import com.fshows.android.stark.utils.FsLogUtil;
 import com.google.common.collect.Lists;
 import com.shouzhan.design.R;
 import com.shouzhan.design.adapter.GridGroupAdapter;
-import com.shouzhan.design.base.BaseNoBindingActivity;
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter;
 import com.shouzhan.design.compontent.recyclerview.OnLoadRefreshListener;
+import com.shouzhan.design.databinding.ActivityGridBinding;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  * @author danbin
  * @version GridActivity.java, v 0.1 2019-10-20 19:59 danbin
  */
-public class GridActivity extends BaseNoBindingActivity {
+public class GridActivity extends BaseActivity<ActivityGridBinding> {
 
     private FsRecyclerView mFsRecyclerView;
     private GridGroupAdapter mGridAdapter;

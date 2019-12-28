@@ -5,9 +5,10 @@ import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListPinnedAdapter
-import com.shouzhan.design.base.LazyFragment
+import com.shouzhan.design.base.BaseLazyFragment
 import com.shouzhan.design.compontent.recyclerview.FsLoadRefreshListener
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter
+import com.shouzhan.design.databinding.FragmentCustomHeaderBinding
 import com.shouzhan.design.ui.home.MainActivity
 import com.shouzhan.design.ui.user.viewmodel.UserListViewModel
 import kotlinx.android.synthetic.main.fragment_custom_header.*
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_custom_header.*
  * @version HeaderFragment.java, v 0.1 2019-03-02 下午10:36 danbin
  * 自定义下拉头布局
  */
-class CustomHeaderFragment : LazyFragment() {
+class CustomHeaderFragment : BaseLazyFragment<FragmentCustomHeaderBinding>() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserListViewModel::class.java)

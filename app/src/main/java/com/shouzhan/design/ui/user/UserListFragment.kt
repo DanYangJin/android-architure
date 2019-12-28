@@ -6,10 +6,11 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListAdapter
-import com.shouzhan.design.base.LazyFragment
+import com.shouzhan.design.base.BaseLazyFragment
 import com.shouzhan.design.compontent.recyclerview.FsLoadRefreshListener
 import com.shouzhan.design.compontent.recyclerview.FsPinnedHeaderItemDecoration
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter
+import com.shouzhan.design.databinding.FragmentUserListBinding
 import com.shouzhan.design.ui.home.MainActivity
 import com.shouzhan.design.ui.user.viewmodel.UserListViewModel
 import kotlinx.android.synthetic.main.fragment_user_list.*
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_user_list.*
  * @author danbin
  * @version FragmentOne.java, v 0.1 2019-03-02 下午10:36 danbin
  */
-class UserListFragment : LazyFragment(), SwipeRefreshLayout.OnRefreshListener {
+class UserListFragment : BaseLazyFragment<FragmentUserListBinding>(), SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserListViewModel::class.java)

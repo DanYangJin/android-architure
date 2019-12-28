@@ -18,13 +18,14 @@ import com.shouzhan.design.R;
  * @author danbin
  * @version BaseActivity.java, v 0.1 2019-02-26 下午11:23 danbin
  */
-public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity implements BaseControllerPresenter, BaseBindingPresenter {
+public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompatActivity implements IBasePagePresenter, Presenter {
 
     protected Context mContext;
     protected VB mBinding;
 
     private View mEmptyView = null;
     private View mErrorView = null;
+    private View mLoadingView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,10 +47,17 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
      */
     protected <T extends BaseViewModel> T vmProviders(@NonNull Class<T> modelClass) {
         T viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(App.getInstance()).create(modelClass);
-        viewModel.observerPageStatus().observe(this, pageStatus -> {
-            switch (pageStatus) {
+        viewModel.getViewStatus().observe(this, viewStatus -> {
+            assert viewStatus != null;
+            switch (viewStatus) {
                 case EMPTY:
                     showEmptyView();
+                    break;
+                case ERROR:
+                    showErrorView();
+                    break;
+                case LOADING:
+                    showLoadingView();
                     break;
                 default:
                     break;
@@ -62,6 +70,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     public void initView() {
         mEmptyView = findViewById(R.id.empty_rl);
         mErrorView = findViewById(R.id.error_rl);
+        mLoadingView = findViewById(R.id.loading_rl);
     }
 
     @Override
@@ -71,6 +80,19 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
     @Override
     public void showLoadingView() {
+        if (mEmptyView != null) {
+            mEmptyView.setVisibility(View.GONE);
+        }
+        if (mErrorView != null) {
+            mErrorView.setVisibility(View.GONE);
+        }
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideLoadingView() {
 
     }
 
@@ -82,6 +104,9 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         if (mErrorView != null) {
             mErrorView.setVisibility(View.GONE);
         }
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -92,6 +117,11 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         if (mErrorView != null) {
             mErrorView.setVisibility(View.VISIBLE);
         }
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.GONE);
+        }
     }
+
+
 
 }

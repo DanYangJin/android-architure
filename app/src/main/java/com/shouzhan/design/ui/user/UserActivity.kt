@@ -6,7 +6,8 @@ import android.view.MenuItem
 import android.view.View
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
-import com.shouzhan.design.base.BaseNoBindingActivity
+import com.shouzhan.design.base.BaseActivity
+import com.shouzhan.design.databinding.ActivityUserBinding
 import com.shouzhan.design.ui.home.FlexboxActivity
 import com.shouzhan.design.ui.login.LoginActivity
 import com.shouzhan.design.ui.mvp.MvpActivity
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_user.*
  * @version KotlinActivity.java, v 0.1 2019-02-26 上午11:27 danbin
  * 通过Fragment实现加载两种不同的翻页功能
  */
-class UserActivity : BaseNoBindingActivity() {
+class UserActivity : BaseActivity<ActivityUserBinding>() {
 
     private var titles = mutableListOf("测试1", "测试2")
 
@@ -26,7 +27,6 @@ class UserActivity : BaseNoBindingActivity() {
     }
 
     override fun initView() {
-        setSupportActionBar(toolbar)
         home_tab_layout.setupWithViewPager(home_view_pager)
         var adapter = HomePagerAdapter(supportFragmentManager)
         home_view_pager.adapter = adapter

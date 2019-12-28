@@ -18,11 +18,7 @@ import com.shouzhan.design.utils.LocationObserver
  * @version MainPresenter.java, v 0.1 2019-12-13 17:14 danbin
  */
 
-class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDataBinding?) : BasePresenter<Context, MainContract.View, ViewDataBinding>(context, view, binding), MainContract.Presenter {
-
-    private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        vmProviders(MainViewModel::class.java)
-    }
+class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDataBinding?, viewModel: MainViewModel?) : BasePresenter<Context, MainContract.View, ViewDataBinding, MainViewModel>(context, view, binding, viewModel), MainContract.Presenter {
 
     private val locationObserver by lazy(LazyThreadSafetyMode.NONE) {
         LocationObserver(mLifecycle)
@@ -35,12 +31,12 @@ class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDa
 
     init {
         mLifecycle.addObserver(locationObserver)
-        initUI()
+        initView()
         initObserver()
     }
 
-    override fun initUI() {
-        (mBinding as ActivityMainBinding).vm = viewModel
+    override fun initView() {
+        (mBinding as ActivityMainBinding).vm = mViewModel
         (mBinding as ActivityMainBinding).input = input
     }
 
@@ -51,12 +47,12 @@ class MainPresenter(context: Context?, view: MainContract.View?, binding: ViewDa
     }
 
     override fun updateLiveData() {
-        viewModel.inputTxt.set("哈哈哈哈")
+        mViewModel.inputTxt.set("哈哈哈哈")
     }
 
 
     override fun refreshHeadImage(headUrl: String) {
-        viewModel.headImage.set(headUrl)
+        mViewModel.headImage.set(headUrl)
     }
 
     override fun showLiveData() {

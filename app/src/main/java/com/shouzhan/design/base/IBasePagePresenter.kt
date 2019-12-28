@@ -4,10 +4,10 @@ import android.support.annotation.LayoutRes
 
 /**
  * @author danbin
- * @version BaseViewPresenter.java, v 0.1 2019-01-23 上午5:26 danbin
+ * @version IBasePagePresenter.java, v 0.1 2019-01-23 上午5:26 danbin
  * 控制器通用Presenter
  */
-interface BaseControllerPresenter {
+interface IBasePagePresenter {
 
     /**
      * 获取布局
@@ -36,6 +36,11 @@ interface BaseControllerPresenter {
     fun showLoadingView()
 
     /**
+     * 隐藏加载View
+     * */
+    fun hideLoadingView()
+
+    /**
      * 显示空视图
      * */
     fun showEmptyView()
@@ -45,10 +50,9 @@ interface BaseControllerPresenter {
      * */
     fun showErrorView()
 
-
 }
 
-enum class ControllerStatus {
+enum class ViewStatus {
     EMPTY,
     ERROR,
     LOADING

@@ -6,6 +6,7 @@ import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityFlexBoxBinding
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
+import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_flex_box.*
 
 /**
@@ -14,8 +15,12 @@ import kotlinx.android.synthetic.main.activity_flex_box.*
  */
 class FlexboxActivity : BaseActivity<ActivityFlexBoxBinding>(), MainContract.View {
 
+    private val mViewModel by lazy(LazyThreadSafetyMode.NONE) {
+        vmProviders(MainViewModel::class.java)
+    }
+
     private val presenter by lazy(LazyThreadSafetyMode.NONE) {
-        MainPresenter(this, this, mBinding)
+        MainPresenter(this, this, mBinding, mViewModel)
     }
 
     override fun getLayoutId(): Int = R.layout.activity_flex_box

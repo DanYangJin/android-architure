@@ -5,12 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
 import com.shouzhan.design.dialog.*
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
+import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import com.shouzhan.design.utils.TakePhotoManager
 import kotlinx.android.synthetic.main.activity_main.*
 import org.apache.commons.lang3.StringUtils
@@ -28,6 +30,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
 
     private lateinit var presenter: MainPresenter
 
+    private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
+        vmProviders(MainViewModel::class.java)
+    }
+
     private val takePhotoManager by lazy(LazyThreadSafetyMode.NONE) {
         TakePhotoManager(this, this)
     }
@@ -37,12 +43,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     }
 
     override fun getLayoutId(): Int {
-        return com.shouzhan.design.R.layout.activity_main
+        return R.layout.activity_main
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter = MainPresenter(this, this, mBinding)
+        presenter = MainPresenter(this, this, mBinding, viewModel)
         getData()
     }
 

@@ -2,7 +2,7 @@ package com.shouzhan.design.ui.login.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel
-import com.shouzhan.design.base.ControllerStatus
+import com.shouzhan.design.base.ViewStatus
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback
 import com.shouzhan.design.model.remote.result.LoginResult
 import com.shouzhan.design.repository.LoginRepository
@@ -25,7 +25,7 @@ class LoginViewModel : BaseViewModel() {
 
             override fun onFailure(resultMsg: String?, resultCode: Int) {
                 super.onFailure(resultMsg, resultCode)
-                mPageStatus.value = ControllerStatus.ERROR
+                viewStatus.value = ViewStatus.ERROR
             }
         })
     }

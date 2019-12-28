@@ -4,9 +4,9 @@ import android.view.View;
 
 /**
  * @author danbin
- * @version BaseBindingPresenter.java, v 0.1 2019-01-24 上午11:02 danbin
+ * @version Presenter.java, v 0.1 2019-01-24 上午11:02 danbin
  */
-public interface BaseBindingPresenter extends View.OnClickListener{
+public interface Presenter extends View.OnClickListener{
 
     /**
      * 点击按钮事件

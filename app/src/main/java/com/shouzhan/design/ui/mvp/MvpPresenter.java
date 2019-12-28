@@ -11,14 +11,14 @@ import com.shouzhan.design.utils.SoundPoolUtil;
  * @author danbin
  * @version MvpPresenter.java, v 0.1 2019-07-17 00:40 danbin
  */
-public class MvpPresenter extends BasePresenter<Context, MvpContract.View, ActivityMvpBinding> implements MvpContract.Presenter {
+public class MvpPresenter extends BasePresenter<Context, MvpContract.View, ActivityMvpBinding, MvpViewModel> implements MvpContract.Presenter {
 
     private SoundPoolUtil mSoundPool;
 
-    public MvpPresenter(Context context, ActivityMvpBinding binding, MvpContract.View view) {
-        super(context, view, binding);
+    public MvpPresenter(Context context, ActivityMvpBinding binding, MvpContract.View view, MvpViewModel viewModel) {
+        super(context, view, binding, viewModel);
         this.mSoundPool = new SoundPoolUtil(context);
-        this.initUI();
+        this.initView();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class MvpPresenter extends BasePresenter<Context, MvpContract.View, Activ
     }
 
     @Override
-    public void initUI() {
+    public void initView() {
 //        mDisposable.addDisposable(
 //                RxView.clicks(mBinding.switchBtn)
 //                        .subscribe(o -> switchTitle()));

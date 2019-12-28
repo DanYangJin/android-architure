@@ -9,7 +9,7 @@
 
         <variable
                 name="presenter"
-                type="com.shouzhan.design.base.BaseBindingPresenter"/>
+                type="com.shouzhan.design.base.Presenter"/>
 
     </data>
 

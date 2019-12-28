@@ -13,13 +13,17 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class BaseViewModel extends ViewModel {
 
-    public MutableLiveData<ControllerStatus> mPageStatus = new MutableLiveData<>();
+    public MutableLiveData<ViewStatus> mViewStatus = new MutableLiveData<>();
 
-    public MutableLiveData<ControllerStatus> observerPageStatus() {
-        return mPageStatus;
+    public MutableLiveData<ViewStatus> getViewStatus() {
+        return mViewStatus;
     }
 
     private CommonCompositeDisposable mHttpDisposable = new CommonCompositeDisposable();
+
+    public CommonCompositeDisposable getHttpDisposable() {
+        return mHttpDisposable;
+    }
 
     @Override
     protected void onCleared() {
@@ -33,10 +37,6 @@ public class BaseViewModel extends ViewModel {
 
     public void addDisposable(Disposable disposable) {
         mHttpDisposable.addDisposable(disposable);
-    }
-
-    public CommonCompositeDisposable getHttpDisposable() {
-        return mHttpDisposable;
     }
 
 }

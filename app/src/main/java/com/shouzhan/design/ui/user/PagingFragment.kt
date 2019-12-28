@@ -5,7 +5,8 @@ import android.arch.paging.PagedList
 import android.support.v7.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserPagingAdapter
-import com.shouzhan.design.base.LazyFragment
+import com.shouzhan.design.base.BaseLazyFragment
+import com.shouzhan.design.databinding.FragmentPagingBinding
 import com.shouzhan.design.model.remote.result.UserListResult
 import com.shouzhan.design.ui.user.viewmodel.UserPagingViewModel
 import kotlinx.android.synthetic.main.fragment_paging.*
@@ -14,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_paging.*
  * @author danbin
  * @version PagingFragment.java, v 0.1 2019-03-02 下午10:36 danbin
  */
-class PagingFragment : LazyFragment() {
+class PagingFragment : BaseLazyFragment<FragmentPagingBinding>() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserPagingViewModel::class.java)
