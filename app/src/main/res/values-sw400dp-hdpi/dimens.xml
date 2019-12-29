@@ -33,4 +33,7 @@
     <dimen name="common_alert_dialog_btn_layout_height">51.28dp</dimen>
 
 
+    <!--status bar activity-->
+    <dimen name="home_toolbar_height">56.41dp</dimen>
+
 </resources>

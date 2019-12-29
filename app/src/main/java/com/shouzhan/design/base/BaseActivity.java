@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.shouzhan.design.App;
 import com.shouzhan.design.BR;
 import com.shouzhan.design.R;
@@ -31,11 +32,17 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         extraIntentData();
+        mContext = this;
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());
         mBinding.setVariable(BR.presenter, this);
         mBinding.setLifecycleOwner(this);
         initView();
-        mContext = this;
+        initImmersionBar();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).init();
     }
 
     /**

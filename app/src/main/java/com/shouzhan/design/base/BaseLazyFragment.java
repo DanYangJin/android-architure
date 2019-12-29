@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.shouzhan.design.App;
+import com.shouzhan.design.R;
 
 /**
  * @author danbin
@@ -63,12 +65,18 @@ public abstract class BaseLazyFragment<VB extends ViewDataBinding> extends Fragm
             mBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
             mBinding.setVariable(com.shouzhan.design.BR.presenter, this);
             mBinding.setLifecycleOwner(this);
+            initImmersionBar();
         }
         ViewGroup parent = (ViewGroup) mBinding.getRoot().getParent();
         if (parent != null) {
             parent.removeView(mBinding.getRoot());
         }
         return mBinding.getRoot();
+    }
+
+    @Override
+    public void initImmersionBar() {
+        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).init();
     }
 
     /**

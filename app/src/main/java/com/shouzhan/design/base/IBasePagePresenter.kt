@@ -31,6 +31,11 @@ interface IBasePagePresenter {
     fun getData()
 
     /**
+     * 设置状态栏
+     * */
+    fun initImmersionBar()
+
+    /**
      * 显示加载View
      * */
     fun showLoadingView()

@@ -10,8 +10,13 @@
     <color name="color_666">#666666</color>
     <color name="color_999">#999999</color>
     <color name="color_fff">#FFFFFF</color>
-
-    <color name="color_f04144">#F04144</color>
     <color name="color_f9">#F9F9F9</color>
+
+    <!--开始-->
+    <color name="color_f04144">#F04144</color>
+    <!--中间颜色-->
+    <color name="color_fc4c55">#FC4C55</color>
+    <!--结束-->
+    <color name="color_ff8541">#FF8541</color>
 
 </resources>
