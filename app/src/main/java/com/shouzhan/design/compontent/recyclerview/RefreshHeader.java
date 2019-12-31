@@ -64,7 +64,7 @@ public class RefreshHeader extends LinearLayout implements IRefreshHeader {
     private void initDraweeController() {
         DraweeController mDraweeController = Fresco.newDraweeControllerBuilder()
                 .setAutoPlayAnimations(false)
-                .setUri(UriUtil.parseUriOrNull("res://" + mContext.getPackageName() + "/" + R.mipmap.refresh_header_iv))
+                .setUri(UriUtil.parseUriOrNull("res://" + mContext.getPackageName() + "/" + R.mipmap.refresh_header_white_bg))
                 .setControllerListener(new BaseControllerListener<ImageInfo>(){
                     @Override
                     public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable animatable) {
