@@ -1,14 +1,15 @@
 package com.shouzhan.design.ui.home;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.shouzhan.design.base.BaseActivity;
-import com.shouzhan.design.compontent.recyclerview.FsRecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.fshows.android.stark.utils.FsLogUtil;
 import com.google.common.collect.Lists;
 import com.shouzhan.design.R;
 import com.shouzhan.design.adapter.GridGroupAdapter;
+import com.shouzhan.design.base.BaseActivity;
+import com.shouzhan.design.compontent.recyclerview.FsRecyclerView;
 import com.shouzhan.design.compontent.recyclerview.FsRecyclerViewAdapter;
 import com.shouzhan.design.compontent.recyclerview.OnLoadRefreshListener;
 import com.shouzhan.design.databinding.ActivityGridBinding;

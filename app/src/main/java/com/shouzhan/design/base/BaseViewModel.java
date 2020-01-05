@@ -1,7 +1,7 @@
 package com.shouzhan.design.base;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 import com.shouzhan.design.datasource.http.CommonCompositeDisposable;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;

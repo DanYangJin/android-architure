@@ -9,11 +9,11 @@
         android:id="@+id/item_label_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:textColor="@color/color_999"
-        android:singleLine="true"
-        android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:textColor="@color/color_999"
+        android:textSize="20sp" />
 
 </RelativeLayout>

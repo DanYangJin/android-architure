@@ -1,13 +1,13 @@
 package com.shouzhan.design.adapter.holder
 
-import android.support.annotation.DrawableRes
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.DrawableRes
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.shouzhan.design.R
 
-internal class CatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+internal class CatViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
     private val imageView: ImageView = itemView.findViewById(R.id.cat_iv)
 

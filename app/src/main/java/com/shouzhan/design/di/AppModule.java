@@ -1,6 +1,6 @@
 package com.shouzhan.design.di;
 
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProvider;
 import com.shouzhan.design.datasource.http.ApiService;
 import com.shouzhan.design.model.javabean.UserInfo;
 import dagger.Module;

@@ -24,9 +24,9 @@
 
                 <com.scwang.smartrefresh.layout.header.ClassicsHeader
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
-                <android.support.v4.widget.NestedScrollView
+                <androidx.core.widget.NestedScrollView
                     android:id="@+id/scroll_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -38,20 +38,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="3000dp">
 
-                        <android.support.constraint.ConstraintLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:background="@drawable/bg_gradient2"
                             app:layout_constraintTop_toTopOf="parent">
 
-                        </android.support.constraint.ConstraintLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </RelativeLayout>
 
-                </android.support.v4.widget.NestedScrollView>
+                </androidx.core.widget.NestedScrollView>
+
                 <com.scwang.smartrefresh.layout.footer.ClassicsFooter
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </com.scwang.smartrefresh.layout.SmartRefreshLayout>
         </RelativeLayout>
 

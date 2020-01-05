@@ -2,30 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal">
 
         <com.shouzhan.design.compontent.picker.WheelView
-                android:id="@+id/year_wheel_view"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-        />
+            android:id="@+id/year_wheel_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <com.shouzhan.design.compontent.picker.WheelView
-                android:id="@+id/month_wheel_view"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-        />
+            android:id="@+id/month_wheel_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <com.shouzhan.design.compontent.picker.WheelView
-                android:id="@+id/day_wheel_view"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-        />
+            android:id="@+id/day_wheel_view"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
     </LinearLayout>
 

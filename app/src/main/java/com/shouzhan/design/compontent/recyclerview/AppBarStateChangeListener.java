@@ -1,6 +1,6 @@
 package com.shouzhan.design.compontent.recyclerview;
 
-import android.support.design.widget.AppBarLayout;
+import com.google.android.material.appbar.AppBarLayout;
 
 /**
  * @author lizhixian

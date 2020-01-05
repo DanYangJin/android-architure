@@ -1,6 +1,6 @@
 package com.shouzhan.design.dialog;
 
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.ComparatorCompat;

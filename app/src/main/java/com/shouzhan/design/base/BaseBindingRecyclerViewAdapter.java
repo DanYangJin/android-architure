@@ -1,7 +1,7 @@
 package com.shouzhan.design.base;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.shouzhan.design.BR;
 
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
 package com.shouzhan.design.ui.user
 
-import android.arch.lifecycle.Observer
-import android.arch.paging.PagedList
-import android.support.v7.widget.LinearLayoutManager
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserPagingAdapter
 import com.shouzhan.design.base.BaseLazyFragment
@@ -32,7 +32,7 @@ class PagingFragment : BaseLazyFragment<FragmentPagingBinding>() {
     override fun getLayoutId(): Int = R.layout.fragment_paging
 
     override fun initView() {
-        recycler_view.layoutManager = LinearLayoutManager(mContext)
+        recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(mContext)
         mAdapter = UserPagingAdapter()
         recycler_view.adapter = mAdapter
         viewModel.concertList.observe(this, Observer<PagedList<UserListResult>> {

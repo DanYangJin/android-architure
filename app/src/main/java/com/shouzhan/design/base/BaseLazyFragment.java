@@ -1,16 +1,17 @@
 package com.shouzhan.design.base;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.shouzhan.design.App;
@@ -41,15 +42,6 @@ public abstract class BaseLazyFragment<VB extends ViewDataBinding> extends Fragm
      * 数据是否已经初始化，避免重复请求数据
      */
     private boolean isDataInitiated = false;
-
-    /**
-     * 友盟统计TAG
-     *
-     * @return String
-     */
-    protected String getUmengTag() {
-        return "";
-    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

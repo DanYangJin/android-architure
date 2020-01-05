@@ -1,12 +1,14 @@
 package com.shouzhan.design.base;
 
-import android.arch.lifecycle.Lifecycle;
-import android.arch.lifecycle.LifecycleObserver;
-import android.arch.lifecycle.OnLifecycleEvent;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.CallSuper;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.view.View;
+
+import androidx.annotation.CallSuper;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 
 import com.annimon.stream.Stream;
 import com.fshows.android.stark.utils.FsLogUtil;
@@ -15,7 +17,7 @@ import com.fshows.android.stark.utils.FsLogUtil;
  * @author danbin
  * @version BasePresenter.java, v 0.1 2019-09-04 09:58 danbin
  */
-public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataBinding, VM extends BaseViewModel> implements IBasePresenter, LifecycleObserver {
+public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataBinding, VM extends BaseViewModel> implements IBasePresenter, LifecycleObserver, Presenter {
     private static final String TAG = BasePresenter.class.getSimpleName();
 
     protected Lifecycle mLifecycle;
@@ -28,6 +30,7 @@ public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataB
         this.mContext = context;
         this.mView = view;
         this.mBinding = binding;
+        this.mBinding.setVariable(com.shouzhan.design.BR.presenter, this);
         this.mViewModel = viewModel;
         this.initLifecycle();
         this.initObserver();
@@ -43,6 +46,11 @@ public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataB
         if (this.mLifecycle != null) {
             mLifecycle.addObserver(this);
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 
     @Override
@@ -89,5 +97,4 @@ public abstract class BasePresenter<C, V extends IBaseView, VB extends ViewDataB
         mContext = null;
         mView = null;
     }
-
 }

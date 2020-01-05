@@ -1,15 +1,15 @@
 package com.shouzhan.design.compontent.view
 
 import android.content.Context
-import android.databinding.BindingAdapter
-import android.databinding.InverseBindingAdapter
-import android.databinding.InverseBindingListener
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.RelativeLayout
+import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import com.shouzhan.design.R
 import kotlinx.android.synthetic.main.layout_custom_et.view.*
 

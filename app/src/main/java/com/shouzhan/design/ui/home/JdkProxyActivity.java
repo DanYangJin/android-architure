@@ -1,8 +1,9 @@
 package com.shouzhan.design.ui.home;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.fshows.android.stark.utils.FsLogUtil;
 import com.shouzhan.design.R;

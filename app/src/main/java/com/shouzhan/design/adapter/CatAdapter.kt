@@ -1,12 +1,12 @@
 package com.shouzhan.design.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.holder.CatViewHolder
 
-internal class CatAdapter : RecyclerView.Adapter<CatViewHolder>() {
+internal class CatAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<CatViewHolder>() {
 
     companion object {
         private val CAT_IMAGE_IDS = intArrayOf(

@@ -3,6 +3,7 @@ package com.shouzhan.design.ui.mvp;
 import android.content.Context;
 import android.view.KeyEvent;
 
+import com.jakewharton.rxbinding3.view.RxView;
 import com.shouzhan.design.base.BasePresenter;
 import com.shouzhan.design.databinding.ActivityMvpBinding;
 import com.shouzhan.design.utils.SoundPoolUtil;
@@ -18,7 +19,6 @@ public class MvpPresenter extends BasePresenter<Context, MvpContract.View, Activ
     public MvpPresenter(Context context, ActivityMvpBinding binding, MvpContract.View view, MvpViewModel viewModel) {
         super(context, view, binding, viewModel);
         this.mSoundPool = new SoundPoolUtil(context);
-        this.initView();
     }
 
     @Override
@@ -33,9 +33,7 @@ public class MvpPresenter extends BasePresenter<Context, MvpContract.View, Activ
 
     @Override
     public void initView() {
-//        mDisposable.addDisposable(
-//                RxView.clicks(mBinding.switchBtn)
-//                        .subscribe(o -> switchTitle()));
+
     }
 
     @Override

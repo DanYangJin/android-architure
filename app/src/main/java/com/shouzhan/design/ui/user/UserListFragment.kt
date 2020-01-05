@@ -1,9 +1,9 @@
 package com.shouzhan.design.ui.user
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListAdapter
 import com.shouzhan.design.base.BaseLazyFragment
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_user_list.*
  * @author danbin
  * @version FragmentOne.java, v 0.1 2019-03-02 下午10:36 danbin
  */
-class UserListFragment : BaseLazyFragment<FragmentUserListBinding>(), SwipeRefreshLayout.OnRefreshListener {
+class UserListFragment : BaseLazyFragment<FragmentUserListBinding>(), androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
         vmProviders(UserListViewModel::class.java)
@@ -47,7 +47,7 @@ class UserListFragment : BaseLazyFragment<FragmentUserListBinding>(), SwipeRefre
         swipe_refresh_layout.setOnRefreshListener(this)
 
         mDataAdapter = UserListAdapter()
-        recycler_view.layoutManager = LinearLayoutManager(mContext)
+        recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(mContext)
         mLuRecyclerViewAdapter = FsRecyclerViewAdapter(mDataAdapter)
         mLuRecyclerViewAdapter!!.setOnItemClickListener { _, _ ->
             startActivity(Intent(mContext, MainActivity::class.java))

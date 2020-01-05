@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import android.util.TypedValue
 import android.widget.Toast
 
@@ -27,14 +27,14 @@ fun Context.toast(msg: CharSequence, duration: Int = Toast.LENGTH_SHORT) {
 }
 
 @SuppressLint("ShowToast")
-fun <T : Fragment> T.toast(text: CharSequence) {
+fun <T : androidx.fragment.app.Fragment> T.toast(text: CharSequence) {
     context?.toast(text)
 }
 
 /**
  * @param resId 字符串资源
  */
-fun <T : Fragment> T.toast(@StringRes resId: Int) {
+fun <T : androidx.fragment.app.Fragment> T.toast(@StringRes resId: Int) {
     toast(getString(resId))
 }
 

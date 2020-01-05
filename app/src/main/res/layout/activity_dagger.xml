@@ -4,20 +4,20 @@
     <data>
 
         <variable
-                name="vm"
-                type="com.shouzhan.design.ui.home.viewmodel.MainViewModel"/>
+            name="vm"
+            type="com.shouzhan.design.ui.home.viewmodel.MainViewModel" />
 
         <variable
-                name="presenter"
-                type="com.shouzhan.design.base.Presenter"/>
+            name="presenter"
+            type="com.shouzhan.design.base.Presenter" />
 
     </data>
 
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

@@ -1,7 +1,6 @@
 package com.shouzhan.design.ui.home
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.ProductListAdapter
@@ -36,7 +35,7 @@ class ProductListActivity : BaseActivity<ActivityProductListBinding>() {
 
     override fun initView() {
         super.initView()
-        product_rv.layoutManager = LinearLayoutManager(mContext)
+        product_rv.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(mContext)
         mLuRecyclerViewAdapter = FsRecyclerViewAdapter(mAdapter)
         mLuRecyclerViewAdapter.setOnItemClickListener { _, _ ->
             logD("点击啦")

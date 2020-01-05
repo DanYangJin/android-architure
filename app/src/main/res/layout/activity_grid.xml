@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <View
             android:id="@+id/rootView"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@android:color/holo_green_dark"/>
+            android:background="@android:color/holo_green_dark"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.shouzhan.design.compontent.recyclerview.FsRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/rootView"
-            />
+            app:layout_constraintTop_toBottomOf="@id/rootView" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>

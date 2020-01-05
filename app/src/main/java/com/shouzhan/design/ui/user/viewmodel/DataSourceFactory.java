@@ -1,7 +1,7 @@
 package com.shouzhan.design.ui.user.viewmodel;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.paging.DataSource;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
 
 import com.shouzhan.design.datasource.http.CommonCompositeDisposable;
 import com.shouzhan.design.repository.UserListRepository;

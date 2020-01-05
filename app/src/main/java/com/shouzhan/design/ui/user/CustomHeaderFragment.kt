@@ -1,8 +1,8 @@
 package com.shouzhan.design.ui.user
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.UserListPinnedAdapter
 import com.shouzhan.design.base.BaseLazyFragment
@@ -42,7 +42,7 @@ class CustomHeaderFragment : BaseLazyFragment<FragmentCustomHeaderBinding>() {
 
     override fun initView() {
         mDataAdapter = UserListPinnedAdapter()
-        recycler_view.layoutManager = LinearLayoutManager(mContext)
+        recycler_view.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(mContext)
 //        recycler_view.addItemDecoration(FsPinnedHeaderItemDecoration())
         mLuRecyclerViewAdapter = FsRecyclerViewAdapter(mDataAdapter)
         mLuRecyclerViewAdapter!!.setOnItemClickListener { _, _ ->

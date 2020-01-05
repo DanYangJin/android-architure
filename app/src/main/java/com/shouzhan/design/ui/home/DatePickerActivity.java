@@ -1,8 +1,10 @@
 package com.shouzhan.design.ui.home;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.compontent.picker.NumericWheelAdapter;

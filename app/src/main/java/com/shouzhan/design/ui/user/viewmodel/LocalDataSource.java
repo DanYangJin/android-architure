@@ -1,7 +1,7 @@
 package com.shouzhan.design.ui.user.viewmodel;
 
-import android.arch.paging.PageKeyedDataSource;
-import android.support.annotation.NonNull;
+import androidx.paging.PageKeyedDataSource;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.shouzhan.design.base.BasePageResult;

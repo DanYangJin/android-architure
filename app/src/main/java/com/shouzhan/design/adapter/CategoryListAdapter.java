@@ -1,6 +1,6 @@
 package com.shouzhan.design.adapter;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 import com.shouzhan.design.R;
 import com.shouzhan.design.adapter.holder.CategoryListHolder;

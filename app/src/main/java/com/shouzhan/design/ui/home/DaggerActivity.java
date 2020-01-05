@@ -1,16 +1,19 @@
 package com.shouzhan.design.ui.home;
 
-import android.arch.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityDaggerBinding;
 import com.shouzhan.design.ui.home.viewmodel.DaggerViewModel;
-import dagger.android.AndroidInjection;
 
 import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 
 /**

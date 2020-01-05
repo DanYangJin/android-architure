@@ -1,11 +1,11 @@
 package com.shouzhan.design.ui.home
 
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
-import android.support.v4.graphics.ColorUtils
-import android.support.v4.widget.NestedScrollView
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.widget.NestedScrollView
 import com.gyf.immersionbar.ImmersionBar
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity

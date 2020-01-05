@@ -1,7 +1,7 @@
 package com.shouzhan.design.adapter.holder;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.ViewGroup;
 import com.shouzhan.design.adapter.CategoryListAdapter;
 import com.shouzhan.design.base.BaseBindingRecyclerViewHolder;

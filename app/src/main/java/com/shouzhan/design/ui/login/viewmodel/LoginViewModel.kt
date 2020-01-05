@@ -1,6 +1,6 @@
 package com.shouzhan.design.ui.login.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel
 import com.shouzhan.design.base.ViewStatus
 import com.shouzhan.design.datasource.http.performance.PerformanceApiCallback

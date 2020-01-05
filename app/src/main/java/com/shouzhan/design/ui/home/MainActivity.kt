@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.fshows.android.stark.utils.FsLogUtil
+import com.shouzhan.design.BR
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
@@ -14,7 +16,6 @@ import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import com.shouzhan.design.utils.TakePhotoManager
-import kotlinx.android.synthetic.main.activity_main.*
 import org.apache.commons.lang3.StringUtils
 import org.json.JSONObject
 import top.zibin.luban.Luban
@@ -51,26 +52,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         presenter = MainPresenter(this, this, mBinding, viewModel)
+        mBinding.setVariable(BR.presenter, this)
         getData()
     }
 
-    override fun initView() {
-        super.initView()
-        select_btn.setOnClickListener(this)
-        update_btn.setOnClickListener(this)
-    }
-
     override fun getData() {
-//        showDialogFragment()
         dealRxJava2()
     }
 
     override fun onClick(view: View) {
+        FsLogUtil.error("TAG", "MainActivity onClick")
         when (view.id) {
-            com.shouzhan.design.R.id.select_btn -> {
+            R.id.select_btn -> {
                 takePhotoManager.requestPickPhoto()
             }
-            com.shouzhan.design.R.id.update_btn -> {
+            R.id.update_btn -> {
                 presenter.showLiveData()
             }
         }

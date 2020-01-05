@@ -1,6 +1,6 @@
 package com.shouzhan.design.model.javabean;
 
-import android.databinding.BaseObservable;
+import androidx.databinding.BaseObservable;
 
 /**
  * @author danbin

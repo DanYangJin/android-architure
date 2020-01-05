@@ -9,10 +9,10 @@
         android:id="@+id/header_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30mm"
-        android:textColor="@color/color_666"
         android:layout_centerInParent="true"
         android:text="顶部刷新啦"
-        android:visibility="gone"/>
+        android:textColor="@color/color_666"
+        android:textSize="30mm"
+        android:visibility="gone" />
 
 </RelativeLayout>
