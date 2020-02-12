@@ -21,11 +21,8 @@
 
     <style name="CommonTabLayoutStyle" parent="Base.Widget.Design.TabLayout">
         <item name="tabBackground">@color/color_fff</item>
-        <item name="tabIndicatorColor">@color/colorPrimary</item>
-        <item name="tabIndicatorHeight">2dp</item>
-        <item name="tabSelectedTextColor">@color/colorPrimary</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="tabIndicatorColor">@color/color_f04144</item>
+        <item name="tabIndicatorHeight">@dimen/common_dp_4</item>
     </style>
 
     <style name="CommonDialogFragmentStyleTheme" parent="@android:style/Theme.Dialog">

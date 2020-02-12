@@ -21,7 +21,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/common_dp_30"
             android:text="@string/common_title"
-            android:textColor="@color/color_black_333"
             android:textSize="@dimen/size_32" />
 
         <RelativeLayout
@@ -66,7 +65,6 @@
                 android:background="@color/common_white"
                 android:gravity="center"
                 android:text="@string/common_cancel"
-                android:textColor="@color/color_gray_999"
                 android:textSize="@dimen/size_28"
                 android:visibility="gone" />
 
@@ -74,7 +72,6 @@
                 android:id="@+id/divider_line"
                 android:layout_width="@dimen/common_divider_height"
                 android:layout_height="match_parent"
-                android:background="@color/common_driver_bg"
                 android:visibility="gone" />
 
             <Button
