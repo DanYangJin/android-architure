@@ -5,19 +5,16 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.fshows.android.parker.navigation.GlueTabLayout
+import com.fshows.android.parker.navigation.FsTabLayout
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityUserBinding
-import com.shouzhan.design.ui.home.FlexboxActivity
 import com.shouzhan.design.ui.login.LoginActivity
-import com.shouzhan.design.ui.mvp.MvpActivity
 import kotlinx.android.synthetic.main.activity_user.*
 
 
@@ -35,8 +32,11 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
     }
 
     override fun initView() {
-        home_tab_layout.addOnTabSelectedListener(object : GlueTabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: GlueTabLayout.Tab) {
+        login_tv.setOnClickListener {
+            startActivity(Intent(mContext, LoginActivity::class.java))
+        }
+        home_tab_layout.addOnTabSelectedListener(object : FsTabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: FsTabLayout.Tab) {
                 Log.e("xsd", "onTabSelected: ${tab.position}")
                 var view = tab.customView
                 view?.run {
@@ -51,7 +51,7 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
                 }
             }
 
-            override fun onTabUnselected(tab: GlueTabLayout.Tab) {
+            override fun onTabUnselected(tab: FsTabLayout.Tab) {
                 Log.e("xsd", "onTabUnselected: ${tab.position}")
                 var view = tab.customView
                 view?.run {
@@ -67,7 +67,7 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
             }
 
             var isVisible = false
-            override fun onTabReselected(tab: GlueTabLayout.Tab) {
+            override fun onTabReselected(tab: FsTabLayout.Tab) {
                 Log.e("xsd", "onTabReselected: ${tab.position}")
                 var view = tab.customView
                 view?.run {
@@ -84,7 +84,7 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
                 }
             }
         })
-        home_tab_layout.setSlidingIndicatorAnimType(GlueTabLayout.AnimType.GLUE)
+        home_tab_layout.setSlidingIndicatorAnimType(FsTabLayout.AnimType.GLUE)
         home_tab_layout.setTabIndicatorWidth(0.3f)
         home_tab_layout.setupWithViewPager(home_view_pager)
         var adapter = HomePagerAdapter(supportFragmentManager)
@@ -114,26 +114,12 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(com.shouzhan.design.R.menu.menu, menu)
+        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
-            com.shouzhan.design.R.id.id_login -> {
-                startActivity(Intent(mContext, LoginActivity::class.java))
-            }
-            com.shouzhan.design.R.id.id_flex_box -> {
-                startActivity(Intent(mContext, FlexboxActivity::class.java))
-            }
-            com.shouzhan.design.R.id.id_dragger -> {
-                startActivity(Intent(mContext, MvpActivity::class.java))
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onClick(view: View?) {
+
     }
 
 }

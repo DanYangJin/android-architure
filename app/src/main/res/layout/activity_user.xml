@@ -29,15 +29,35 @@
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/AppTheme.PopupOverlay"
                     app:theme="@style/ToolbarTheme"
-                    app:titleTextColor="#ffffff" />
+                    app:titleTextColor="#ffffff">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/login_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:text="登录"
+                            android:textSize="@dimen/size_30"
+                            android:textColor="@color/common_white"
+                            android:layout_marginRight="@dimen/common_dp_30"/>
+
+                    </RelativeLayout>
+
+                </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-            <com.fshows.android.parker.navigation.GlueTabLayout
+            <com.fshows.android.parker.navigation.FsTabLayout
                 android:id="@+id/home_tab_layout"
                 style="@style/CommonTabLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
         </com.google.android.material.appbar.AppBarLayout>
 
 
