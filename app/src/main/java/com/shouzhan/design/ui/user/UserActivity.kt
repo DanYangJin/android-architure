@@ -9,14 +9,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.alibaba.fastjson.JSON
 import com.fshows.android.parker.navigation.FsTabLayout
-import com.fshows.android.stark.utils.FsLogUtil
 import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityUserBinding
-import com.shouzhan.design.model.javabean.AngularProfileDetailPageInfo
 import com.shouzhan.design.ui.login.LoginActivity
 import kotlinx.android.synthetic.main.activity_user.*
 
@@ -110,8 +107,6 @@ class UserActivity : BaseActivity<ActivityUserBinding>() {
             }
             tab?.customView = view
         }
-        var str = JSON.toJSONString(AngularProfileDetailPageInfo("isSet"))
-        FsLogUtil.error("Catch", "str: " + str)
     }
 
     override fun getData() {

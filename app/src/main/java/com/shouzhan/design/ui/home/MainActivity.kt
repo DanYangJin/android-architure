@@ -5,19 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.alibaba.fastjson.JSON
 import com.fshows.android.stark.utils.FsLogUtil
 import com.shouzhan.design.BR
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
-import com.shouzhan.design.dialog.*
+import com.shouzhan.design.dialog.DialogManager
+import com.shouzhan.design.model.javabean.JsonStringKtTest
+import com.shouzhan.design.model.javabean.JsonStringTest
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import com.shouzhan.design.utils.TakePhotoManager
 import org.apache.commons.lang3.StringUtils
-import org.json.JSONObject
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
@@ -57,7 +59,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     }
 
     override fun getData() {
-        dealRxJava2()
+//        dealRxJava2()
+        dealFastJson()
     }
 
     override fun onClick(view: View) {
@@ -98,24 +101,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
         takePhotoManager.onActivityResult(mContext, requestCode, resultCode, data)
     }
 
-    private fun showDialogFragment() {
-        lateinit var f1: AlertDialogFragment
-        for (i in 1..10) {
-            f1 = AlertDialogFragment.instantiate(mContext,
-                    AlertDialogFragment::class.java.name) as AlertDialogFragment
-            val b1 = DialogBuilder.builder(mContext)
-                    .setDialogCancel(com.shouzhan.design.R.string.common_cancel)
-                    .setDialogMsg("哈哈哈$i")
-                    .setDialogConfirm(com.shouzhan.design.R.string.common_confirm)
-            f1.builder = b1
-            var d1: PriorityQueueInfo = when {
-                i % 2 == 0 -> PriorityQueueInfo(Priority.PRIORITY_HEIGHT, f1, "first_$i")
-                i % 3 == 0 -> PriorityQueueInfo(f1, "first_$i")
-                else -> PriorityQueueInfo(Priority.PRIORITY_LOW, f1, "first_$i")
-            }
-            dialogManager.pushToQueue(d1)
-        }
-    }
+//    private fun showDialogFragment() {
+//        lateinit var f1: AlertDialogFragment
+//        for (i in 1..10) {
+//            f1 = AlertDialogFragment.instantiate(mContext,
+//                    AlertDialogFragment::class.java.name) as AlertDialogFragment
+//            val b1 = DialogBuilder.builder(mContext)
+//                    .setDialogCancel(com.shouzhan.design.R.string.common_cancel)
+//                    .setDialogMsg("哈哈哈$i")
+//                    .setDialogConfirm(com.shouzhan.design.R.string.common_confirm)
+//            f1.builder = b1
+//            var d1: PriorityQueueInfo = when {
+//                i % 2 == 0 -> PriorityQueueInfo(Priority.PRIORITY_HEIGHT, f1, "first_$i")
+//                i % 3 == 0 -> PriorityQueueInfo(f1, "first_$i")
+//                else -> PriorityQueueInfo(Priority.PRIORITY_LOW, f1, "first_$i")
+//            }
+//            dialogManager.pushToQueue(d1)
+//        }
+//    }
 
     @SuppressLint("CheckResult")
     private fun dealRxJava2() {
@@ -226,28 +229,30 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
 //    }
 
 
-    fun dealJsonObject(jsonObject: JSONObject?, fail: () -> Unit) {
-        jsonObject?.takeIf {
-            jsonObject.has("city_info")
-        }?.takeIf {
-            with(it.getJSONObject("city_info")) {
-                return@takeIf has("name") && has("data")
-            }
-        }?.let {
-            it.getJSONObject("city_info")
-        }.apply {
+//    fun dealJsonObject(jsonObject: JSONObject?, fail: () -> Unit) {
+//        jsonObject?.takeIf {
+//            jsonObject.has("city_info")
+//        }?.takeIf {
+//            with(it.getJSONObject("city_info")) {
+//                return@takeIf has("name") && has("data")
+//            }
+//        }?.let {
+//            it.getJSONObject("city_info")
+//        }.apply {
+//
+//        } ?: fail()
+//    }
 
-        } ?: fail()
+    private fun dealFastJson() {
+        FsLogUtil.error("xss", JSON.toJSONString(
+                JsonStringTest("xsd")))
+        FsLogUtil.error("xss", JSON.toJSONString(
+                JsonStringKtTest("push", "15820798016")))
     }
 
-    fun readFile() {
-        File("readme").readLines().forEach(::print)
-    }
 
-    override fun showLoading() {
-    }
+    override fun showLoading() {}
 
-    override fun hideLoading() {
-    }
+    override fun hideLoading() {}
 
 }
