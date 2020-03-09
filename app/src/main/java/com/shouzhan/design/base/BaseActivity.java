@@ -1,7 +1,10 @@
 package com.shouzhan.design.base;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -32,6 +35,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("xss", "onCreate");
         extraIntentData();
         mContext = this;
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());
@@ -39,6 +43,42 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         mBinding.setLifecycleOwner(this);
         initView();
         initImmersionBar();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.e("xss", "onNewIntent");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e("xss", "onStart");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.e("xss", "onRestart");
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.e("xss", "onRestoreInstanceState");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("xss", "onResume");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.e("xss", "onConfigurationChanged");
     }
 
     @Override
@@ -130,6 +170,29 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("xss", "onPause");
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.e("xss", "onSaveInstanceState");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("xss", "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("xss", "onDestroy");
+    }
 
 
 }

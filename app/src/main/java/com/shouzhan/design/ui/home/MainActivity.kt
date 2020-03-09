@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.alibaba.fastjson.JSON
 import com.fshows.android.stark.utils.FsLogUtil
 import com.shouzhan.design.BR
 import com.shouzhan.design.R
@@ -13,8 +12,7 @@ import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
 import com.shouzhan.design.dialog.DialogManager
-import com.shouzhan.design.model.javabean.JsonStringKtTest
-import com.shouzhan.design.model.javabean.JsonStringTest
+import com.shouzhan.design.extens.logE
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
@@ -60,7 +58,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
 
     override fun getData() {
 //        dealRxJava2()
-        dealFastJson()
+//        dealFastJson()
+        dealLruCache()
     }
 
     override fun onClick(view: View) {
@@ -243,13 +242,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
 //        } ?: fail()
 //    }
 
-    private fun dealFastJson() {
-        FsLogUtil.error("xss", JSON.toJSONString(
-                JsonStringTest("xsd")))
-        FsLogUtil.error("xss", JSON.toJSONString(
-                JsonStringKtTest("push", "15820798016")))
-    }
+//    private fun dealFastJson() {
+//        FsLogUtil.error("xss", JSON.toJSONString(
+//                JsonStringTest("xsd")))
+//        FsLogUtil.error("xss", JSON.toJSONString(
+//                JsonStringKtTest("push", "15820798016")))
+//    }
 
+    private fun dealLruCache() {
+        val linkedHashMap = LinkedHashMap<String, String>(0, 0.75f, true)
+        linkedHashMap["test1"] = "test1"
+        linkedHashMap["test2"] = "test2"
+        linkedHashMap["test3"] = "test3"
+        val value = linkedHashMap.put("test4", "test4")
+        logE("dealLruCache: " + (value == null))
+        logE(linkedHashMap.toString())
+        linkedHashMap["test2"]
+        logE(linkedHashMap.toString())
+    }
 
     override fun showLoading() {}
 

@@ -14,11 +14,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/NoActionBarTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="all">
 
         <activity
             android:name="com.shouzhan.design.ui.home.MainActivity"
             android:screenOrientation="portrait">
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+
+        </activity>
+
+        <activity android:name="com.shouzhan.design.ui.launchmode.LaunchModeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

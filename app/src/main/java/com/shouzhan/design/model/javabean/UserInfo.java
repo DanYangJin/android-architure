@@ -11,9 +11,7 @@ public class UserInfo extends BaseObservable {
     private String name;
     private int age;
 
-    public UserInfo() {
-
-    }
+    public UserInfo() { }
 
     public UserInfo(String name, int age) {
         this.name = name;
