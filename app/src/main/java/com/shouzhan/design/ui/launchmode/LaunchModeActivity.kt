@@ -1,14 +1,11 @@
 package com.shouzhan.design.ui.launchmode
 
-import android.content.DialogInterface
-import android.content.Intent
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityLaunchModeBinding
-import com.shouzhan.design.ui.home.MainActivity
-import kotlinx.android.synthetic.main.activity_launch_mode.*
 
 
 /**
@@ -24,18 +21,16 @@ class LaunchModeActivity : BaseActivity<ActivityLaunchModeBinding>() {
 
     override fun initView() {
         super.initView()
-        show_dialog_btn.setOnClickListener {
-            AlertDialog.Builder(this)
-                    .setMessage("哈哈哈")
-                    .setTitle("啊啊啊啊")
-                    .setPositiveButton("复制", DialogInterface.OnClickListener { dialogInterface, i -> })
-                    .setNeutralButton("取消", null)
-                    .create()
-                    .show()
-        }
-        skip_dialog_btn.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-        }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        Log.e("xss", "activity dispatchTouchEvent")
+        return super.dispatchTouchEvent(ev)
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.e("xss", "activity onTouchEvent")
+        return super.onTouchEvent(event)
     }
 
     override fun getData() {
