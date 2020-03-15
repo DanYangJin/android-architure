@@ -26,9 +26,7 @@ public class JdkProxyActivity extends BaseActivity {
     private static final String TAG = JdkProxyActivity.class.getSimpleName();
 
     @Override
-    public void onClick(View view) {
-
-    }
+    public void onClick(View view) { }
 
     @Override
     public int getLayoutId() {

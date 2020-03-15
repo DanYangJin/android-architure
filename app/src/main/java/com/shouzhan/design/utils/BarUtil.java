@@ -7,4 +7,25 @@ package com.shouzhan.design.utils;
  */
 public class BarUtil {
 
+    // 单例模式
+
+    private volatile static BarUtil mBarUtil;
+
+    private BarUtil() {
+
+    }
+
+    public static BarUtil getInstance() {
+        if (mBarUtil == null) {
+            synchronized (BarUtil.class) {
+                if (mBarUtil == null) {
+                    mBarUtil = new BarUtil();
+                }
+            }
+        }
+        return mBarUtil;
+    }
+
+
+
 }

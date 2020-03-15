@@ -28,17 +28,6 @@
 
         </activity>
 
-        <activity android:name="com.shouzhan.design.ui.launchmode.LaunchModeActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
         <activity
             android:name="com.shouzhan.design.ui.home.StatusBarActivity"
             android:screenOrientation="portrait" />
@@ -53,7 +42,7 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.CommonH5Activity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.shouzhan.design.ui.home.ProductListActivity"
@@ -73,15 +62,21 @@
 
         <activity
             android:name="com.shouzhan.design.ui.mvp.MvpActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.shouzhan.design.ui.home.JdkProxyActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.shouzhan.design.ui.home.GridActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -92,6 +87,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service
+            android:name=".service.PersonService"
+            tools:remove=":remote" />
 
         <meta-data
             android:name="design_width_in_dp"
