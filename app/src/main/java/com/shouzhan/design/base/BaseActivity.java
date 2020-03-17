@@ -83,7 +83,10 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
 
     @Override
     public void initImmersionBar() {
-        ImmersionBar.with(this).statusBarColor(R.color.colorPrimary).init();
+        ImmersionBar.with(this)
+                .statusBarColor(R.color.colorPrimary)
+                .fitsSystemWindows(true)
+                .init();
     }
 
     /**

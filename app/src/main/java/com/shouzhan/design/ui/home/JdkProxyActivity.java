@@ -9,6 +9,9 @@ import com.fshows.android.stark.utils.FsLogUtil;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.datasource.http.ApiService;
+import com.shouzhan.design.ui.home.model.MonitorHandler;
+import com.shouzhan.design.ui.home.model.TestService;
+import com.shouzhan.design.ui.home.model.TestServiceImpl;
 import com.shouzhan.design.utils.proxy.Huge;
 import com.shouzhan.design.utils.proxy.Star;
 
@@ -26,7 +29,18 @@ public class JdkProxyActivity extends BaseActivity {
     private static final String TAG = JdkProxyActivity.class.getSimpleName();
 
     @Override
-    public void onClick(View view) { }
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.proxy_btn:
+                dealProxy();
+                break;
+            case R.id.permutations_btn:
+                dealPermutations();
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
     public int getLayoutId() {
@@ -36,6 +50,8 @@ public class JdkProxyActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        findViewById(R.id.proxy_btn).setOnClickListener(this);
+        findViewById(R.id.permutations_btn).setOnClickListener(this);
         eagerlyValidateMethods(ApiService.class);
         Star star = getTestProxy();
         star.sing("逍遥叹");
@@ -109,6 +125,46 @@ public class JdkProxyActivity extends BaseActivity {
     @Override
     public void getData() {
 
+    }
+
+    private void dealProxy() {
+        TestServiceImpl service = new TestServiceImpl();
+        // JDK 动态代理
+        TestService iService = (TestService)Proxy.newProxyInstance(service.getClass().getClassLoader(),
+                service.getClass().getInterfaces(),
+                new MonitorHandler(service));
+        iService.test1();
+
+        // Cglib 代理方法
+
+    }
+
+    private void dealPermutations() {
+        // 算法
+        int[] a = new int[] {1, 2, 3};
+        arrange(a, 0, 2);
+    }
+
+
+    public void arrange(int[] a, int start, int end) {
+        if (start == end) {
+            for (int i : a) {
+                System.out.print(i);
+            }
+            System.out.println();
+            return;
+        }
+        for (int i = start; i <= end; i++) {
+            swap(a, i, start);
+            arrange(a, start + 1, end);
+            swap(a, i, start);
+        }
+    }
+
+    public void swap(int[] arr, int i, int j) {
+        int te = arr[i];
+        arr[i] = arr[j];
+        arr[j] = te;
     }
 
 }
