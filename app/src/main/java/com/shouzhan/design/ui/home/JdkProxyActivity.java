@@ -1,6 +1,9 @@
 package com.shouzhan.design.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.LruCache;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -9,6 +12,7 @@ import com.fshows.android.stark.utils.FsLogUtil;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.datasource.http.ApiService;
+import com.shouzhan.design.service.CustomService;
 import com.shouzhan.design.ui.home.model.MonitorHandler;
 import com.shouzhan.design.ui.home.model.TestService;
 import com.shouzhan.design.ui.home.model.TestServiceImpl;
@@ -37,6 +41,9 @@ public class JdkProxyActivity extends BaseActivity {
             case R.id.permutations_btn:
                 dealPermutations();
                 break;
+            case R.id.service_btn:
+                dealService();
+                break;
             default:
                 break;
         }
@@ -52,6 +59,7 @@ public class JdkProxyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         findViewById(R.id.proxy_btn).setOnClickListener(this);
         findViewById(R.id.permutations_btn).setOnClickListener(this);
+        findViewById(R.id.service_btn).setOnClickListener(this);
         eagerlyValidateMethods(ApiService.class);
         Star star = getTestProxy();
         star.sing("逍遥叹");
@@ -137,12 +145,19 @@ public class JdkProxyActivity extends BaseActivity {
 
         // Cglib 代理方法
 
+        Intent intent = new Intent();
+
     }
 
     private void dealPermutations() {
         // 算法
-        int[] a = new int[] {1, 2, 3};
-        arrange(a, 0, 2);
+//        int[] a = new int[] {1, 2, 3};
+//        arrange(a, 0, 2);
+//        int[] a = new int[] {10, -2, 5, 8, -4, 2, -3, 7, 12, -88, -23, 35};
+//        setParted1(a, 0, a.length - 1);
+        int ac = 'a' + 'c';
+        Log.e("xss", "dealPermutations: " + ac);
+
     }
 
 
@@ -165,6 +180,40 @@ public class JdkProxyActivity extends BaseActivity {
         int te = arr[i];
         arr[i] = arr[j];
         arr[j] = te;
+    }
+
+    public void dealService() {
+        Intent intent  = new Intent(new Intent(mContext, CustomService.class));
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            startForegroundService(intent);
+//        } else {
+            startService(intent);
+//        }
+    }
+
+    public void setParted1(int[] a, int left, int right) {
+        if (left >= right || left == a.length || right == 0) {
+            for (int i = 0; i < a.length; i++) {
+                System.out.println(a[i]);
+            }
+            return;
+        }
+        while (a[left] < 0) {
+            left++;
+        }
+        while (a[right] >= 0) {
+            right--;
+        }
+        if (left >= right || left == a.length || right == 0) {
+            for (int i = 0; i < a.length; i++) {
+                System.out.println(a[i]);
+            }
+            return;
+        }
+        swap(a, left, right);
+        left++;
+        right--;
+        setParted1(a, left, right);
     }
 
 }
