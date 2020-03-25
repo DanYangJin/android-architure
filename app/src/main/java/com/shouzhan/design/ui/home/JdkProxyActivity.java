@@ -3,7 +3,6 @@ package com.shouzhan.design.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.LruCache;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -157,7 +156,6 @@ public class JdkProxyActivity extends BaseActivity {
 //        setParted1(a, 0, a.length - 1);
         int ac = 'a' + 'c';
         Log.e("xss", "dealPermutations: " + ac);
-
     }
 
 
