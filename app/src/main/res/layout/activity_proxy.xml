@@ -36,6 +36,15 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/permutations_btn" />
 
+        <com.shouzhan.design.compontent.view.CustomButton
+            android:id="@+id/custom_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/service_btn"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

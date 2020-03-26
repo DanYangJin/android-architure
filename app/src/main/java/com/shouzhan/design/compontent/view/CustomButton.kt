@@ -20,6 +20,13 @@ class CustomButton(private val mContext: Context, attrs: AttributeSet?) : AppCom
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         Log.e("xss", "view onTouchEvent: " + super.onTouchEvent(event))
+        if (event?.action == MotionEvent.ACTION_DOWN) {
+            return false
+        }
+        event?.action
+        event?.run {
+            action
+        }
         return super.onTouchEvent(event)
     }
 

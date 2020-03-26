@@ -3,6 +3,7 @@ package com.shouzhan.design.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -10,6 +11,7 @@ import androidx.annotation.Nullable;
 import com.fshows.android.stark.utils.FsLogUtil;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
+import com.shouzhan.design.compontent.view.CustomButton;
 import com.shouzhan.design.datasource.http.ApiService;
 import com.shouzhan.design.service.CustomService;
 import com.shouzhan.design.ui.home.model.MonitorHandler;
@@ -48,6 +50,8 @@ public class JdkProxyActivity extends BaseActivity {
         }
     }
 
+    private CustomButton mCustomButton;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_proxy;
@@ -59,12 +63,39 @@ public class JdkProxyActivity extends BaseActivity {
         findViewById(R.id.proxy_btn).setOnClickListener(this);
         findViewById(R.id.permutations_btn).setOnClickListener(this);
         findViewById(R.id.service_btn).setOnClickListener(this);
+        mCustomButton = findViewById(R.id.custom_btn);
+        mCustomButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.e("xss", "onTouch11111");
+                return false;
+            }
+        });
+        mCustomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("xss", "onClick");
+            }
+        });
+        mCustomButton.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.e("xss", "onLongClick");
+                return false;
+            }
+        });
         eagerlyValidateMethods(ApiService.class);
         Star star = getTestProxy();
         star.sing("逍遥叹");
         ApiService apiService = createApiServiceProxy(ApiService.class);
         apiService.login(null);
     }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        Log.e("xss", "activity onTouchEvent");
+//        return super.onTouchEvent(event);
+//    }
 
     @SuppressWarnings("unchecked")
     private <T> T createApiServiceProxy(final Class<T> service) {
