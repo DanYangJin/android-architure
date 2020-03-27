@@ -13,4 +13,6 @@
     <string name="common_title">提示</string>
     <string name="common_msg">测试中</string>
 
+    <string name="common_accessibility">提示\101.请打开上方“付呗语音权限助手”开关。\102.打开开关后，在弹窗上点击“确定”即可。开启相关权限后仅用于保障付呗APP语音播报正常运行，确保向您及时播报交易收钱到账信息。我们将严格保障您的信息安全，承诺不会将相关权限用于任何其他用途。\103.自动优化预计需要1–2分钟钟时间。在设置过程中请不要点击屏幕确保优化成功。</string>
+
 </resources>

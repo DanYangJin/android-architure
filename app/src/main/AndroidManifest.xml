@@ -67,11 +67,23 @@
         <activity
             android:name="com.shouzhan.design.ui.home.JdkProxyActivity"
             android:screenOrientation="portrait">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
+
+        <activity
+            android:name="com.shouzhan.design.ui.home.AccessibilityActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <activity
@@ -95,6 +107,20 @@
         <service
             android:name=".service.CustomService"
             android:exported="false" />
+
+        <service android:label="付呗语音权限助手"
+            android:name=".push.AutoSettingVoiceService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data android:name="android.accessibilityservice" android:resource="@xml/accessibility_service_config"/>
+
+        </service>
+
 
         <meta-data
             android:name="design_width_in_dp"
