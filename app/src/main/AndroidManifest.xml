@@ -18,15 +18,7 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.MainActivity"
-            android:screenOrientation="portrait">
-
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-
-        </activity>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.shouzhan.design.ui.home.StatusBarActivity"
@@ -66,13 +58,7 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.JdkProxyActivity"
-            android:screenOrientation="portrait">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
-        </activity>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.shouzhan.design.ui.home.AccessibilityActivity"
@@ -108,16 +94,19 @@
             android:name=".service.CustomService"
             android:exported="false" />
 
-        <service android:label="付呗语音权限助手"
-            android:name=".push.AutoSettingVoiceService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+        <service
+            android:name=".utils.accessibility.FsAccessibilityService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:label="付呗语音权限助手"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
 
             <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService"/>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
-            <meta-data android:name="android.accessibilityservice" android:resource="@xml/accessibility_service_config"/>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
 
         </service>
 
