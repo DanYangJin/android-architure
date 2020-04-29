@@ -8,7 +8,7 @@ import android.view.accessibility.AccessibilityEvent;
  * @author danbin
  * @version AccessibilityService.java, v 0.1 2020-04-28 9:24 AM danbin
  */
-public class FsAccessibilityService extends AccessibilityService {
+public class AudioSettingAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -16,6 +16,7 @@ public class FsAccessibilityService extends AccessibilityService {
         String pkgName = event.getPackageName().toString();
         int eventType = event.getEventType();
         Log.e("xss", "onAccessibilityEvent: " + pkgName + " , " + eventType);
+        AccessibilityUtil.findAccessibilityNodeInfoByText(this, "开关", 2);
     }
 
     @Override

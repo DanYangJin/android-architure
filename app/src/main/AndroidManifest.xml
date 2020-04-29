@@ -95,7 +95,7 @@
             android:exported="false" />
 
         <service
-            android:name=".utils.accessibility.FsAccessibilityService"
+            android:name=".utils.accessibility.AudioSettingAccessibilityService"
             android:enabled="true"
             android:exported="true"
             android:label="付呗语音权限助手"

@@ -5,6 +5,7 @@ import android.view.View;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityAccessibilityBinding;
+import com.shouzhan.design.utils.accessibility.AccessibilityUtil;
 
 /**
  * @author danbin
@@ -19,20 +20,21 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
     }
 
     @Override
-    public void getData() {
-
-    }
-
-    @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.accessibility_btn:
+            case R.id.open_accessibility_setting_btn:
+                AccessibilityUtil.openAccessibilitySetting(mContext);
                 break;
-            case R.id.mock_btn:
+            case R.id.accessibility_find_and_click_btn:
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void getData() {
+
     }
 
 }
