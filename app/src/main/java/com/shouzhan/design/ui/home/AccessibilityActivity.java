@@ -1,6 +1,9 @@
 package com.shouzhan.design.ui.home;
 
+import android.content.Intent;
 import android.view.View;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
@@ -26,6 +29,8 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
                 AccessibilityUtil.openAccessibilitySetting(mContext);
                 break;
             case R.id.accessibility_find_and_click_btn:
+                Intent intent = new Intent("action_phone_setting_task");
+                LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
                 break;
             default:
                 break;

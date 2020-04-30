@@ -137,46 +137,46 @@ public class AccessibilityUtil {
 
     private static boolean judgeNodeValid(AccessibilityNodeInfo accessibilityNodeInfo, String str) {
         Log.e("xss", "judgeNodeValid: " + accessibilityNodeInfo.getText());
-//        if (findChildNodes(accessibilityNodeInfo) == null) {
-//            return false;
-//        }
+        if (findChildNodes(accessibilityNodeInfo) == null) {
+            return false;
+        }
 //        if (z) {
 //            return TextUtils.equals(str, accessibilityNodeInfo.getText());
 //        }
         return true;
     }
 
-//    public static AccessibilityNodeInfo findChildNodes(AccessibilityNodeInfo accessibilityNodeInfo) {
-//        AccessibilityNodeInfo h;
-//        AccessibilityNodeInfo h2 = findChildNodeInfo(accessibilityNodeInfo);
-//        if (h2 != null) {
-//            return h2;
-//        }
-//        do {
-//            accessibilityNodeInfo = accessibilityNodeInfo.getParent();
-//            if (accessibilityNodeInfo == null) {
-//                return null;
-//            }
-//            h = findChildNodeInfo(accessibilityNodeInfo);
-//        } while (h == null);
-//        return h;
-//    }
-//
-//    private static AccessibilityNodeInfo findChildNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
-//        if (accessibilityNodeInfo == null) {
-//            return null;
-//        }
-//        if (accessibilityNodeInfo.isClickable()) {
-//            return accessibilityNodeInfo;
-//        }
-//        for (int i = 0; i < accessibilityNodeInfo.getChildCount(); i++) {
-//            AccessibilityNodeInfo h = findChildNodeInfo(accessibilityNodeInfo.getChild(i));
-//            if (h != null) {
-//                return h;
-//            }
-//        }
-//        return null;
-//    }
+    public static AccessibilityNodeInfo findChildNodes(AccessibilityNodeInfo accessibilityNodeInfo) {
+        AccessibilityNodeInfo h;
+        AccessibilityNodeInfo h2 = findChildNodeInfo(accessibilityNodeInfo);
+        if (h2 != null) {
+            return h2;
+        }
+        do {
+            accessibilityNodeInfo = accessibilityNodeInfo.getParent();
+            if (accessibilityNodeInfo == null) {
+                return null;
+            }
+            h = findChildNodeInfo(accessibilityNodeInfo);
+        } while (h == null);
+        return h;
+    }
+
+    private static AccessibilityNodeInfo findChildNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        if (accessibilityNodeInfo == null) {
+            return null;
+        }
+        if (accessibilityNodeInfo.isClickable()) {
+            return accessibilityNodeInfo;
+        }
+        for (int i = 0; i < accessibilityNodeInfo.getChildCount(); i++) {
+            AccessibilityNodeInfo h = findChildNodeInfo(accessibilityNodeInfo.getChild(i));
+            if (h != null) {
+                return h;
+            }
+        }
+        return null;
+    }
 
 
 }
