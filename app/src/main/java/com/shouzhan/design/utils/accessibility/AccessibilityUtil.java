@@ -21,6 +21,7 @@ public class AccessibilityUtil {
     /**
      * 打开辅助功能
      */
+    // m40633a
     public static void openAccessibilitySetting(Context context) {
         try {
             Intent intent = new Intent("android.settings.ACCESSIBILITY_SETTINGS");
@@ -42,6 +43,7 @@ public class AccessibilityUtil {
     /**
      * 是否开通辅助功能
      */
+    // m40637b
     public static boolean isAccessibilitySettingsOn(Context context) {
         int i;
         String string;
@@ -66,6 +68,7 @@ public class AccessibilityUtil {
     /**
      * 获取根节点
      */
+    // from m40626a
     public static AccessibilityNodeInfo findRootNodeInfo(AccessibilityService accessibilityService) {
         if (accessibilityService != null) {
             AccessibilityNodeInfo accessibilityNodeInfo = null;
@@ -96,8 +99,10 @@ public class AccessibilityUtil {
      * @param accessibilityService
      * @param str 查找文案
      * @param count 遍历次数
+     * @param exactMatch 是否准确的匹配文案
      */
-    public static AccessibilityNodeInfo findAccessibilityNodeInfoByText(AccessibilityService accessibilityService, String str, int count) {
+    // from m40628a
+    public static AccessibilityNodeInfo findAccessibilityNodeInfoByTexts(AccessibilityService accessibilityService, String str, int count, boolean exactMatch) {
         AccessibilityNodeInfo accessibilityNodeInfo;
         AccessibilityNodeInfo rootNodeInfo = findRootNodeInfo(accessibilityService);
         if (rootNodeInfo == null || TextUtils.isEmpty(str)) {
@@ -107,48 +112,53 @@ public class AccessibilityUtil {
         if (split.length > 1) {
             accessibilityNodeInfo = null;
             for (String a2 : split) {
-                accessibilityNodeInfo = findNodeInfoByText(rootNodeInfo, a2);
+                accessibilityNodeInfo = findNodeInfoByText(rootNodeInfo, a2, exactMatch);
                 if (accessibilityNodeInfo != null) {
                     break;
                 }
             }
         } else {
-            accessibilityNodeInfo = findNodeInfoByText(rootNodeInfo, str);
+            accessibilityNodeInfo = findNodeInfoByText(rootNodeInfo, str, exactMatch);
         }
         if (accessibilityNodeInfo != null || count <= 0) {
             return accessibilityNodeInfo;
         }
         SystemClock.sleep(500);
-        return findAccessibilityNodeInfoByText(accessibilityService, str, count - 1);
+        return findAccessibilityNodeInfoByTexts(accessibilityService, str, count - 1, exactMatch);
     }
 
-    private static AccessibilityNodeInfo findNodeInfoByText(AccessibilityNodeInfo accessibilityNodeInfo, String str) {
+    // from m40632a
+    private static AccessibilityNodeInfo findNodeInfoByText(AccessibilityNodeInfo accessibilityNodeInfo, String str, boolean exactMatch) {
         List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText;
         if (accessibilityNodeInfo == null || TextUtils.isEmpty(str) || (findAccessibilityNodeInfosByText = accessibilityNodeInfo.findAccessibilityNodeInfosByText(str)) == null || findAccessibilityNodeInfosByText.size() <= 0) {
             return null;
         }
         for (AccessibilityNodeInfo next : findAccessibilityNodeInfosByText) {
-            if (judgeNodeValid(next, str)) {
+            if (judgeNodeValid(next, str, exactMatch)) {
                 return next;
             }
         }
         return null;
     }
 
-    private static boolean judgeNodeValid(AccessibilityNodeInfo accessibilityNodeInfo, String str) {
-        Log.e("xss", "judgeNodeValid: " + accessibilityNodeInfo.getText());
-        if (findChildNodes(accessibilityNodeInfo) == null) {
+    // from m40638b
+    private static boolean judgeNodeValid(AccessibilityNodeInfo accessibilityNodeInfo, String str, boolean exactMatch) {
+        if (findAllNodes(accessibilityNodeInfo) == null) {
             return false;
         }
-//        if (z) {
-//            return TextUtils.equals(str, accessibilityNodeInfo.getText());
-//        }
+        if (exactMatch) {
+            return TextUtils.equals(str, accessibilityNodeInfo.getText());
+        }
         return true;
     }
 
-    public static AccessibilityNodeInfo findChildNodes(AccessibilityNodeInfo accessibilityNodeInfo) {
+    /**
+     * 寻找当前节点相关的全部节点，优先向下寻找子节点，其次向上寻找父节点
+     * */
+    // from m40639c
+    public static AccessibilityNodeInfo findAllNodes(AccessibilityNodeInfo accessibilityNodeInfo) {
         AccessibilityNodeInfo h;
-        AccessibilityNodeInfo h2 = findChildNodeInfo(accessibilityNodeInfo);
+        AccessibilityNodeInfo h2 = findClickableNodeInfo(accessibilityNodeInfo);
         if (h2 != null) {
             return h2;
         }
@@ -157,12 +167,13 @@ public class AccessibilityUtil {
             if (accessibilityNodeInfo == null) {
                 return null;
             }
-            h = findChildNodeInfo(accessibilityNodeInfo);
+            h = findClickableNodeInfo(accessibilityNodeInfo);
         } while (h == null);
         return h;
     }
 
-    private static AccessibilityNodeInfo findChildNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+    // from m40645h
+    private static AccessibilityNodeInfo findClickableNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         if (accessibilityNodeInfo == null) {
             return null;
         }
@@ -170,7 +181,7 @@ public class AccessibilityUtil {
             return accessibilityNodeInfo;
         }
         for (int i = 0; i < accessibilityNodeInfo.getChildCount(); i++) {
-            AccessibilityNodeInfo h = findChildNodeInfo(accessibilityNodeInfo.getChild(i));
+            AccessibilityNodeInfo h = findClickableNodeInfo(accessibilityNodeInfo.getChild(i));
             if (h != null) {
                 return h;
             }
@@ -178,5 +189,163 @@ public class AccessibilityUtil {
         return null;
     }
 
+    /**
+     * 模拟点击事件
+     * */
+    // from m40641d
+    public static boolean performClickAction(AccessibilityNodeInfo accessibilityNodeInfo) {
+        AccessibilityNodeInfo c = findAllNodes(accessibilityNodeInfo);
+        if (c != null) {
+            return c.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        }
+        return false;
+    }
+
+    /**
+     * 模拟向后滚动事件
+     * */
+    // from m40642e
+    public static boolean performScrollBackwardAction(AccessibilityNodeInfo accessibilityNodeInfo) {
+        AccessibilityNodeInfo a = findAccessibilityScrollNodeInfo(accessibilityNodeInfo);
+        if (a == null) {
+            return false;
+        }
+        boolean z = false;
+        while (a.performAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)) {
+            SystemClock.sleep(100);
+            z = true;
+        }
+        return z;
+    }
+
+
+    // from m40629a
+    public static AccessibilityNodeInfo findAccessibilityScrollNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        return findAccessibilityScrollNodeInfo(accessibilityNodeInfo, 30);
+    }
+
+    /**
+     * 查找可滚动的节点
+     * */
+    // from m40630a
+    public static AccessibilityNodeInfo findAccessibilityScrollNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo, int count) {
+        int i2 = count - 1;
+        if (accessibilityNodeInfo == null || i2 <= 0) {
+            return null;
+        }
+        if (accessibilityNodeInfo.isScrollable() && !"android.widget.HorizontalScrollView".equals(accessibilityNodeInfo.getClassName().toString()) && !"com.color.widget.ColorViewPager".equals(accessibilityNodeInfo.getClassName().toString()) && !"android.support.v4.view.ViewPager".equals(accessibilityNodeInfo.getClassName().toString()) && !"android.widget.Spinner".equals(accessibilityNodeInfo.getClassName().toString())) {
+            return accessibilityNodeInfo;
+        }
+        for (int i3 = 0; i3 < accessibilityNodeInfo.getChildCount(); i3++) {
+            AccessibilityNodeInfo a = findAccessibilityScrollNodeInfo(accessibilityNodeInfo.getChild(i3), i2);
+            if (a != null) {
+                return a;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 模拟向前滚动事件
+     * */
+    // from m40643f
+    public static boolean performScrollForwardAction(AccessibilityNodeInfo accessibilityNodeInfo) {
+        AccessibilityNodeInfo a = findAccessibilityScrollNodeInfo(accessibilityNodeInfo);
+        if (a != null) {
+            return a.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+        }
+        return false;
+    }
+
+    // m40646i
+    private static AccessibilityNodeInfo findCheckableNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        if (accessibilityNodeInfo == null) {
+            return null;
+        }
+        if (accessibilityNodeInfo.isCheckable()) {
+            return accessibilityNodeInfo;
+        }
+        for (int i = 0; i < accessibilityNodeInfo.getChildCount(); i++) {
+            AccessibilityNodeInfo i2 = findCheckableNodeInfo(accessibilityNodeInfo.getChild(i));
+            if (i2 != null) {
+                return i2;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 模拟点击"最近"按键
+     * */
+    // from m40640c
+    public static boolean performGlobalRecentsAction(AccessibilityService accessibilityService) {
+        if (accessibilityService != null) {
+            return accessibilityService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_RECENTS);
+        }
+        return false;
+    }
+
+    /**
+     * 模拟点击"返回"按键
+     * */
+    // from m40636b
+    public static boolean performGlobalBackAction(AccessibilityService accessibilityService) {
+        if (accessibilityService != null) {
+            return accessibilityService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
+        }
+        return false;
+    }
+
+    /**
+     * 查找可滚动的节点
+     * */
+    // from m40644g
+    public static boolean isScrollNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        return findAccessibilityScrollNodeInfo(accessibilityNodeInfo) != null;
+    }
+
+    // from m40634b
+    public static AccessibilityNodeInfo findAccessibilityCheckableNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
+        AccessibilityNodeInfo c;
+        if (accessibilityNodeInfo == null || (c = findAllNodes(accessibilityNodeInfo)) == null) {
+            return null;
+        }
+        return findCheckableNodeInfo(c);
+    }
+
+    // from m40635b
+    public static AccessibilityNodeInfo findAccessibilityNodeInfoByViewId(AccessibilityNodeInfo accessibilityNodeInfo, String viewId) {
+        AccessibilityNodeInfo c;
+        if (accessibilityNodeInfo == null || (c = findAllNodes(accessibilityNodeInfo)) == null) {
+            return null;
+        }
+        return findNodeInfoByViewId(c, viewId);
+    }
+
+    // from m40631a
+    public static AccessibilityNodeInfo findNodeInfoByViewId(AccessibilityNodeInfo accessibilityNodeInfo, String viewId) {
+        List<AccessibilityNodeInfo> findAccessibilityNodeInfosByViewId;
+        if (accessibilityNodeInfo == null || (findAccessibilityNodeInfosByViewId = accessibilityNodeInfo.findAccessibilityNodeInfosByViewId(viewId)) == null || findAccessibilityNodeInfosByViewId.size() <= 0) {
+            return null;
+        }
+        for (AccessibilityNodeInfo next : findAccessibilityNodeInfosByViewId) {
+            if (findAllNodes(next) != null) {
+                return next;
+            }
+        }
+        return null;
+    }
+
+    // from m40627a
+    public static AccessibilityNodeInfo findAccessibilityNodeInfoByViewIds(AccessibilityService accessibilityService, String str) {
+        AccessibilityNodeInfo a = findRootNodeInfo(accessibilityService);
+        String[] split = str.split("\\|");
+        AccessibilityNodeInfo accessibilityNodeInfo = null;
+        int i = 0;
+        while (i < split.length && (accessibilityNodeInfo = findNodeInfoByViewId(a, split[i])) == null) {
+            i++;
+        }
+        return accessibilityNodeInfo;
+    }
 
 }

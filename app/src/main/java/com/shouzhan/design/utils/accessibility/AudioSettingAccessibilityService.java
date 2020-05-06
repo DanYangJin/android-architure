@@ -27,7 +27,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
             @Override
             public void onReceive(Context context, Intent intent) {
                 new Handler().post(() -> {
-                    AccessibilityUtil.findAccessibilityNodeInfoByText(AudioSettingAccessibilityService.this, "开关", 2);
+                    AccessibilityUtil.performClickAction(AccessibilityUtil.findAccessibilityNodeInfoByText(AudioSettingAccessibilityService.this, "哔哔哔开关", 2, true));
                 });
             }
         };

@@ -42,12 +42,6 @@
             app:layout_constraintTop_toBottomOf="@id/accessibility_find_and_click_btn"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="哈哈开关"/>
-
             <CheckBox
                 android:id="@+id/left_sample_checkbox"
                 android:layout_width="wrap_content"
