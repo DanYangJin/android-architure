@@ -26,41 +26,48 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/accessibility_find_and_click_btn"
+            android:id="@+id/accessibility_start_up_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:onClick="@{(view) -> presenter.onClick(view)}"
-            android:text="模拟辅助功能点击View"
+            android:text="自动开启自启动"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/open_accessibility_setting_btn" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/accessibility_start_notification_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/accessibility_find_and_click_btn"
-            android:orientation="vertical">
+            android:layout_marginTop="10dp"
+            android:onClick="@{(view) -> presenter.onClick(view)}"
+            android:text="自动开启通知"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accessibility_start_up_btn" />
 
-            <CheckBox
-                android:id="@+id/left_sample_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="哔哔哔开关"/>
+        <Button
+            android:id="@+id/accessibility_close_power_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="@{(view) -> presenter.onClick(view)}"
+            android:text="自动关闭耗电保护"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accessibility_start_notification_btn" />
 
-            <CheckBox
-                android:id="@+id/center_sample_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="啦啦啦开关"/>
-
-            <CheckBox
-                android:id="@+id/right_sample_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="啊啊啊开关"/>
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/accessibility_ignore_power_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:onClick="@{(view) -> presenter.onClick(view)}"
+            android:text="自动忽略电池保护"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accessibility_close_power_btn" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
