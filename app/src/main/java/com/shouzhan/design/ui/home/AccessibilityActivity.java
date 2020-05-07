@@ -1,16 +1,27 @@
 package com.shouzhan.design.ui.home;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityAccessibilityBinding;
 import com.shouzhan.design.utils.accessibility.AccessibilityUtil;
+import com.shouzhan.design.utils.accessibility.AudioSettingAccessibilityService;
 import com.shouzhan.design.utils.accessibility.SingleTask;
+import com.shouzhan.design.utils.accessibility.TaskFactory;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @author danbin
@@ -19,9 +30,25 @@ import com.shouzhan.design.utils.accessibility.SingleTask;
  */
 public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBinding> {
 
+    private Queue<SingleTask> mSingleTasks = new LinkedList<>();
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_accessibility;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        registerReceiver();
+        getData();
+    }
+
+    private void registerReceiver() {
+        IntentFilter mFilter = new IntentFilter();
+        mFilter.addAction("action_phone_setting");
+        mFilter.addAction("action_phone_setting_task_done");
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mFilter);
     }
 
     @Override
@@ -42,13 +69,17 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
             case R.id.accessibility_ignore_power_btn:
                 sendTaskBroadcast(createIgnorePowerTask());
                 break;
+            case R.id.accessibility_setting_permission_btn:
+                getData();
+                executeNextTask();
+                break;
             default:
                 break;
         }
     }
 
     private void sendTaskBroadcast(SingleTask task) {
-        Intent intent = new Intent("action_phone_setting_task");
+        Intent intent = new Intent(AudioSettingAccessibilityService.ACTION_PHONE_SETTING_TASK);
         intent.putExtra("task", task);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
@@ -78,7 +109,36 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
 
     @Override
     public void getData() {
-
+        mSingleTasks.clear();
+        mSingleTasks = TaskFactory.getSystemSettingTask(this);
     }
+
+    private void executeNextTask() {
+        if (this.mSingleTasks == null || this.mSingleTasks.isEmpty()) {
+            return;
+        }
+        SingleTask singleTask = this.mSingleTasks.poll();
+        if (singleTask == null) {
+            return;
+        }
+        Log.e("xss", "executeNextTask: " + singleTask.getTaskName());
+        sendTaskBroadcast(singleTask);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+    }
+
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (AudioSettingAccessibilityService.ACTION_PHONE_SETTING_TASK_DONE.equals(action)) {
+                executeNextTask();
+            }
+        }
+    };
 
 }

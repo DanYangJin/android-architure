@@ -30,7 +30,8 @@ import java.util.Queue;
  */
 public class AudioSettingAccessibilityService extends AccessibilityService {
 
-    private static final String ACTION_PHONE_SETTING_TASK = "action_phone_setting_task";
+    public static final String ACTION_PHONE_SETTING_TASK = "action_phone_setting_task";
+    public static final String ACTION_PHONE_SETTING_TASK_DONE = "action_phone_setting_task_done";
 
     private BroadcastReceiver mReceiver;
     private IntentFilter mIntentFilter = new IntentFilter("action_phone_setting_task");
@@ -54,7 +55,6 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("xss", "AudioSettingAccessibilityService onCreate");
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mIntentFilter);
     }
 
@@ -119,9 +119,8 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
      * 执行任务完毕
      */
     private void executeTaskDone() {
-        Log.e("xss", "executeTaskDone###");
         isTaskStart = false;
-        sendTaskStatusBroadcast("action_phone_setting_task_done", null);
+        sendTaskStatusBroadcast(ACTION_PHONE_SETTING_TASK_DONE, null);
     }
 
     private boolean openSystemSettingPage(String actionValue, Bundle bundle, Uri uri) {
