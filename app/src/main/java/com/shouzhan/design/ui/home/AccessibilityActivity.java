@@ -116,6 +116,7 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
     private void executeNextTask() {
         if (this.mSingleTasks == null || this.mSingleTasks.isEmpty()) {
             FloatWindowView.getInstance().remove();
+            startActivity(new Intent(this, CommonH5Activity.class));
             return;
         }
         SingleTask singleTask = this.mSingleTasks.poll();

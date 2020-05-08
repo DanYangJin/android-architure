@@ -34,7 +34,8 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.CommonH5Activity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
 
         <activity
             android:name="com.shouzhan.design.ui.home.ProductListActivity"
@@ -62,7 +63,8 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.AccessibilityActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
