@@ -14,9 +14,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityAccessibilityBinding;
-import com.shouzhan.design.utils.OSUtil;
 import com.shouzhan.design.utils.accessibility.AccessibilityUtil;
 import com.shouzhan.design.utils.accessibility.AudioSettingAccessibilityService;
+import com.shouzhan.design.utils.accessibility.FloatWindowView;
 import com.shouzhan.design.utils.accessibility.SingleTask;
 import com.shouzhan.design.utils.accessibility.TaskFactory;
 
@@ -41,7 +41,6 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         registerReceiver();
-        getData();
     }
 
     private void registerReceiver() {
@@ -111,11 +110,12 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
     public void getData() {
         mSingleTasks.clear();
         mSingleTasks = TaskFactory.getSystemSettingTask();
-        OSUtil.getRomTypeByManufacturer();
+        FloatWindowView.getInstance().build();
     }
 
     private void executeNextTask() {
         if (this.mSingleTasks == null || this.mSingleTasks.isEmpty()) {
+            FloatWindowView.getInstance().remove();
             return;
         }
         SingleTask singleTask = this.mSingleTasks.poll();
