@@ -1,6 +1,5 @@
 package com.shouzhan.design.utils.accessibility;
 
-import android.content.Context;
 import android.os.Build;
 
 import com.fshows.android.stark.utils.StringPool;
@@ -17,7 +16,7 @@ import java.util.Queue;
  */
 public class TaskFactory {
 
-    public static Queue<SingleTask> getSystemSettingTask(Context context) {
+    public static Queue<SingleTask> getSystemSettingTask() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             return null;
         }
@@ -25,7 +24,7 @@ public class TaskFactory {
         LinkedList<SingleTask> linkedList = new LinkedList<>();
         switch (romType) {
             case EMUI_ROM:
-                linkedList.addAll(createEmUiTask(context));
+                linkedList.addAll(createEmUiTask());
                 break;
             case MIUI_ROM:
                 linkedList.add(null);
@@ -36,25 +35,22 @@ public class TaskFactory {
         return linkedList;
     }
 
-    private static Queue<SingleTask> createEmUiTask(Context context) {
-        String prop = OSUtil.getProp();
+    private static Queue<SingleTask> createEmUiTask() {
+        String prop = OSUtil.getSystemProp();
         LinkedList<SingleTask> linkedList = new LinkedList<>();
         if (StringUtils.isNotEmpty(prop)) {
-            String trim = prop.replace("EmotionUI", "").replace("_", "").trim();
+            String trim = prop.replace(OSUtil.EMUI_SUFFIX, StringPool.EMPTY).replace("_", "").trim();
             if (trim.contains(StringPool.DOT)) {
-                trim = trim.substring(0, trim.indexOf("."));
+                trim = trim.substring(0, trim.indexOf(StringPool.DOT));
             }
             int intValue = Integer.parseInt(trim);
-            if (intValue == 3) {
-                // TODO
-            } else if (intValue == 4) {
-                // TODO
-            } else if (intValue == 5) {
-                // TODO
+            if (intValue == OSUtil.VERSION_3) {
+            } else if (intValue == OSUtil.VERSION_4) {
+            } else if (intValue == OSUtil.VERSION_5) {
             } else {
                 linkedList.add(EmUiTask.openStartUpTask());
                 linkedList.addAll(EmUiTask.openNotificationTask());
-                if (intValue < 9) {
+                if (intValue < OSUtil.VERSION_9) {
                     linkedList.addAll(EmUiTask.openNotificationLightTask());
                     linkedList.add(EmUiTask.openNotificationLockTask());
                     linkedList.add(EmUiTask.closePowerModeTask());
@@ -62,7 +58,7 @@ public class TaskFactory {
                         linkedList.add(EmUiTask.ignoreHighPowerMode());
                     }
                 } else {
-                    // TODO
+
                 }
             }
         }

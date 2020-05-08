@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -15,6 +14,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.shouzhan.design.R;
 import com.shouzhan.design.base.BaseActivity;
 import com.shouzhan.design.databinding.ActivityAccessibilityBinding;
+import com.shouzhan.design.utils.OSUtil;
 import com.shouzhan.design.utils.accessibility.AccessibilityUtil;
 import com.shouzhan.design.utils.accessibility.AudioSettingAccessibilityService;
 import com.shouzhan.design.utils.accessibility.SingleTask;
@@ -110,7 +110,8 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
     @Override
     public void getData() {
         mSingleTasks.clear();
-        mSingleTasks = TaskFactory.getSystemSettingTask(this);
+        mSingleTasks = TaskFactory.getSystemSettingTask();
+        OSUtil.getRomTypeByManufacturer();
     }
 
     private void executeNextTask() {
@@ -121,7 +122,6 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
         if (singleTask == null) {
             return;
         }
-        Log.e("xss", "executeNextTask: " + singleTask.getTaskName());
         sendTaskBroadcast(singleTask);
     }
 

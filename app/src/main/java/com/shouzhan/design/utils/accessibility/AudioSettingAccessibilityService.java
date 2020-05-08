@@ -316,7 +316,6 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("xss", "AudioSettingAccessibilityService onDestroy");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
     }
 
