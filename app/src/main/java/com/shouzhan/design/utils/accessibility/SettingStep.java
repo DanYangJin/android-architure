@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @version AccessibilityStep.java, v 0.1 2020-05-06 7:38 PM danbin
  * 辅助功能每一步
  */
-public class SingleStep implements Serializable {
+public class SettingStep implements Serializable {
 
     public static final int STEP_ACTION_BACK = 10;
     public static final int STEP_ACTION_CLICK = 1;
@@ -39,27 +39,27 @@ public class SingleStep implements Serializable {
     private Bundle params;
     private String viewId;
 
-    public SingleStep(String actionValue, int action, Bundle bundle, Uri uri, boolean exactMatch) {
+    public SettingStep(String actionValue, int action, Bundle bundle, Uri data, boolean exactMatch) {
         this.actionValue = actionValue;
         this.params = bundle;
-        this.data = uri;
+        this.data = data;
         this.action = action;
         this.exactMatch = exactMatch;
     }
 
-    public SingleStep(String viewId, int action) {
+    public SettingStep(String viewId, int action) {
         this.action = action;
         this.viewId = viewId;
     }
 
-    public SingleStep(String actionValue, int action, String viewId, boolean exactMatch) {
+    public SettingStep(String actionValue, int action, String viewId, boolean exactMatch) {
         this.actionValue = actionValue;
         this.action = action;
         this.viewId = viewId;
         this.exactMatch = exactMatch;
     }
 
-    public SingleStep(String actionValue, int action, boolean exactMatch, boolean boundMatch) {
+    public SettingStep(String actionValue, int action, boolean exactMatch, boolean boundMatch) {
         this.actionValue = actionValue;
         this.action = action;
         this.exactMatch = exactMatch;

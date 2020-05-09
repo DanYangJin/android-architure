@@ -21,7 +21,6 @@ public class AccessibilityUtil {
     /**
      * 打开辅助功能
      */
-    // m40633a
     public static void openAccessibilitySetting(Context context) {
         try {
             Intent intent = new Intent("android.settings.ACCESSIBILITY_SETTINGS");
@@ -43,7 +42,6 @@ public class AccessibilityUtil {
     /**
      * 是否开通辅助功能
      */
-    // m40637b
     public static boolean isAccessibilitySettingsOn(Context context) {
         int i;
         String string;
@@ -68,7 +66,6 @@ public class AccessibilityUtil {
     /**
      * 获取根节点
      */
-    // from m40626a
     public static AccessibilityNodeInfo findRootNodeInfo(AccessibilityService accessibilityService) {
         if (accessibilityService != null) {
             AccessibilityNodeInfo accessibilityNodeInfo = null;
@@ -101,7 +98,6 @@ public class AccessibilityUtil {
      * @param count 遍历次数
      * @param exactMatch 是否准确的匹配文案
      */
-    // from m40628a
     public static AccessibilityNodeInfo findAccessibilityNodeInfoByTexts(AccessibilityService accessibilityService, String str, int count, boolean exactMatch) {
         AccessibilityNodeInfo accessibilityNodeInfo;
         AccessibilityNodeInfo rootNodeInfo = findRootNodeInfo(accessibilityService);
@@ -127,7 +123,6 @@ public class AccessibilityUtil {
         return findAccessibilityNodeInfoByTexts(accessibilityService, str, count - 1, exactMatch);
     }
 
-    // from m40632a
     private static AccessibilityNodeInfo findNodeInfoByText(AccessibilityNodeInfo accessibilityNodeInfo, String str, boolean exactMatch) {
         List<AccessibilityNodeInfo> findAccessibilityNodeInfosByText;
         if (accessibilityNodeInfo == null || TextUtils.isEmpty(str) || (findAccessibilityNodeInfosByText = accessibilityNodeInfo.findAccessibilityNodeInfosByText(str)) == null || findAccessibilityNodeInfosByText.size() <= 0) {
@@ -141,7 +136,6 @@ public class AccessibilityUtil {
         return null;
     }
 
-    // from m40638b
     private static boolean judgeNodeValid(AccessibilityNodeInfo accessibilityNodeInfo, String str, boolean exactMatch) {
         if (findAllNodes(accessibilityNodeInfo) == null) {
             return false;
@@ -155,7 +149,6 @@ public class AccessibilityUtil {
     /**
      * 寻找当前节点相关的全部节点，优先向下寻找子节点，其次向上寻找父节点
      * */
-    // from m40639c
     public static AccessibilityNodeInfo findAllNodes(AccessibilityNodeInfo accessibilityNodeInfo) {
         AccessibilityNodeInfo h;
         AccessibilityNodeInfo h2 = findClickableNodeInfo(accessibilityNodeInfo);
@@ -172,7 +165,6 @@ public class AccessibilityUtil {
         return h;
     }
 
-    // from m40645h
     private static AccessibilityNodeInfo findClickableNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         if (accessibilityNodeInfo == null) {
             return null;
@@ -192,7 +184,6 @@ public class AccessibilityUtil {
     /**
      * 模拟点击事件
      * */
-    // from m40641d
     public static boolean performClickAction(AccessibilityNodeInfo accessibilityNodeInfo) {
         AccessibilityNodeInfo c = findAllNodes(accessibilityNodeInfo);
         if (c != null) {
@@ -204,7 +195,6 @@ public class AccessibilityUtil {
     /**
      * 模拟向后滚动事件
      * */
-    // from m40642e
     public static boolean performScrollBackwardAction(AccessibilityNodeInfo accessibilityNodeInfo) {
         AccessibilityNodeInfo a = findAccessibilityScrollNodeInfo(accessibilityNodeInfo);
         if (a == null) {
@@ -219,7 +209,6 @@ public class AccessibilityUtil {
     }
 
 
-    // from m40629a
     public static AccessibilityNodeInfo findAccessibilityScrollNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         return findAccessibilityScrollNodeInfo(accessibilityNodeInfo, 30);
     }
@@ -227,7 +216,6 @@ public class AccessibilityUtil {
     /**
      * 查找可滚动的节点
      * */
-    // from m40630a
     public static AccessibilityNodeInfo findAccessibilityScrollNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo, int count) {
         int i2 = count - 1;
         if (accessibilityNodeInfo == null || i2 <= 0) {
@@ -248,7 +236,6 @@ public class AccessibilityUtil {
     /**
      * 模拟向前滚动事件
      * */
-    // from m40643f
     public static boolean performScrollForwardAction(AccessibilityNodeInfo accessibilityNodeInfo) {
         AccessibilityNodeInfo a = findAccessibilityScrollNodeInfo(accessibilityNodeInfo);
         if (a != null) {
@@ -257,7 +244,6 @@ public class AccessibilityUtil {
         return false;
     }
 
-    // m40646i
     private static AccessibilityNodeInfo findCheckableNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         if (accessibilityNodeInfo == null) {
             return null;
@@ -277,7 +263,6 @@ public class AccessibilityUtil {
     /**
      * 模拟点击"最近"按键
      * */
-    // from m40640c
     public static boolean performGlobalRecentsAction(AccessibilityService accessibilityService) {
         if (accessibilityService != null) {
             return accessibilityService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_RECENTS);
@@ -288,7 +273,6 @@ public class AccessibilityUtil {
     /**
      * 模拟点击"返回"按键
      * */
-    // from m40636b
     public static boolean performGlobalBackAction(AccessibilityService accessibilityService) {
         if (accessibilityService != null) {
             return accessibilityService.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK);
@@ -299,12 +283,10 @@ public class AccessibilityUtil {
     /**
      * 查找可滚动的节点
      * */
-    // from m40644g
     public static boolean isScrollNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         return findAccessibilityScrollNodeInfo(accessibilityNodeInfo) != null;
     }
 
-    // from m40634b
     public static AccessibilityNodeInfo findAccessibilityCheckableNodeInfo(AccessibilityNodeInfo accessibilityNodeInfo) {
         AccessibilityNodeInfo c;
         if (accessibilityNodeInfo == null || (c = findAllNodes(accessibilityNodeInfo)) == null) {
@@ -313,7 +295,6 @@ public class AccessibilityUtil {
         return findCheckableNodeInfo(c);
     }
 
-    // from m40635b
     public static AccessibilityNodeInfo findAccessibilityNodeInfoByViewId(AccessibilityNodeInfo accessibilityNodeInfo, String viewId) {
         AccessibilityNodeInfo c;
         if (accessibilityNodeInfo == null || (c = findAllNodes(accessibilityNodeInfo)) == null) {
@@ -322,7 +303,6 @@ public class AccessibilityUtil {
         return findNodeInfoByViewId(c, viewId);
     }
 
-    // from m40631a
     public static AccessibilityNodeInfo findNodeInfoByViewId(AccessibilityNodeInfo accessibilityNodeInfo, String viewId) {
         List<AccessibilityNodeInfo> findAccessibilityNodeInfosByViewId;
         if (accessibilityNodeInfo == null || (findAccessibilityNodeInfosByViewId = accessibilityNodeInfo.findAccessibilityNodeInfosByViewId(viewId)) == null || findAccessibilityNodeInfosByViewId.size() <= 0) {
@@ -336,7 +316,6 @@ public class AccessibilityUtil {
         return null;
     }
 
-    // from m40627a
     public static AccessibilityNodeInfo findAccessibilityNodeInfoByViewIds(AccessibilityService accessibilityService, String str) {
         AccessibilityNodeInfo a = findRootNodeInfo(accessibilityService);
         String[] split = str.split("\\|");

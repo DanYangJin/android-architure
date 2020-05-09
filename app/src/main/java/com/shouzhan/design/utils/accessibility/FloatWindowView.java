@@ -53,7 +53,7 @@ public class FloatWindowView {
         return FloatWindowBuilder.mFloatWindowView;
     }
 
-    public void m40649a(WindowManager.LayoutParams layoutParams) {
+    private void updateLayoutParams(WindowManager.LayoutParams layoutParams) {
         OSUtil.ROM_TYPE c = OSUtil.getRomType();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
@@ -75,7 +75,7 @@ public class FloatWindowView {
             try {
                 FloatWindowView.this.mProgressBar.setProgress(0);
                 WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-                FloatWindowView.this.m40649a(layoutParams);
+                FloatWindowView.this.updateLayoutParams(layoutParams);
                 layoutParams.width = -1;
                 layoutParams.height = -1;
                 layoutParams.format = 1;

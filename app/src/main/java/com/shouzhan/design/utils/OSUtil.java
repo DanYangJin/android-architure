@@ -181,5 +181,12 @@ public class OSUtil {
         return defaultValue;
     }
 
+    public static boolean isFuntouchRom() {
+        return getRomType() == ROM_TYPE.FUNTOUCH_ROM;
+    }
+
+    public static boolean isMiuiRom() {
+        return getRomType() == ROM_TYPE.MIUI_ROM;
+    }
 
 }

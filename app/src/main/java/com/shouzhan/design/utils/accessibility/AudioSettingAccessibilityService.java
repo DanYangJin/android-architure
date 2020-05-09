@@ -13,11 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.fshows.android.stark.utils.FsLogUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -30,14 +31,11 @@ import java.util.Queue;
  */
 public class AudioSettingAccessibilityService extends AccessibilityService {
 
-    public static final String ACTION_PHONE_SETTING_TASK = "action_phone_setting_task";
-    public static final String ACTION_PHONE_SETTING_TASK_DONE = "action_phone_setting_task_done";
-
     private BroadcastReceiver mReceiver;
-    private IntentFilter mIntentFilter = new IntentFilter("action_phone_setting_task");
+    private IntentFilter mIntentFilter = new IntentFilter(AudioSettingConstants.ACTION_PHONE_SETTING_TASK);
 
-    private SingleTask mSingleTask;
-    private Queue<SingleStep> mSingleSteps;
+    private SettingTask mCurTask;
+    private Queue<SettingStep> mCurTaskSteps;
     private boolean isTaskStart = false;
     private boolean isAccessibilityTaskStart = false;
 
@@ -45,8 +43,10 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
         mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (ACTION_PHONE_SETTING_TASK.equals(intent.getAction())) {
-                    executeSingleTask((SingleTask) intent.getSerializableExtra("task"));
+                if (AudioSettingConstants.ACTION_PHONE_SETTING_TASK.equals(intent.getAction())) {
+                    executeSingleTask((SettingTask) intent.getSerializableExtra("task"));
+                } else if (AudioSettingConstants.ACTION_PHONE_SETTING_FINISH.equals(intent.getAction())) {
+                    mCurTaskSteps.clear();
                 }
             }
         };
@@ -58,40 +58,47 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mIntentFilter);
     }
 
+    @Override
+    protected void onServiceConnected() {
+        super.onServiceConnected();
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务连接 <<<");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(AudioSettingConstants.ACTION_PHONE_SETTING_SERVICE_CONNECT));
+    }
+
     /**
      * 执行设置任务
      */
-    private void executeSingleTask(SingleTask task) {
-        this.mSingleTask = task;
+    private void executeSingleTask(SettingTask task) {
+        this.mCurTask = task;
         boolean done = true;
         this.isTaskStart = true;
         this.isAccessibilityTaskStart = false;
-        this.mSingleSteps = task != null ? task.getStepQueue() : null;
-        if (mSingleSteps == null || mSingleSteps.isEmpty()) {
+        this.mCurTaskSteps = task != null ? task.getStepQueue() : null;
+        if (mCurTaskSteps == null || mCurTaskSteps.isEmpty()) {
             return;
         }
-        SingleStep singleStep = mSingleSteps.peek();
-        if (singleStep == null || singleStep.getAction() != SingleStep.STEP_ACTION_JUMP) {
+        SettingStep settingStep = mCurTaskSteps.peek();
+        if (settingStep == null || settingStep.getAction() != SettingStep.STEP_ACTION_JUMP) {
             return;
         }
-        switch (singleStep.getAction()) {
-            case SingleStep.STEP_ACTION_BACK:
+        switch (settingStep.getAction()) {
+            case SettingStep.STEP_ACTION_BACK:
                 // 返回操作
                 this.isAccessibilityTaskStart = false;
                 SystemClock.sleep(1000);
                 executeBack();
                 break;
-            case SingleStep.STEP_ACTION_RECENTS:
+            case SettingStep.STEP_ACTION_RECENTS:
                 // 最近操作
                 SystemClock.sleep(1000);
-                mSingleSteps.poll();
+                mCurTaskSteps.poll();
                 AccessibilityUtil.performGlobalRecentsAction(this);
                 break;
             default:
-                mSingleSteps.poll();
-                String actionValue = singleStep.getActionValue();
-                Bundle params = singleStep.getParams();
-                Uri data = singleStep.getData();
+                mCurTaskSteps.poll();
+                String actionValue = settingStep.getActionValue();
+                Bundle params = settingStep.getParams();
+                Uri data = settingStep.getData();
                 String[] split = actionValue.split("\\|");
                 if (split.length > 1) {
                     int i = 0;
@@ -120,7 +127,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
      */
     private void executeTaskDone() {
         isTaskStart = false;
-        sendTaskStatusBroadcast(ACTION_PHONE_SETTING_TASK_DONE, null);
+        sendTaskFinishStatusBroadcast(AudioSettingConstants.ACTION_PHONE_SETTING_TASK_DONE, null);
     }
 
     private boolean openSystemSettingPage(String actionValue, Bundle bundle, Uri uri) {
@@ -149,12 +156,12 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     }
 
     private void executeBack() {
-        SingleStep poll = this.mSingleSteps.poll();
+        SettingStep poll = this.mCurTaskSteps.poll();
         if (poll == null) {
             executeTaskDone();
             return;
         }
-        if (poll.getAction() == SingleStep.STEP_ACTION_BACK) {
+        if (poll.getAction() == SettingStep.STEP_ACTION_BACK) {
             AccessibilityUtil.performGlobalBackAction(this);
         }
         SystemClock.sleep(1000);
@@ -163,13 +170,12 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
-        Log.e("xss", "AudioSettingAccessibilityService onAccessibilityEvent");
         CharSequence packageName = accessibilityEvent.getPackageName();
         if (packageName != null && !StringUtils.isEmpty(packageName.toString()) && !packageName.toString().equals(getPackageName()) && accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             if (!this.isTaskStart) {
                 return;
             }
-            if (this.mSingleSteps == null || this.mSingleSteps.isEmpty()) {
+            if (this.mCurTaskSteps == null || this.mCurTaskSteps.isEmpty()) {
                 this.isTaskStart = false;
             } else if (!this.isAccessibilityTaskStart) {
                 new Handler().post(AudioSettingAccessibilityService.this::executeAccessibilityTask);
@@ -180,54 +186,54 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
 
     public void executeAccessibilityTask() {
         AccessibilityNodeInfo accessibilityNodeInfo;
-        SingleStep peek = this.mSingleSteps.peek();
+        SettingStep peek = this.mCurTaskSteps.peek();
         if (peek == null) {
             executeTaskDone();
             return;
         }
         this.isAccessibilityTaskStart = true;
-        if (peek.getAction() == SingleStep.STEP_ACTION_SCROLL_TOP) {
-            this.mSingleSteps.poll();
+        if (peek.getAction() == SettingStep.STEP_ACTION_SCROLL_TOP) {
+            this.mCurTaskSteps.poll();
             AccessibilityUtil.performScrollBackwardAction(AccessibilityUtil.findRootNodeInfo((AccessibilityService) this));
             executeAccessibilityTask();
-        } else if (peek.getAction() == SingleStep.STEP_ACTION_SLEEP) {
-            this.mSingleSteps.poll();
+        } else if (peek.getAction() == SettingStep.STEP_ACTION_SLEEP) {
+            this.mCurTaskSteps.poll();
             SystemClock.sleep(1000);
             executeAccessibilityTask();
-        } else if (peek.getAction() == SingleStep.STEP_ACTION_BACK) {
-            this.mSingleSteps.poll();
+        } else if (peek.getAction() == SettingStep.STEP_ACTION_BACK) {
+            this.mCurTaskSteps.poll();
             AccessibilityUtil.performGlobalBackAction(this);
             SystemClock.sleep(1000);
             executeAccessibilityTask();
         } else {
             String actionValue = peek.getActionValue();
-            if (peek.getAction() == SingleStep.STEP_ACTION_CLICK_ID || peek.getAction() == SingleStep.STEP_ACTION_TRY_CLICK_ID) {
+            if (peek.getAction() == SettingStep.STEP_ACTION_CLICK_ID || peek.getAction() == SettingStep.STEP_ACTION_TRY_CLICK_ID) {
                 accessibilityNodeInfo = AccessibilityUtil.findAccessibilityNodeInfoByViewIds(this, peek.getViewId());
             } else {
                 accessibilityNodeInfo = AccessibilityUtil.findAccessibilityNodeInfoByTexts(this, actionValue, 1, peek.isExactMatch());
             }
             if (accessibilityNodeInfo != null) {
-                this.mSingleSteps.poll();
+                this.mCurTaskSteps.poll();
                 switch (peek.getAction()) {
-                    case SingleStep.STEP_ACTION_CLICK:
-                    case SingleStep.STEP_ACTION_TRY_CLICK:
-                    case SingleStep.STEP_ACTION_TRY_CLICK_JUMP:
-                    case SingleStep.STEP_ACTION_CLICK_ID:
-                    case SingleStep.STEP_ACTION_TRY_CLICK_ID:
+                    case SettingStep.STEP_ACTION_CLICK:
+                    case SettingStep.STEP_ACTION_TRY_CLICK:
+                    case SettingStep.STEP_ACTION_TRY_CLICK_JUMP:
+                    case SettingStep.STEP_ACTION_CLICK_ID:
+                    case SettingStep.STEP_ACTION_TRY_CLICK_ID:
                         AccessibilityUtil.performClickAction(accessibilityNodeInfo);
                         break;
-                    case SingleStep.STEP_ACTION_OPEN:
-                    case SingleStep.STEP_ACTION_TRY_OPEN:
+                    case SettingStep.STEP_ACTION_OPEN:
+                    case SettingStep.STEP_ACTION_TRY_OPEN:
                         performOpenOrCloseAction(accessibilityNodeInfo, true, peek.isBoundMatch());
                         break;
-                    case SingleStep.STEP_ACTION_CLOSE:
-                    case SingleStep.STEP_ACTION_TRY_CLOSE:
+                    case SettingStep.STEP_ACTION_CLOSE:
+                    case SettingStep.STEP_ACTION_TRY_CLOSE:
                         performOpenOrCloseAction(accessibilityNodeInfo, false, peek.isBoundMatch());
                         break;
-                    case SingleStep.STEP_ACTION_TRY_OPEN_ID:
+                    case SettingStep.STEP_ACTION_TRY_OPEN_ID:
                         performOpenOrCloseIdAction(accessibilityNodeInfo, peek.getViewId(), true);
                         break;
-                    case SingleStep.STEP_ACTION_TRY_CLOSE_ID:
+                    case SettingStep.STEP_ACTION_TRY_CLOSE_ID:
                         performOpenOrCloseIdAction(accessibilityNodeInfo, peek.getViewId(), false);
                         break;
                     default:
@@ -235,14 +241,14 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
                 }
                 SystemClock.sleep(500);
                 executeAccessibilityTask();
-            } else if ((peek.getAction() == SingleStep.STEP_ACTION_CLICK || peek.getAction() == SingleStep.STEP_ACTION_OPEN || peek.getAction() == SingleStep.STEP_ACTION_CLOSE || peek.getAction() == SingleStep.STEP_ACTION_CLICK_ID) && !AccessibilityUtil.isScrollNodeInfo(AccessibilityUtil.findRootNodeInfo(this))) {
+            } else if ((peek.getAction() == SettingStep.STEP_ACTION_CLICK || peek.getAction() == SettingStep.STEP_ACTION_OPEN || peek.getAction() == SettingStep.STEP_ACTION_CLOSE || peek.getAction() == SettingStep.STEP_ACTION_CLICK_ID) && !AccessibilityUtil.isScrollNodeInfo(AccessibilityUtil.findRootNodeInfo(this))) {
                 SystemClock.sleep(1000);
                 executeAccessibilityTask();
             } else {
                 SystemClock.sleep(500);
                 if (!AccessibilityUtil.performScrollForwardAction(AccessibilityUtil.findRootNodeInfo(this))) {
-                    if (peek.getAction() == SingleStep.STEP_ACTION_TRY_CLICK || peek.getAction() == SingleStep.STEP_ACTION_TRY_OPEN || peek.getAction() == SingleStep.STEP_ACTION_TRY_CLOSE || peek.getAction() == SingleStep.STEP_ACTION_TRY_CLICK_ID || peek.getAction() == SingleStep.STEP_ACTION_TRY_OPEN_ID || peek.getAction() == SingleStep.STEP_ACTION_SLIDE_OPEN) {
-                        this.mSingleSteps.poll();
+                    if (peek.getAction() == SettingStep.STEP_ACTION_TRY_CLICK || peek.getAction() == SettingStep.STEP_ACTION_TRY_OPEN || peek.getAction() == SettingStep.STEP_ACTION_TRY_CLOSE || peek.getAction() == SettingStep.STEP_ACTION_TRY_CLICK_ID || peek.getAction() == SettingStep.STEP_ACTION_TRY_OPEN_ID || peek.getAction() == SettingStep.STEP_ACTION_SLIDE_OPEN) {
+                        this.mCurTaskSteps.poll();
                         AccessibilityUtil.performScrollBackwardAction(AccessibilityUtil.findRootNodeInfo(this));
                     } else {
                         executeTaskDone();
@@ -274,7 +280,8 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
         } else {
             isChecked = checkableNodeInfo.isChecked();
         }
-        sendTaskStatusBroadcast("action_phone_setting", "" + isChecked);
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "check状态 >>> " + isChecked);
+        sendTaskFinishStatusBroadcast(AudioSettingConstants.ACTION_PHONE_SETTING, String.valueOf(isChecked));
         if (isChecked != status) {
             return checkableNodeInfo.isClickable() ? checkableNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK) : allNodes.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }
@@ -288,35 +295,44 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
             return false;
         }
         boolean isEnabled = nodeInfoByViewId.isEnabled();
-        sendTaskStatusBroadcast("action_phone_setting", "" + isEnabled);
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "check状态 >>> " + isEnabled);
+        sendTaskFinishStatusBroadcast(AudioSettingConstants.ACTION_PHONE_SETTING, String.valueOf(isEnabled));
         if (isEnabled != status) {
             return nodeInfoByViewId.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         }
         return true;
     }
 
-    private void sendTaskStatusBroadcast(String action, String value) {
-        if (this.mSingleTask == null) {
-            return;
+    /**
+     * 发送自动化设置单个任务完成状态广播
+     *
+     * @param action
+     * @param value
+     * @return
+     */
+    private void sendTaskFinishStatusBroadcast(String action, String value) {
+        if (this.mCurTask != null) {
+            FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务销毁 <<<");
+            Intent intent = new Intent(action);
+            if (StringUtils.isNotEmpty(value)) {
+                intent.putExtra("value", value);
+            }
+            intent.putExtra("taskId", mCurTask.getTaskId());
+            intent.putExtra("taskName", mCurTask.getTaskName());
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
-        Intent intent = new Intent(action);
-        if (StringUtils.isNotEmpty(value)) {
-            intent.putExtra("value", value);
-        }
-        intent.putExtra("taskId", this.mSingleTask.getTaskId());
-        intent.putExtra("taskName", this.mSingleTask.getTaskName());
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     @Override
     public void onInterrupt() {
-        Log.e("xss", "onInterrupt");
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务中断 <<<");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务销毁 <<<");
     }
 
 }
