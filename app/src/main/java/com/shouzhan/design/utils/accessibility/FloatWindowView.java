@@ -56,17 +56,17 @@ public class FloatWindowView {
     public void m40649a(WindowManager.LayoutParams layoutParams) {
         OSUtil.ROM_TYPE c = OSUtil.getRomType();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            layoutParams.type = 2038;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         } else if (c == OSUtil.ROM_TYPE.MIUI_ROM) {
-            layoutParams.type = 2003;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            layoutParams.type = 2003;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            layoutParams.type = 2005;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
         } else if (c == OSUtil.ROM_TYPE.COLOROS_ROM) {
-            layoutParams.type = 2003;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
         } else {
-            layoutParams.type = 2005;
+            layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
         }
     }
 
