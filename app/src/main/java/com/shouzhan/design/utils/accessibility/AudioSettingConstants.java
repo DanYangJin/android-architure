@@ -22,7 +22,8 @@ public class AudioSettingConstants {
     public static final String ACTION_PHONE_SETTING_FINISH = "action_phone_setting_finish";
 
     /**
-     *
+     * extra
      * */
+    public static final String PACKAGE_NAME = "package_name";
 
 }

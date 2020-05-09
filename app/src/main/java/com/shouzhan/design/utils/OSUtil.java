@@ -56,13 +56,21 @@ public class OSUtil {
     public static final String GET_FLYME_SYSTEM_PUBILSHED = "ro.flyme.published";
     public static final String GET_SYSTEM_DISPLAY_ID = "ro.build.display.id";
 
+    public static final String GET_SYSTEM_VERSION_INCREMENTAL = "ro.build.version.incremental";
+
     public static final String FLYME_SUFFIX = "Flyme";
     public static final String EMUI_SUFFIX = "EmotionUI";
+
+    public static final String MIUI_VERSION_6 = "V6";
+    public static final String MIUI_VERSION_7 = "V7";
+    public static final String MIUI_VERSION_8 = "V8";
+    public static final String MIUI_VERSION_9 = "V9";
 
     public static final int VERSION_3 = 3;
     public static final int VERSION_4 = 4;
     public static final int VERSION_5 = 5;
     public static final int VERSION_9 = 9;
+
 
     public static ROM_TYPE getRomType() {
         try {
