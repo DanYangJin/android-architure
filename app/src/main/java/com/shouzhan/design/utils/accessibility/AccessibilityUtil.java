@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.accessibility.AccessibilityNodeInfo;
+
+import com.fshows.android.stark.utils.FsLogUtil;
 
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class AccessibilityUtil {
                 if (accessibilityNodeInfo != null) {
                     return accessibilityNodeInfo;
                 }
-                Log.e("xss", "找根节点" + i + "次");
+                FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "找根节点" + i + "次");
                 SystemClock.sleep(500);
                 if (i >= 10) {
                     break;

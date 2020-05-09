@@ -76,6 +76,7 @@ public class PhoneSettingChecker {
                 if (i > PhoneSettingChecker.this.mCurProgress) {
                     PhoneSettingChecker.this.mCurProgress = i;
                 }
+                FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 自动化设置进度： <<<" + mCurProgress);
                 PhoneSettingChecker.this.executeTask();
             }
         }
@@ -162,7 +163,7 @@ public class PhoneSettingChecker {
         builder.append(this.mCurTask == null ? "" : this.mCurTask.getTaskName());
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, builder.toString());
         Intent intent = new Intent();
-        intent.setAction("action_phone_setting_task");
+        intent.setAction(AudioSettingConstants.ACTION_PHONE_SETTING_TASK);
         intent.putExtra("task", this.mCurTask);
         LocalBroadcastManager.getInstance(this.mContext).sendBroadcast(intent);
     }
