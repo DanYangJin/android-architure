@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.accessibility.AccessibilityEvent;
@@ -38,6 +39,8 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     private Queue<SettingStep> mCurTaskSteps;
     private boolean isTaskStart = false;
     private boolean isAccessibilityTaskStart = false;
+    private HandlerThread mHandlerThread;
+    private Handler mHandler;
 
     public AudioSettingAccessibilityService() {
         mReceiver = new BroadcastReceiver() {
@@ -55,6 +58,9 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     @Override
     public void onCreate() {
         super.onCreate();
+        mHandlerThread = new HandlerThread("auto_setting");
+        mHandlerThread.start();
+        mHandler = new Handler(mHandlerThread.getLooper());
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, mIntentFilter);
     }
 
@@ -183,7 +189,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
             if (this.mCurTaskSteps == null || this.mCurTaskSteps.isEmpty()) {
                 this.isTaskStart = false;
             } else if (!this.isAccessibilityTaskStart) {
-                new Handler().post(AudioSettingAccessibilityService.this::executeAccessibilityTask);
+                mHandler.post(AudioSettingAccessibilityService.this::executeAccessibilityTask);
             }
         }
 

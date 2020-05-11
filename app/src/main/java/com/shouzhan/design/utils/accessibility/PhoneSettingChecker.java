@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.util.Log;
 
 import androidx.annotation.Keep;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -138,18 +137,14 @@ public class PhoneSettingChecker {
         executeTask();
     }
 
-    /**
-     * TODO bugfix Observable被阻塞了
-     * */
     private void startProgressCountDown() {
         if (this.mDisposable == null || this.mDisposable.isDisposed()) {
             this.mDisposable = Observable.interval(0, 1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
                 @Override
                 public void accept(Long aLong) {
-                    Log.e(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "startProgressCountDown: " + aLong);
-//                    if (PhoneSettingChecker.this.mCurProgress < MAX_PROGRESS - 1) {
-//                        FloatWindowView.getInstance().setProgress(PhoneSettingChecker.updateCurProgress(PhoneSettingChecker.this));
-//                    }
+                    if (PhoneSettingChecker.this.mCurProgress < MAX_PROGRESS - 1) {
+                        FloatWindowView.getInstance().setProgress(PhoneSettingChecker.updateCurProgress(PhoneSettingChecker.this));
+                    }
                 }
             });
         }
