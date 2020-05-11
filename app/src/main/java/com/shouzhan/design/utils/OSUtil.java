@@ -3,6 +3,7 @@ package com.shouzhan.design.utils;
 import com.fshows.android.stark.utils.StringPool;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.TestOnly;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -204,6 +205,14 @@ public class OSUtil {
             e.printStackTrace();
             return StringPool.EMPTY;
         }
+    }
+
+    /**
+     * 测试方法
+     * */
+    @TestOnly
+    public static String getPackageName() {
+        return "com.ionicframework.lifecirclemerchantfront573168";
     }
 
 }

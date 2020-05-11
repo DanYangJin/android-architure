@@ -132,7 +132,7 @@ public class PhoneSettingChecker {
 
     private void initPhoneSettingChecker() {
         mTaskCount = this.mSettingTasks.size();
-        FloatWindowView.getInstance().build();
+//        FloatWindowView.getInstance().showFloatWindowView();
         startProgressCountDown();
         executeTask();
     }

@@ -10,7 +10,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.fshows.android.stark.utils.CommonThreadPoolExecutor;
 import com.fshows.android.stark.utils.FsLogUtil;
-import com.shouzhan.design.ui.home.FlexboxActivity;
 
 import java.util.Queue;
 
@@ -101,7 +100,7 @@ public class AudioDiagnosisManager {
             mStartDiagnosisTime = System.currentTimeMillis();
             AudioDiagnosisManager.this.getPhoneSettingCallback(mPhoneSettingChecker.startPhoneSettingChecker());
             AudioDiagnosisManager.this.mActivity.runOnUiThread(() -> {
-                FloatWindowView.getInstance().remove();
+//                FloatWindowView.getInstance().removeFloatWindowView();
             });
         });
     }
@@ -110,24 +109,21 @@ public class AudioDiagnosisManager {
         final PhoneSettingChecker.PhoneSettingCheckResult checkResult = result.getResult();
         boolean isCheckSuccess = checkResult != null && checkResult.isCheckSuccess();
         long currentTimeMillis = System.currentTimeMillis() - mStartDiagnosisTime;
-        this.mActivity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mAudioDiagnosisListener != null) {
-                    mAudioDiagnosisListener.onDiagnosisCallback(isCheckSuccess, currentTimeMillis, checkResult != null ? checkResult.getCurTask() : null);
-                }
-                skipDiagnosisSuccessPage();
+        mActivity.runOnUiThread(() -> {
+            if (mAudioDiagnosisListener != null) {
+                mAudioDiagnosisListener.onDiagnosisCallback(isCheckSuccess, currentTimeMillis, checkResult != null ? checkResult.getCurTask() : null);
             }
+            skipDiagnosisSuccessPage();
         });
         unRegisterReceiver();
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "语音诊断任务执行结束 >>> result = %s, time = %dms", isCheckSuccess, currentTimeMillis);
     }
 
     /**
-     * 跳转到诊断成功页面
+     * TODO bugfix跳转到诊断成功页面
      */
     private void skipDiagnosisSuccessPage() {
-        mActivity.startActivity(new Intent(mActivity, FlexboxActivity.class));
+
     }
 
     public void setOnAudioDiagnosisListener(AudioDiagnosisListener listener) {

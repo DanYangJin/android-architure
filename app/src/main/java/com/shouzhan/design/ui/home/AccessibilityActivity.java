@@ -20,10 +20,6 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
         return R.layout.activity_accessibility;
     }
 
-    /**
-     * TODO bugfix 拉起无用的页面导致多次操作返回
-     * TODO bugfix 点击底部导航会导致异常case
-     * */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

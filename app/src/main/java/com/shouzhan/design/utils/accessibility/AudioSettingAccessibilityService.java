@@ -75,10 +75,12 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
         this.isAccessibilityTaskStart = false;
         this.mCurTaskSteps = task != null ? task.getStepQueue() : null;
         if (mCurTaskSteps == null || mCurTaskSteps.isEmpty()) {
+            executeTaskDone();
             return;
         }
         SettingStep settingStep = mCurTaskSteps.peek();
         if (settingStep == null || settingStep.getAction() != SettingStep.STEP_ACTION_JUMP) {
+            executeTaskDone();
             return;
         }
         switch (settingStep.getAction()) {
@@ -130,6 +132,9 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
         sendTaskFinishStatusBroadcast(AudioSettingConstants.ACTION_PHONE_SETTING_TASK_DONE, null);
     }
 
+    /**
+     * TODO bugfix拉起页面可能有点问题
+     * */
     private boolean openSystemSettingPage(String actionValue, Bundle bundle, Uri uri) {
         Intent intent = new Intent();
         if (bundle != null) {
@@ -194,7 +199,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
         this.isAccessibilityTaskStart = true;
         if (peek.getAction() == SettingStep.STEP_ACTION_SCROLL_TOP) {
             this.mCurTaskSteps.poll();
-            AccessibilityUtil.performScrollBackwardAction(AccessibilityUtil.findRootNodeInfo((AccessibilityService) this));
+            AccessibilityUtil.performScrollBackwardAction(AccessibilityUtil.findRootNodeInfo(this));
             executeAccessibilityTask();
         } else if (peek.getAction() == SettingStep.STEP_ACTION_SLEEP) {
             this.mCurTaskSteps.poll();

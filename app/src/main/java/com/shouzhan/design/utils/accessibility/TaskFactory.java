@@ -105,7 +105,7 @@ public class TaskFactory {
         LinkedList<SettingTask> linkedList = new LinkedList<>();
         linkedList.add(new SettingTask().setTaskName("自启动").addStep("miui.intent.action.OP_AUTO_START", 4).addStep("滚动到顶部", 5).addStep("sleep", 6).addStep("付呗", 1).addStep("允许系统唤醒|允許系統喚醒", 2).addStep("允许被其他应用唤醒|允許被其他應用喚醒", 2).addStep("返回", 10));
         SettingTask taskName = new SettingTask().setTaskName("通知设置");
-        taskName.addStep("android.settings.APPLICATION_DETAILS_SETTINGS", 4, Uri.parse("package:" + context.getPackageName())).addStep("通知管理|通知管理", 1).addStep("允许通知|允許通知", 2);
+        taskName.addStep("android.settings.APPLICATION_DETAILS_SETTINGS", 4, Uri.parse("package:" + OSUtil.getPackageName())).addStep("通知管理|通知管理", 1).addStep("允许通知|允許通知", 2);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             taskName.addStep("悬浮通知|懸浮通知", 8).addStep("锁屏通知|螢幕鎖定時通知", 8);
             taskName.addStep("推送通知", 13).addStep("允许通知|允許通知", 2).addStep("悬浮通知|懸浮通知", 8).addStep("锁屏通知|螢幕鎖定時通知", 8).addStep("在锁定屏幕上|在螢幕鎖定畫面上", 7).addStep("显示通知及其内容|顯示通知及內容", 7).addStep("返回", 10);
@@ -269,11 +269,17 @@ public class TaskFactory {
             if (isOpen) {
                 linkedList.add(accessibilityBackTask());
             }
-            if (romType != OSUtil.ROM_TYPE.COLOROS_ROM) {
-                linkedList.add(openFloatWindowTask(context));
-                return true;
+            switch (romType) {
+                case COLOROS_ROM:
+                    linkedList.add(openColorsFloatWindowTask(context));
+                    break;
+                case MIUI_ROM:
+                    linkedList.add(openMiuiFloatWindowTask(context));
+                    break;
+                default:
+                    linkedList.add(openFloatWindowTask(context));
+                    break;
             }
-            linkedList.add(openMiuiFloatWindowTask(context));
             return true;
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             if (isOpen) {
@@ -284,7 +290,7 @@ public class TaskFactory {
                     linkedList.add(openMiuiFloatWindowTask(context));
                     return true;
                 case COLOROS_ROM:
-                    linkedList.add(openColorsFloatWindowTask());
+                    linkedList.add(openColorsFloatWindowTask(context));
                     return true;
                 default:
                     return false;
@@ -295,11 +301,17 @@ public class TaskFactory {
             if (isOpen) {
                 linkedList.add(accessibilityBackTask());
             }
-            if (romType != OSUtil.ROM_TYPE.COLOROS_ROM) {
-                linkedList.add(openFloatWindowTask(context));
-                return true;
+            switch (romType) {
+                case COLOROS_ROM:
+                    linkedList.add(openColorsFloatWindowTask(context));
+                    break;
+                case MIUI_ROM:
+                    linkedList.add(openMiuiFloatWindowTask(context));
+                    break;
+                default:
+                    linkedList.add(openFloatWindowTask(context));
+                    break;
             }
-            linkedList.add(openMiuiFloatWindowTask(context));
             return true;
         }
     }
@@ -315,20 +327,19 @@ public class TaskFactory {
         return task;
     }
 
-    public static SettingTask openColorsFloatWindowTask() {
+    public static SettingTask openColorsFloatWindowTask(Context context) {
         return new SettingTask().setTaskName("悬浮窗权限").setTaskId(10000).addStep("com.coloros.safecenter/com.coloros.privacypermissionsentry.PermissionTopActivity", 4).addStep("悬浮窗管理", 1).addStep("付呗", 2).addStep("返回", 10);
     }
 
     public static SettingTask openFloatWindowTask(Context context) {
         SettingTask task = new SettingTask().setTaskName("悬浮窗权限").setTaskId(10000);
-        return task.addStep("android.settings.action.MANAGE_OVERLAY_PERMISSION", 4, (Bundle) null, Uri.parse("package:" + context.getPackageName()), true).addStep("允许显示在其他应用的上层|允许在其他应用的上层显示|允许出现在其他应用上|在其他应用上层显示|付呗|允許顯示在其他應用的上層|允許在其他應用的上層顯示|允許出現在其他應用上|在其他應用上層顯示", 8).addStep("返回", 10);
+        return task.addStep("android.settings.action.MANAGE_OVERLAY_PERMISSION", 4, null, Uri.parse("package:" + OSUtil.getPackageName()), true).addStep("允许显示在其他应用的上层|允许在其他应用的上层显示|允许出现在其他应用上|在其他应用上层显示|付呗|允許顯示在其他應用的上層|允許在其他應用的上層顯示|允許出現在其他應用上|在其他應用上層顯示", 8).addStep("返回", 10);
     }
 
     private static void openMiuiPermissionsEditorTask(Context context, SettingTask task) {
         Bundle bundle = new Bundle();
-        bundle.putString("extra_pkgname", context.getPackageName());
+        bundle.putString("extra_pkgname", OSUtil.getPackageName());
         String prop = OSUtil.getSystemProp(OSUtil.GET_MIUI_SYSTEM_VERSION_NAME);
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "prop: " + prop);
         if (StringUtils.isNotEmpty(prop)) {
             if (prop.equals(OSUtil.MIUI_VERSION_6) || prop.equals(OSUtil.MIUI_VERSION_7)) {
                 task.addStep("com.miui.securitycenter/com.miui.permcenter.permissions.AppPermissionsEditorActivity", 4, bundle);

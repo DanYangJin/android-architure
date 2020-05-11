@@ -70,7 +70,10 @@ public class FloatWindowView {
         }
     }
 
-    public void build() {
+    /**
+     * TODO bugfix 点击底部导航会导致异常case
+     * */
+    public void showFloatWindowView() {
         this.mHandler.post(() -> {
             try {
                 FloatWindowView.this.mProgressBar.setProgress(0);
@@ -89,7 +92,7 @@ public class FloatWindowView {
         });
     }
 
-    public void remove() {
+    public void removeFloatWindowView() {
         this.mHandler.post(() -> {
             try {
                 if (!(FloatWindowView.this.mWindowManager == null || FloatWindowView.this.mView == null)) {
