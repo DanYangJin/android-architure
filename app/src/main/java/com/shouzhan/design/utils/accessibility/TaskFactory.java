@@ -6,8 +6,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 
+import com.fshows.android.stark.utils.CommonRegex;
 import com.fshows.android.stark.utils.FsLogUtil;
 import com.fshows.android.stark.utils.StringPool;
+import com.fshows.android.stark.utils.StringUtil;
 import com.shouzhan.design.utils.OSUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,10 +53,11 @@ public class TaskFactory {
     }
 
     private static Queue<SettingTask> createEmuiTask(Context context) {
-        String prop = OSUtil.getSystemProp();
+        String emuiVerion = OSUtil.getSystemVersion();
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "createEmuiTask: " + emuiVerion);
         LinkedList<SettingTask> linkedList = new LinkedList<>();
-        if (StringUtils.isNotEmpty(prop)) {
-            String trim = prop.replace(OSUtil.EMUI_SUFFIX, StringPool.EMPTY).replace("_", "").trim();
+        if (StringUtils.isNotEmpty(emuiVerion)) {
+            String trim = emuiVerion.replace(OSUtil.EMUI_SUFFIX, StringPool.EMPTY).replace("_", "").trim();
             if (trim.contains(StringPool.DOT)) {
                 trim = trim.substring(0, trim.indexOf(StringPool.DOT));
             }
@@ -98,7 +101,7 @@ public class TaskFactory {
     }
 
     private static Queue<SettingTask> createMiuiTask(Context context) {
-//        float floatValue;
+        float floatValue;
         LinkedList<SettingTask> linkedList = new LinkedList<>();
         linkedList.add(new SettingTask().setTaskName("自启动").addStep("miui.intent.action.OP_AUTO_START", 4).addStep("滚动到顶部", 5).addStep("sleep", 6).addStep("付呗", 1).addStep("允许系统唤醒|允許系統喚醒", 2).addStep("允许被其他应用唤醒|允許被其他應用喚醒", 2).addStep("返回", 10));
         SettingTask taskName = new SettingTask().setTaskName("通知设置");
@@ -114,41 +117,40 @@ public class TaskFactory {
         }
         linkedList.add(new SettingTask().setTaskName("锁屏断开数据/锁屏清理内存").addStep("com.miui.securitycenter/com.miui.powercenter.PowerSettings", 4).addStep("锁屏后断开数据|锁屏断开数据|鎖螢幕後斷開數據|鎖屏斷開行動數據", 1).addStep("从不|從不", 1).addStep("锁屏后清理内存|锁屏清理内存|鎖螢幕後清理內存|鎖屏清理記憶體", 1).addStep("从不|從不", 1).addStep("返回", 10));
         linkedList.add(new SettingTask().setTaskName("设置搜索返回").addStep("android.settings.SETTINGS", 4).addStepById("miui:id/search_btn_cancel|miui:id/search_text_cancel", 15).addStep("返回", 10));
-        String incremental = OSUtil.getSystemProp(OSUtil.GET_SYSTEM_VERSION_INCREMENTAL);
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "incremental: " + incremental);
-//        float f = 0.0f;
-//        try {
-//            if (RegUtil.m47882a(incremental.charAt(0))) {
-//                floatValue = Float.valueOf(j.substring(0, C10102h.m47884a(j, ".", 2)));
-//            } else {
-//                floatValue = Float.valueOf(j.substring(1, C10102h.m47884a(j, ".", 2))).floatValue();
-//            }
-//            f = floatValue;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String incremental = OSUtil.getSystemIncrementalVersion();
+        float f = 0.0f;
+        try {
+            if (CommonRegex.isNumber(String.valueOf(incremental.charAt(0)))) {
+                floatValue = Float.parseFloat(incremental.substring(0, StringUtil.findPositionIndex(incremental,
+                        StringPool.DOT, 2)));
+            } else {
+                floatValue = Float.parseFloat(incremental.substring(1, StringUtil.findPositionIndex(incremental,
+                        StringPool.DOT, 2)));
+            }
+            f = floatValue;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "floatValue: " + f);
         SettingTask addStep = new SettingTask().setTaskName("通知亮屏").addStep("android.settings.SETTINGS", 4).addStep("滚动到顶部", 5);
-//        double d = f;
-//        if (d < 11.0d) {
-//            addStep.addStep("锁屏、密码和指纹|鎖屏、密碼和指紋", 1).addStep("锁屏来通知时亮屏|通知來時螢幕亮起", 8, false).addStep("锁屏高级设置|螢幕鎖進階設定", 7).addStep("在锁定屏幕上|屏幕锁定时|在螢幕鎖定畫面上|萤幕锁定时", 7).addStep("显示通知及其内容|顯示通知及內容", 7).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10);
-//        }
+        double d = f;
+        if (d < 11.0d) {
+            addStep.addStep("锁屏、密码和指纹|鎖屏、密碼和指紋", 1).addStep("锁屏来通知时亮屏|通知來時螢幕亮起", 8, false).addStep("锁屏高级设置|螢幕鎖進階設定", 7).addStep("在锁定屏幕上|屏幕锁定时|在螢幕鎖定畫面上|萤幕锁定时", 7).addStep("显示通知及其内容|顯示通知及內容", 7).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10);
+        }
         linkedList.add(addStep);
         linkedList.add(new SettingTask().setTaskName("省电模式").addStep("com.miui.securitycenter/com.miui.powercenter.PowerCenter", 4).addStep("省电模式|省電模式", 7).addStep("省电模式|省電模式", 9).addStep("返回", 10));
-        Bundle bundle = new Bundle();
-        bundle.putString(AudioSettingConstants.PACKAGE_NAME, context.getPackageName());
-//        bundle.putString("package_label", AppUtils.m16964a(context));
         linkedList.add(new SettingTask().setTaskName("省电策略").addStep("com.miui.powerkeeper/com.miui.powerkeeper.ui.HiddenAppsContainerManagementActivity", 4).addStep("滚动到顶部", 5).addStep("sleep", 6).addStep("付呗", 1).addStep("省电策略|省電策略", 7).addStep("无限制|無限制", 1).addStep("返回", 10));
-//        if (d > 10.0d) {
-//            SettingTask addStep2 = new SettingTask().setTaskName("省电模式").addStep("android.settings.SETTINGS", 4).addStep("滚动到顶部", 5);
-//            if (d >= 11.0d) {
-//                addStep2.addStep("电池与性能", 1).addStep("省电模式|省電模式", 9).addStep("超级省电|超級省電", 9).addStep("返回", 10).addStep("返回", 10);
-//            } else {
-//                addStep2.addStep("电量和性能|電量和性能", 1).addStep("省电优化|省電最佳化", 7).addStep("省电模式|省電模式", 9).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10);
-//            }
-//            linkedList.add(addStep2);
-//            linkedList.add(new SettingTask().setTaskName("电池优化").addStep("android.settings.SETTINGS", 4).addStep("滚动到顶部", 5).addStep(d >= 11.0d ? "密码、隐私与安全" : "更多设置|更多設定", 1).addStep("系统安全|系統安全", 1).addStep("特殊应用权限|特殊應用程式存取權", 13, false).addStep("电池优化|電池效能最佳化", 7).addStep("未优化|未套用最佳化設定", 1).addStep("所有应用|所有應用程式", 1).addStep("付呗", 1).addStep("不优化|不要最佳化", 1).addStep("完成", 1).addStep("返回", 10).addStep("返回", 10));
-//            linkedList.add(new SettingTask().setTaskName("电池优化返回").addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
-//        }
+        if (d > 10.0d) {
+            SettingTask addStep2 = new SettingTask().setTaskName("省电模式").addStep("android.settings.SETTINGS", 4).addStep("滚动到顶部", 5);
+            if (d >= 11.0d) {
+                addStep2.addStep("电池与性能", 1).addStep("省电模式|省電模式", 9).addStep("超级省电|超級省電", 9).addStep("返回", 10).addStep("返回", 10);
+            } else {
+                addStep2.addStep("电量和性能|電量和性能", 1).addStep("省电优化|省電最佳化", 7).addStep("省电模式|省電模式", 9).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10);
+            }
+            linkedList.add(addStep2);
+            linkedList.add(new SettingTask().setTaskName("电池优化").addStep("android.settings.SETTINGS", 4).addStep("滚动到顶部", 5).addStep(d >= 11.0d ? "密码、隐私与安全" : "更多设置|更多設定", 1).addStep("系统安全|系統安全", 1).addStep("特殊应用权限|特殊應用程式存取權", 13, false).addStep("电池优化|電池效能最佳化", 7).addStep("未优化|未套用最佳化設定", 1).addStep("所有应用|所有應用程式", 1).addStep("付呗", 1).addStep("不优化|不要最佳化", 1).addStep("完成", 1).addStep("返回", 10).addStep("返回", 10));
+            linkedList.add(new SettingTask().setTaskName("电池优化返回").addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
+        }
         linkedList.add(new SettingTask().setTaskName("后台锁定").addStep("com.miui.securitycenter/com.miui.securityscan.ui.settings.SettingsActivity", 4).addStep("优化加速|優化加速", 1).addStep("锁定任务|鎖定任務", 1).addStep("付呗", 2).addStep("返回", 10).addStep("返回", 10));
         return linkedList;
     }
@@ -158,7 +160,7 @@ public class TaskFactory {
         LinkedList<SettingTask> linkedList = new LinkedList<>();
         linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("省电|低电量模式|省電|低電量模式", 9).addStep("智能耗电保护｜智能耗電保護", 9, false).addStep("自定义耗电保护|自定義耗電保護", 13).addStep("付呗", 1).addStep("允许后台运行|允許後台運行", 2, true, true).addStep("返回", 10).addStep("返回", 10));
         linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("耗电保护|其他|電力保護", 1).addStep("付呗", 1).addStep("后台冻结|背景凍結|後台凍結", 3).addStep("异常耗电自动优化|检测到异常时自动优化|異常耗電自動最佳化|檢測到異常時，自動最佳化", 3).addStep("深度睡眠", 9).addStep("返回", 10).addStep("返回", 10));
-        linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("android.settings.SETTINGS", 4).addStep("电池|電池", 1).addStep("省电|低电量模式|省電|低電量模式", 9).addStep("智能耗电保护|智能耗電保護|智慧電力保護", 9, (Bundle) null, (Uri) null, false).addStep("自定义耗电保护|自定義耗電保護", 13).addStep("付呗", 1).addStep("允许后台运行|允許後台運行", 2, true, true).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
+        linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("android.settings.SETTINGS", 4).addStep("电池|電池", 1).addStep("省电|低电量模式|省電|低電量模式", 9).addStep("智能耗电保护|智能耗電保護|智慧電力保護", 9, null, null, false).addStep("自定义耗电保护|自定義耗電保護", 13).addStep("付呗", 1).addStep("允许后台运行|允許後台運行", 2, true, true).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
         linkedList.add(new SettingTask().setTaskName("应用速冻").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("应用速冻|應用速凍", 13).addStep("付呗", 3).addStep("返回", 10));
         linkedList.add(new SettingTask().setTaskName("应用速冻").addStep("android.settings.SETTINGS", 4).addStep("电池|電池", 1).addStep("应用速冻|應用速凍", 13).addStep("付呗", 3).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
         SettingTask addStep = new SettingTask().setTaskName("通知管理").addStep("android.settings.SETTINGS", 4).addStep("通知与状态栏|通知與狀態欄", 1).addStep("来锁屏通知时点亮屏幕|出現鎖定螢幕通知時，螢幕亮起", 8).addStep("通知管理", 1).addStep("付呗", 1).addStep("允许通知|允許通知", 2).addStep("在锁屏上显示|顯示於鎖定畫面", 8).addStep("在屏幕顶部显示|顯示在熒幕頂部", 8).addStep("优先打扰", 8);
@@ -259,7 +261,6 @@ public class TaskFactory {
 
     }
 
-
     public static boolean isDrawOverlays(Context context, OSUtil.ROM_TYPE romType, LinkedList<SettingTask> linkedList, boolean isOpen) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             if (Settings.canDrawOverlays(context)) {
@@ -323,56 +324,20 @@ public class TaskFactory {
         return task.addStep("android.settings.action.MANAGE_OVERLAY_PERMISSION", 4, (Bundle) null, Uri.parse("package:" + context.getPackageName()), true).addStep("允许显示在其他应用的上层|允许在其他应用的上层显示|允许出现在其他应用上|在其他应用上层显示|付呗|允許顯示在其他應用的上層|允許在其他應用的上層顯示|允許出現在其他應用上|在其他應用上層顯示", 8).addStep("返回", 10);
     }
 
-    /**
-     * TODO 小米PermissionsEditor问题
-     * */
     private static void openMiuiPermissionsEditorTask(Context context, SettingTask task) {
         Bundle bundle = new Bundle();
         bundle.putString("extra_pkgname", context.getPackageName());
         String prop = OSUtil.getSystemProp(OSUtil.GET_MIUI_SYSTEM_VERSION_NAME);
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "prop: " + prop);
         if (StringUtils.isNotEmpty(prop)) {
-            char c = 65535;
-            switch (prop.hashCode()) {
-                case 2720:
-                    if (prop.equals(OSUtil.MIUI_VERSION_6)) {
-                        c = 0;
-                        break;
-                    }
-                    break;
-                case 2721:
-                    if (prop.equals(OSUtil.MIUI_VERSION_7)) {
-                        c = 1;
-                        break;
-                    }
-                    break;
-                case 2722:
-                    if (prop.equals(OSUtil.MIUI_VERSION_8)) {
-                        c = 2;
-                        break;
-                    }
-                    break;
-                case 2723:
-                    if (prop.equals(OSUtil.MIUI_VERSION_9)) {
-                        c = 3;
-                        break;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            switch (c) {
-                case 0:
-                case 1:
-                    task.addStep("com.miui.securitycenter/com.miui.permcenter.permissions.AppPermissionsEditorActivity", 4, bundle);
-                    break;
-                default:
-                    task.addStep("miui.intent.action.APP_PERM_EDITOR", 4, bundle);
-                    break;
+            if (prop.equals(OSUtil.MIUI_VERSION_6) || prop.equals(OSUtil.MIUI_VERSION_7)) {
+                task.addStep("com.miui.securitycenter/com.miui.permcenter.permissions.AppPermissionsEditorActivity", 4, bundle);
+            } else {
+                task.addStep("miui.intent.action.APP_PERM_EDITOR", 4, bundle);
             }
         } else {
             task.addStep("miui.intent.action.APP_PERM_EDITOR", 4, bundle);
         }
     }
-
 
 }

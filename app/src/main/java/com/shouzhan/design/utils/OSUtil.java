@@ -1,7 +1,5 @@
 package com.shouzhan.design.utils;
 
-import android.annotation.SuppressLint;
-
 import com.fshows.android.stark.utils.StringPool;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 
 /**
  * @author danbin
@@ -131,26 +128,8 @@ public class OSUtil {
         return ROM_TYPE.OTHER_ROM;
     }
 
-    public static String getSystemProp() {
-        try {
-            switch (getRomType()) {
-                case EMUI_ROM:
-                    return getSystemProp("ro.build.version.emui");
-                case MIUI_ROM:
-                    return getSystemProp("ro.miui.ui.version.name");
-                case FLYME_ROM:
-                    return getSystemProp("ro.build.display.id");
-                case COLOROS_ROM:
-                    return getSystemProp("ro.build.version.opporom");
-                case FUNTOUCH_ROM:
-                    return getSystemProp("ro.vivo.os.build.display.id");
-                default:
-                    return StringPool.EMPTY;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return StringPool.EMPTY;
+    public static String getManufacturerInfo() {
+        return null;
     }
 
     public static String getSystemProp(String str) {
@@ -177,24 +156,54 @@ public class OSUtil {
         return prop;
     }
 
-    public static String getSystemProperty(String key, String defaultValue) {
-        try {
-            @SuppressLint("PrivateApi")
-            Class<?> clz = Class.forName("android.os.SystemProperties");
-            Method method = clz.getMethod("get", String.class, String.class);
-            return (String) method.invoke(clz, key, defaultValue);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return defaultValue;
-    }
-
     public static boolean isFuntouchRom() {
         return getRomType() == ROM_TYPE.FUNTOUCH_ROM;
     }
 
     public static boolean isMiuiRom() {
         return getRomType() == ROM_TYPE.MIUI_ROM;
+    }
+
+    public static boolean isFlymeRom() {
+        return getRomType() == ROM_TYPE.FLYME_ROM;
+    }
+
+    public static boolean isOtherRom() {
+        return getRomType() == ROM_TYPE.OTHER_ROM;
+    }
+
+    /**
+     * 获取系统版本信息
+     */
+    public static String getSystemVersion() {
+        try {
+            switch (getRomType()) {
+                case EMUI_ROM:
+                    return getSystemProp("ro.build.version.emui");
+                case MIUI_ROM:
+                    return getSystemProp("ro.miui.ui.version.name");
+                case FLYME_ROM:
+                    return getSystemProp("ro.build.display.id");
+                case COLOROS_ROM:
+                    return getSystemProp("ro.build.version.opporom");
+                case FUNTOUCH_ROM:
+                    return getSystemProp("ro.vivo.os.build.display.id");
+                default:
+                    return StringPool.EMPTY;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return StringPool.EMPTY;
+        }
+    }
+
+    public static String getSystemIncrementalVersion() {
+        try {
+            return PropertiesUtil.getInstance().getProperty(GET_SYSTEM_VERSION_INCREMENTAL);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return StringPool.EMPTY;
+        }
     }
 
 }
