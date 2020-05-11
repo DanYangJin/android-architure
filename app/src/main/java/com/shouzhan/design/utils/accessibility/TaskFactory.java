@@ -155,14 +155,16 @@ public class TaskFactory {
         return linkedList;
     }
 
-
+    /**
+     * TODO bugfix耗电保护/应用速冻
+     * */
     private static Queue<SettingTask> createColorsTask(Context context) {
         LinkedList<SettingTask> linkedList = new LinkedList<>();
         linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("省电|低电量模式|省電|低電量模式", 9).addStep("智能耗电保护｜智能耗電保護", 9, false).addStep("自定义耗电保护|自定義耗電保護", 13).addStep("付呗", 1).addStep("允许后台运行|允許後台運行", 2, true, true).addStep("返回", 10).addStep("返回", 10));
-        linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("耗电保护|其他|電力保護", 1).addStep("付呗", 1).addStep("后台冻结|背景凍結|後台凍結", 3).addStep("异常耗电自动优化|检测到异常时自动优化|異常耗電自動最佳化|檢測到異常時，自動最佳化", 3).addStep("深度睡眠", 9).addStep("返回", 10).addStep("返回", 10));
-        linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("android.settings.SETTINGS", 4).addStep("电池|電池", 1).addStep("省电|低电量模式|省電|低電量模式", 9).addStep("智能耗电保护|智能耗電保護|智慧電力保護", 9, null, null, false).addStep("自定义耗电保护|自定義耗電保護", 13).addStep("付呗", 1).addStep("允许后台运行|允許後台運行", 2, true, true).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
+//        linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("耗电保护|其他|電力保護", 1).addStep("付呗", 1).addStep("后台冻结|背景凍結|後台凍結", 3).addStep("异常耗电自动优化|检测到异常时自动优化|異常耗電自動最佳化|檢測到異常時，自動最佳化", 3).addStep("深度睡眠", 9).addStep("返回", 10).addStep("返回", 10));
+//        linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("android.settings.SETTINGS", 4).addStep("电池|電池", 1).addStep("省电|低电量模式|省電|低電量模式", 9).addStep("智能耗电保护|智能耗電保護|智慧電力保護", 9, null, null, false).addStep("自定义耗电保护|自定義耗電保護", 13).addStep("付呗", 1).addStep("允许后台运行|允許後台運行", 2, true, true).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
         linkedList.add(new SettingTask().setTaskName("应用速冻").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("应用速冻|應用速凍", 13).addStep("付呗", 3).addStep("返回", 10));
-        linkedList.add(new SettingTask().setTaskName("应用速冻").addStep("android.settings.SETTINGS", 4).addStep("电池|電池", 1).addStep("应用速冻|應用速凍", 13).addStep("付呗", 3).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
+//        linkedList.add(new SettingTask().setTaskName("应用速冻").addStep("android.settings.SETTINGS", 4).addStep("电池|電池", 1).addStep("应用速冻|應用速凍", 13).addStep("付呗", 3).addStep("返回", 10).addStep("返回", 10).addStep("返回", 10));
         SettingTask addStep = new SettingTask().setTaskName("通知管理").addStep("android.settings.SETTINGS", 4).addStep("通知与状态栏|通知與狀態欄", 1).addStep("来锁屏通知时点亮屏幕|出現鎖定螢幕通知時，螢幕亮起", 8).addStep("通知管理", 1).addStep("付呗", 1).addStep("允许通知|允許通知", 2).addStep("在锁屏上显示|顯示於鎖定畫面", 8).addStep("在屏幕顶部显示|顯示在熒幕頂部", 8).addStep("优先打扰", 8);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             addStep.addStep("推送通知", 13).addStep("允许通知|允許通知", 2).addStep("在屏幕顶部显示|顯示在熒幕頂部", 8).addStep("勿扰时允许提醒", 8).addStep("返回", 10);
@@ -327,18 +329,21 @@ public class TaskFactory {
         return task;
     }
 
+    /**
+     * TODO bugfix把"例子"修改为付呗
+     * */
     public static SettingTask openColorsFloatWindowTask(Context context) {
-        return new SettingTask().setTaskName("悬浮窗权限").setTaskId(10000).addStep("com.coloros.safecenter/com.coloros.privacypermissionsentry.PermissionTopActivity", 4).addStep("悬浮窗管理", 1).addStep("付呗", 2).addStep("返回", 10);
+        return new SettingTask().setTaskName("悬浮窗权限").setTaskId(10000).addStep("com.coloros.safecenter/com.coloros.privacypermissionsentry.PermissionTopActivity", 4).addStep("悬浮窗管理", 1).addStep("例子", 2).addStep("返回", 10);
     }
 
     public static SettingTask openFloatWindowTask(Context context) {
         SettingTask task = new SettingTask().setTaskName("悬浮窗权限").setTaskId(10000);
-        return task.addStep("android.settings.action.MANAGE_OVERLAY_PERMISSION", 4, null, Uri.parse("package:" + OSUtil.getPackageName()), true).addStep("允许显示在其他应用的上层|允许在其他应用的上层显示|允许出现在其他应用上|在其他应用上层显示|付呗|允許顯示在其他應用的上層|允許在其他應用的上層顯示|允許出現在其他應用上|在其他應用上層顯示", 8).addStep("返回", 10);
+        return task.addStep("android.settings.action.MANAGE_OVERLAY_PERMISSION", 4, null, Uri.parse("package:" + context.getPackageName()), true).addStep("允许显示在其他应用的上层|允许在其他应用的上层显示|允许出现在其他应用上|在其他应用上层显示|付呗|允許顯示在其他應用的上層|允許在其他應用的上層顯示|允許出現在其他應用上|在其他應用上層顯示", 8).addStep("返回", 10);
     }
 
     private static void openMiuiPermissionsEditorTask(Context context, SettingTask task) {
         Bundle bundle = new Bundle();
-        bundle.putString("extra_pkgname", OSUtil.getPackageName());
+        bundle.putString("extra_pkgname", context.getPackageName());
         String prop = OSUtil.getSystemProp(OSUtil.GET_MIUI_SYSTEM_VERSION_NAME);
         if (StringUtils.isNotEmpty(prop)) {
             if (prop.equals(OSUtil.MIUI_VERSION_6) || prop.equals(OSUtil.MIUI_VERSION_7)) {

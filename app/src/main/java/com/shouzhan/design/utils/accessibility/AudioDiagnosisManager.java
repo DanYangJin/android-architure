@@ -54,6 +54,7 @@ public class AudioDiagnosisManager {
 
     /**
      * 开始语音诊断任务
+     * TODO bugfix辅助功能引导页面
      */
     public void startDiagnosisTask(Activity activity) {
         initDiagnosisTask(activity);
@@ -100,7 +101,7 @@ public class AudioDiagnosisManager {
             mStartDiagnosisTime = System.currentTimeMillis();
             AudioDiagnosisManager.this.getPhoneSettingCallback(mPhoneSettingChecker.startPhoneSettingChecker());
             AudioDiagnosisManager.this.mActivity.runOnUiThread(() -> {
-//                FloatWindowView.getInstance().removeFloatWindowView();
+                FloatWindowView.getInstance().removeFloatWindowView();
             });
         });
     }

@@ -70,9 +70,6 @@ public class FloatWindowView {
         }
     }
 
-    /**
-     * TODO bugfix 点击底部导航会导致异常case
-     * */
     public void showFloatWindowView() {
         this.mHandler.post(() -> {
             try {

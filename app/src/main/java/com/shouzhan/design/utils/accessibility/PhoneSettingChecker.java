@@ -4,14 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.Keep;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.fshows.android.stark.utils.FsLogUtil;
-import com.shouzhan.design.ui.home.CommonH5Activity;
-import com.shouzhan.design.utils.Constants;
 import com.shouzhan.design.utils.OSUtil;
 
 import java.util.HashMap;
@@ -88,6 +86,9 @@ public class PhoneSettingChecker {
         this.mIntentFilter.addAction(AudioSettingConstants.ACTION_PHONE_SETTING_TASK_DONE);
     }
 
+    /**
+     * TODO bugfix VIVO帮助页面
+     * */
     public AudioDiagnosisResult startPhoneSettingChecker() {
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,"check线程 >>> " + Thread.currentThread().getId());
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 手机设置检查开始 <<<");
@@ -110,17 +111,17 @@ public class PhoneSettingChecker {
             }
             LocalBroadcastManager.getInstance(mContext).unregisterReceiver(this.mReceiver);
         } else {
-            String h5Url;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                h5Url = "https://i.meituan.com/awp/hfe/block/26fca4aca3aa/25657/index.html";
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                h5Url = "https://i.meituan.com/awp/hfe/block/1188318d4977/25651/index.html";
-            } else {
-                h5Url = "https://i.meituan.com/awp/hfe/block/cc60f36d2e8c/25659/index.html";
-            }
-            Intent intent = new Intent(mContext, CommonH5Activity.class);
-            intent.putExtra(Constants.EXTRA_COMMON_H5_URL, h5Url);
-            mContext.startActivity(intent);
+//            String h5Url;
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                h5Url = "https://i.meituan.com/awp/hfe/block/26fca4aca3aa/25657/index.html";
+//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                h5Url = "https://i.meituan.com/awp/hfe/block/1188318d4977/25651/index.html";
+//            } else {
+//                h5Url = "https://i.meituan.com/awp/hfe/block/cc60f36d2e8c/25659/index.html";
+//            }
+//            Intent intent = new Intent(mContext, CommonH5Activity.class);
+//            intent.putExtra(Constants.EXTRA_COMMON_H5_URL, h5Url);
+//            mContext.startActivity(intent);
         }
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(AudioSettingConstants.ACTION_PHONE_SETTING_FINISH));
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 手机设置检查结束 <<<");
@@ -132,19 +133,23 @@ public class PhoneSettingChecker {
 
     private void initPhoneSettingChecker() {
         mTaskCount = this.mSettingTasks.size();
-//        FloatWindowView.getInstance().showFloatWindowView();
+        FloatWindowView.getInstance().showFloatWindowView();
         startProgressCountDown();
         executeTask();
     }
 
+    /**
+     * TODO bugfix Observable被阻塞了
+     * */
     private void startProgressCountDown() {
         if (this.mDisposable == null || this.mDisposable.isDisposed()) {
             this.mDisposable = Observable.interval(0, 1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
                 @Override
-                public void accept(Long aLong) throws Exception {
-                    if (PhoneSettingChecker.this.mCurProgress < MAX_PROGRESS - 1) {
-                        FloatWindowView.getInstance().setProgress(PhoneSettingChecker.updateCurProgress(PhoneSettingChecker.this));
-                    }
+                public void accept(Long aLong) {
+                    Log.e(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "startProgressCountDown: " + aLong);
+//                    if (PhoneSettingChecker.this.mCurProgress < MAX_PROGRESS - 1) {
+//                        FloatWindowView.getInstance().setProgress(PhoneSettingChecker.updateCurProgress(PhoneSettingChecker.this));
+//                    }
                 }
             });
         }

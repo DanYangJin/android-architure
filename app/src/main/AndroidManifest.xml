@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".App"
@@ -34,7 +35,8 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.CommonH5Activity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
 
         <activity
             android:name="com.shouzhan.design.ui.home.ProductListActivity"
@@ -46,8 +48,7 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.FlexboxActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.shouzhan.design.ui.home.DaggerActivity"
