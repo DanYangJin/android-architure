@@ -80,7 +80,7 @@ public class AudioDiagnosisManager {
         this.mPhoneSettingChecker = new PhoneSettingChecker(activity);
         this.mSettingCheckerLists = Lists.newArrayList();
         this.mSettingCheckerLists.add(mPhoneSettingChecker);
-        this.mSettingCheckerLists.add(new AudioSettingChecker(activity));
+        this.mSettingCheckerLists.add(new AudioSwitchChecker(activity));
     }
 
     public void registerReceiver() {
