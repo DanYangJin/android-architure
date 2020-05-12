@@ -1,7 +1,7 @@
 package com.shouzhan.design.utils;
 
 import android.content.Context;
-import android.os.Build;
+import android.media.AudioManager;
 
 import androidx.core.app.NotificationManagerCompat;
 
@@ -64,20 +64,20 @@ public class OSUtil {
 
     public static ROM_TYPE getRomType() {
         try {
-            if (StringUtils.isNotEmpty(getSystemProp(PropertiesUtil.GET_EMUI_SYSTEM_VERSION))) {
+            if (StringUtils.isNotEmpty(getSystemProp(SysPropertyUtil.GET_EMUI_SYSTEM_VERSION))) {
                 return ROM_TYPE.EMUI_ROM;
             }
-            if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_MIUI_SYSTEM_VERSION_CODE)) && StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_MIUI_SYSTEM_VERSION_NAME))) {
-                if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_MIUI_SYSTEM_INTERNAL_STORAGE))) {
-                    if (StringUtils.isNotEmpty(getSystemProp(PropertiesUtil.GET_OPPO_SYSTEM_VERSION))) {
+            if (StringUtils.isEmpty(getSystemProp(SysPropertyUtil.GET_MIUI_SYSTEM_VERSION_CODE)) && StringUtils.isEmpty(getSystemProp(SysPropertyUtil.GET_MIUI_SYSTEM_VERSION_NAME))) {
+                if (StringUtils.isEmpty(getSystemProp(SysPropertyUtil.GET_MIUI_SYSTEM_INTERNAL_STORAGE))) {
+                    if (StringUtils.isNotEmpty(getSystemProp(SysPropertyUtil.GET_OPPO_SYSTEM_VERSION))) {
                         return ROM_TYPE.COLOROS_ROM;
                     }
-                    if (StringUtils.isNotEmpty(getSystemProp(PropertiesUtil.GET_VIVO_SYSTEM_DISPLAY_ID))) {
+                    if (StringUtils.isNotEmpty(getSystemProp(SysPropertyUtil.GET_VIVO_SYSTEM_DISPLAY_ID))) {
                         return ROM_TYPE.FUNTOUCH_ROM;
                     }
-                    if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_FLYME_SYSTEM_ICON)) && StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_FLYME_SYSTEM_SETUP_WIZARD))) {
-                        if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_FLYME_SYSTEM_PUBILSHED))) {
-                            String displayId = getSystemProp(PropertiesUtil.GET_SYSTEM_DISPLAY_ID);
+                    if (StringUtils.isEmpty(getSystemProp(SysPropertyUtil.GET_FLYME_SYSTEM_ICON)) && StringUtils.isEmpty(getSystemProp(SysPropertyUtil.GET_FLYME_SYSTEM_SETUP_WIZARD))) {
+                        if (StringUtils.isEmpty(getSystemProp(SysPropertyUtil.GET_FLYME_SYSTEM_PUBILSHED))) {
+                            String displayId = getSystemProp(SysPropertyUtil.GET_SYSTEM_DISPLAY_ID);
                             if (StringUtils.isNotEmpty(displayId)) {
                                 if (displayId.contains(FLYME_SUFFIX)) {
                                     return ROM_TYPE.FLYME_ROM;
@@ -194,11 +194,21 @@ public class OSUtil {
      * 判断通知是否开启
      */
     public static boolean isNotificationEnabled(Context context) {
-        if (context == null) {
-            return false;
+        if (context != null) {
+            return NotificationManagerCompat.from(context).areNotificationsEnabled();
         }
-        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT ||
-                NotificationManagerCompat.from(context).areNotificationsEnabled();
+        return false;
+    }
+
+    /**
+     * 判断是否处于静音模式
+     * */
+    public static boolean isMuteEnabled(Context context) {
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        if (audioManager == null || audioManager.getRingerMode() == AudioManager.RINGER_MODE_SILENT) {
+            return true;
+        }
+        return false;
     }
 
     /**

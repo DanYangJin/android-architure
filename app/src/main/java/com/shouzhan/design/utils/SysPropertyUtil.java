@@ -1,9 +1,10 @@
 package com.shouzhan.design.utils;
 
 import android.annotation.SuppressLint;
-import android.text.TextUtils;
 
 import com.fshows.android.stark.utils.StringPool;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
  * @version PropertiesUtil.java, v 0.1 2020-05-07 3:42 PM danbin
  * 获取系统属性工具类
  */
-public class PropertiesUtil {
+public class SysPropertyUtil {
 
     public static final String GET_EMUI_SYSTEM_VERSION = "ro.build.version.emui";
     public static final String GET_MIUI_SYSTEM_VERSION_CODE = "ro.miui.ui.version.code";
@@ -33,15 +34,15 @@ public class PropertiesUtil {
     public static final String GET_SYSTEM_VERSION_INCREMENTAL = "ro.build.version.incremental";
     public static final String GET_SYSTEM_RO_SERIALNO = "ro.serialno";
 
-    private static PropertiesUtil mInstance;
+    private static SysPropertyUtil mInstance;
 
     private final Properties mProperties = new Properties();
 
     private final Pattern mPattern = Pattern.compile("\\[(.+)]: \\[(.+)]");
 
-    public static PropertiesUtil getInstance() throws IOException {
+    public static SysPropertyUtil getInstance() throws IOException {
         if (mInstance == null) {
-            mInstance = new PropertiesUtil();
+            mInstance = new SysPropertyUtil();
         }
         return mInstance;
     }
@@ -77,7 +78,7 @@ public class PropertiesUtil {
         return defaultValue;
     }
 
-    private PropertiesUtil() {
+    private SysPropertyUtil() {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("getprop").getInputStream()));
             while (true) {
@@ -94,7 +95,7 @@ public class PropertiesUtil {
     }
 
     private void setProperty(String str) {
-        if (!TextUtils.isEmpty(str)) {
+        if (StringUtils.isNotEmpty(str)) {
             Matcher matcher = this.mPattern.matcher(str);
             if (matcher.find()) {
                 this.mProperties.setProperty(matcher.group(1), matcher.group(2));

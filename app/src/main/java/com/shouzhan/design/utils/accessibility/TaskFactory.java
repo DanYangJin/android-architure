@@ -11,6 +11,7 @@ import com.fshows.android.stark.utils.FsLogUtil;
 import com.fshows.android.stark.utils.StringPool;
 import com.fshows.android.stark.utils.StringUtil;
 import com.shouzhan.design.utils.OSUtil;
+import com.shouzhan.design.utils.SysPropertyUtil;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -117,7 +118,7 @@ public class TaskFactory {
         }
         linkedList.add(new SettingTask().setTaskName("锁屏断开数据/锁屏清理内存").addStep("com.miui.securitycenter/com.miui.powercenter.PowerSettings", 4).addStep("锁屏后断开数据|锁屏断开数据|鎖螢幕後斷開數據|鎖屏斷開行動數據", 1).addStep("从不|從不", 1).addStep("锁屏后清理内存|锁屏清理内存|鎖螢幕後清理內存|鎖屏清理記憶體", 1).addStep("从不|從不", 1).addStep("返回", 10));
         linkedList.add(new SettingTask().setTaskName("设置搜索返回").addStep("android.settings.SETTINGS", 4).addStepById("miui:id/search_btn_cancel|miui:id/search_text_cancel", 15).addStep("返回", 10));
-        String incremental = OSUtil.getSystemIncrementalVersion();
+        String incremental = SysPropertyUtil.getIncrementalVersion();
         float f = 0.0f;
         try {
             if (CommonRegex.isNumber(String.valueOf(incremental.charAt(0)))) {
@@ -344,7 +345,7 @@ public class TaskFactory {
     private static void openMiuiPermissionsEditorTask(Context context, SettingTask task) {
         Bundle bundle = new Bundle();
         bundle.putString("extra_pkgname", context.getPackageName());
-        String prop = OSUtil.getSystemProp(OSUtil.GET_MIUI_SYSTEM_VERSION_NAME);
+        String prop = OSUtil.getSystemVersion();
         if (StringUtils.isNotEmpty(prop)) {
             if (prop.equals(OSUtil.MIUI_VERSION_6) || prop.equals(OSUtil.MIUI_VERSION_7)) {
                 task.addStep("com.miui.securitycenter/com.miui.permcenter.permissions.AppPermissionsEditorActivity", 4, bundle);

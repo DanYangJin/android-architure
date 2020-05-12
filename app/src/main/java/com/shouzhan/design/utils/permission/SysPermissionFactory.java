@@ -133,7 +133,7 @@ public class SysPermissionFactory {
         return arrayList;
     }
 
-    public static List<SysPermission> filterSysPermission(Context context, List<SysPermission> list) {
+    private static List<SysPermission> filterSysPermission(Context context, List<SysPermission> list) {
         ArrayList<SysPermission> arrayList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(list)) {
             PackageManager packageManager = context.getPackageManager();
@@ -146,7 +146,7 @@ public class SysPermissionFactory {
         return arrayList;
     }
 
-    public static boolean isIntentExist(PackageManager packageManager, SysPermission sysPermission) {
+    private static boolean isIntentExist(PackageManager packageManager, SysPermission sysPermission) {
         return getIntent(sysPermission).resolveActivityInfo(packageManager, PackageManager.MATCH_DEFAULT_ONLY) != null;
     }
 

@@ -31,10 +31,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:onClick="@{(view) -> presenter.onClick(view)}"
-            android:text="一键优化"
+            android:text="一键优化测试"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/open_accessibility_setting_btn" />
+
+        <Button
+            android:id="@+id/manual_open_permission_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="系统权限测试"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accessibility_open_permission_btn" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
