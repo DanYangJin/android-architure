@@ -55,7 +55,7 @@ public class AccessibilityActivity extends BaseActivity<ActivityAccessibilityBin
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AudioDiagnosisManager.getInstance().resetDiagnosisTask();
+        AudioDiagnosisManager.getInstance().stopDiagnosisTask();
     }
 
     @Override

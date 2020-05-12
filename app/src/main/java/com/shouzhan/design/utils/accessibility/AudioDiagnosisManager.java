@@ -10,7 +10,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.fshows.android.stark.utils.CommonThreadPoolExecutor;
 import com.fshows.android.stark.utils.FsLogUtil;
+import com.google.common.collect.Lists;
 
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -24,6 +26,7 @@ public class AudioDiagnosisManager {
     private BroadcastReceiver mReceiver;
     private IntentFilter mIntentFilter;
     private Activity mActivity;
+    private List<AbstractSettingChecker> mSettingCheckerLists;
     private PhoneSettingChecker mPhoneSettingChecker;
     private AudioDiagnosisListener mAudioDiagnosisListener;
     private long mStartDiagnosisTime;
@@ -54,7 +57,6 @@ public class AudioDiagnosisManager {
 
     /**
      * 开始语音诊断任务
-     * TODO bugfix辅助功能引导页面
      */
     public void startDiagnosisTask(Activity activity) {
         initDiagnosisTask(activity);
@@ -68,14 +70,17 @@ public class AudioDiagnosisManager {
         } else if (AccessibilityUtil.isAccessibilitySettingsOn(mActivity)) {
             executeDiagnosisTask(false);
         } else {
-            // 打开辅助功能页面
-            // 打开引导页面
+            // TODO 打开辅助功能页面
+            // TODO 打开引导页面
         }
     }
 
     public void initDiagnosisTask(Activity activity) {
         this.mActivity = activity;
         this.mPhoneSettingChecker = new PhoneSettingChecker(activity);
+        this.mSettingCheckerLists = Lists.newArrayList();
+        this.mSettingCheckerLists.add(mPhoneSettingChecker);
+        this.mSettingCheckerLists.add(new AudioSettingChecker(activity));
     }
 
     public void registerReceiver() {
@@ -99,14 +104,14 @@ public class AudioDiagnosisManager {
         this.mPhoneSettingChecker.addSettingTasks(TaskFactory.getSettingTask(mActivity, isOpen));
         this.mPoolExecutor.execute(() -> {
             mStartDiagnosisTime = System.currentTimeMillis();
-            AudioDiagnosisManager.this.getPhoneSettingCallback(mPhoneSettingChecker.startPhoneSettingChecker());
+            AudioDiagnosisManager.this.callbackSettingResult(new CheckResultImpl(0, mSettingCheckerLists).onCheckResult());
             AudioDiagnosisManager.this.mActivity.runOnUiThread(() -> {
                 FloatWindowView.getInstance().removeFloatWindowView();
             });
         });
     }
 
-    public void getPhoneSettingCallback(AudioDiagnosisResult result) {
+    public void callbackSettingResult(AudioDiagnosisResult result) {
         final PhoneSettingChecker.PhoneSettingCheckResult checkResult = result.getResult();
         boolean isCheckSuccess = checkResult != null && checkResult.isCheckSuccess();
         long currentTimeMillis = System.currentTimeMillis() - mStartDiagnosisTime;
@@ -114,17 +119,10 @@ public class AudioDiagnosisManager {
             if (mAudioDiagnosisListener != null) {
                 mAudioDiagnosisListener.onDiagnosisCallback(isCheckSuccess, currentTimeMillis, checkResult != null ? checkResult.getCurTask() : null);
             }
-            skipDiagnosisSuccessPage();
+            // TODO bugfix跳转到诊断成功页面
         });
         unRegisterReceiver();
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "语音诊断任务执行结束 >>> result = %s, time = %dms", isCheckSuccess, currentTimeMillis);
-    }
-
-    /**
-     * TODO bugfix跳转到诊断成功页面
-     */
-    private void skipDiagnosisSuccessPage() {
-
     }
 
     public void setOnAudioDiagnosisListener(AudioDiagnosisListener listener) {
@@ -135,12 +133,29 @@ public class AudioDiagnosisManager {
         this.mAudioDiagnosisListener = null;
     }
 
-    /**
-     * 退出页面销毁Task
-     */
-    public void resetDiagnosisTask() {
+    public void stopDiagnosisTask() {
         removeOnAudioDiagnosisListener();
         unRegisterReceiver();
+    }
+
+    private static class CheckResultImpl implements OnCheckCallback {
+
+        public List<AbstractSettingChecker> list;
+
+        public int position;
+
+        public CheckResultImpl(int position, List<AbstractSettingChecker> list) {
+            this.position = position;
+            this.list = list;
+        }
+
+        @Override
+        public AudioDiagnosisResult onCheckResult() {
+            if (this.position < this.list.size()) {
+                return this.list.get(this.position).startDiagnosis(new CheckResultImpl(this.position + 1, this.list));
+            }
+            return new AudioDiagnosisResult();
+        }
     }
 
 }

@@ -105,16 +105,16 @@ public class TaskFactory {
         float floatValue;
         LinkedList<SettingTask> linkedList = new LinkedList<>();
         linkedList.add(new SettingTask().setTaskName("自启动").addStep("miui.intent.action.OP_AUTO_START", 4).addStep("滚动到顶部", 5).addStep("sleep", 6).addStep("付呗", 1).addStep("允许系统唤醒|允許系統喚醒", 2).addStep("允许被其他应用唤醒|允許被其他應用喚醒", 2).addStep("返回", 10));
-        SettingTask taskName = new SettingTask().setTaskName("通知设置");
-        taskName.addStep("android.settings.APPLICATION_DETAILS_SETTINGS", 4, Uri.parse("package:" + OSUtil.getPackageName())).addStep("通知管理|通知管理", 1).addStep("允许通知|允許通知", 2);
+        SettingTask task = new SettingTask().setTaskName("通知设置");
+        task.addStep("android.settings.APPLICATION_DETAILS_SETTINGS", 4, Uri.parse("package:" + OSUtil.getPackageName())).addStep("通知管理|通知管理", 1).addStep("允许通知|允許通知", 2);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            taskName.addStep("悬浮通知|懸浮通知", 8).addStep("锁屏通知|螢幕鎖定時通知", 8);
-            taskName.addStep("推送通知", 13).addStep("允许通知|允許通知", 2).addStep("悬浮通知|懸浮通知", 8).addStep("锁屏通知|螢幕鎖定時通知", 8).addStep("在锁定屏幕上|在螢幕鎖定畫面上", 7).addStep("显示通知及其内容|顯示通知及內容", 7).addStep("返回", 10);
-            linkedList.add(taskName);
+            task.addStep("悬浮通知|懸浮通知", 8).addStep("锁屏通知|螢幕鎖定時通知", 8);
+            task.addStep("推送通知", 13).addStep("允许通知|允許通知", 2).addStep("悬浮通知|懸浮通知", 8).addStep("锁屏通知|螢幕鎖定時通知", 8).addStep("在锁定屏幕上|在螢幕鎖定畫面上", 7).addStep("显示通知及其内容|顯示通知及內容", 7).addStep("返回", 10);
+            linkedList.add(task);
             linkedList.add(new SettingTask().setTaskName("通知设置返回").addStep("返回", 10).addStep("返回", 10));
         } else {
-            taskName.addStep("优先|優先", 2).addStep("悬浮通知|懸浮通知", 2).addStep("锁屏通知|螢幕鎖定時通知", 2).addStep("返回", 10).addStep("返回", 10);
-            linkedList.add(taskName);
+            task.addStep("优先|優先", 2).addStep("悬浮通知|懸浮通知", 2).addStep("锁屏通知|螢幕鎖定時通知", 2).addStep("返回", 10).addStep("返回", 10);
+            linkedList.add(task);
         }
         linkedList.add(new SettingTask().setTaskName("锁屏断开数据/锁屏清理内存").addStep("com.miui.securitycenter/com.miui.powercenter.PowerSettings", 4).addStep("锁屏后断开数据|锁屏断开数据|鎖螢幕後斷開數據|鎖屏斷開行動數據", 1).addStep("从不|從不", 1).addStep("锁屏后清理内存|锁屏清理内存|鎖螢幕後清理內存|鎖屏清理記憶體", 1).addStep("从不|從不", 1).addStep("返回", 10));
         linkedList.add(new SettingTask().setTaskName("设置搜索返回").addStep("android.settings.SETTINGS", 4).addStepById("miui:id/search_btn_cancel|miui:id/search_text_cancel", 15).addStep("返回", 10));
@@ -156,10 +156,8 @@ public class TaskFactory {
         return linkedList;
     }
 
-    /**
-     * TODO bugfix耗电保护/应用速冻
-     * */
     private static Queue<SettingTask> createColorsTask(Context context) {
+        // TODO 耗电保护/应用速冻兼容，云测平台
         LinkedList<SettingTask> linkedList = new LinkedList<>();
         linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("省电|低电量模式|省電|低電量模式", 9).addStep("智能耗电保护｜智能耗電保護", 9, false).addStep("自定义耗电保护|自定義耗電保護", 13).addStep("付呗", 1).addStep("允许后台运行|允許後台運行", 2, true, true).addStep("返回", 10).addStep("返回", 10));
 //        linkedList.add(new SettingTask().setTaskName("耗电保护").addStep("com.coloros.oppoguardelf/com.coloros.powermanager.fuelgaue.PowerConsumptionActivity", 4).addStep("耗电保护|其他|電力保護", 1).addStep("付呗", 1).addStep("后台冻结|背景凍結|後台凍結", 3).addStep("异常耗电自动优化|检测到异常时自动优化|異常耗電自動最佳化|檢測到異常時，自動最佳化", 3).addStep("深度睡眠", 9).addStep("返回", 10).addStep("返回", 10));
@@ -330,11 +328,8 @@ public class TaskFactory {
         return task;
     }
 
-    /**
-     * TODO bugfix把"例子"修改为付呗
-     * */
     public static SettingTask openColorsFloatWindowTask(Context context) {
-        return new SettingTask().setTaskName("悬浮窗权限").setTaskId(10000).addStep("com.coloros.safecenter/com.coloros.privacypermissionsentry.PermissionTopActivity", 4).addStep("悬浮窗管理", 1).addStep("例子", 2).addStep("返回", 10);
+        return new SettingTask().setTaskName("悬浮窗权限").setTaskId(10000).addStep("com.coloros.safecenter/com.coloros.privacypermissionsentry.PermissionTopActivity", 4).addStep("悬浮窗管理", 1).addStep("付呗", 2).addStep("返回", 10);
     }
 
     public static SettingTask openFloatWindowTask(Context context) {

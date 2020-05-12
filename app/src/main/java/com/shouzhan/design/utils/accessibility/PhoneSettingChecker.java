@@ -28,9 +28,9 @@ import io.reactivex.functions.Consumer;
 /**
  * @author danbin
  * @version PhoneSettingChecker.java, v 0.1 2020-05-09 9:52 AM danbin
- * 系统白名单设置检查类
+ * 系统白名单设置类
  */
-public class PhoneSettingChecker {
+public class PhoneSettingChecker extends AbstractSettingChecker {
 
     public static final int MAX_PROGRESS = 200;
 
@@ -42,7 +42,6 @@ public class PhoneSettingChecker {
 
     private IntentFilter mIntentFilter = new IntentFilter();
 
-    private Context mContext;
     private int mTaskCount;
     private int mCurProgress;
     private SettingTask mCurTask;
@@ -60,12 +59,12 @@ public class PhoneSettingChecker {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
             if (AudioSettingConstants.ACTION_PHONE_SETTING.equals(action)) {
-                String stringExtra = intent.getStringExtra("taskName");
-                String stringExtra2 = intent.getStringExtra("value");
+                String stringExtra = intent.getStringExtra(AudioSettingConstants.TASK_NAME);
+                String stringExtra2 = intent.getStringExtra(AudioSettingConstants.VALUE);
                 FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "收到返回值 >>> " + stringExtra + " = " + stringExtra2);
                 PhoneSettingChecker.this.mPhoneSettingCheckResult.addSetting(stringExtra, stringExtra2);
             } else if (AudioSettingConstants.ACTION_PHONE_SETTING_TASK_DONE.equals(action)) {
-                int intExtra = intent.getIntExtra("taskId", 0);
+                int intExtra = intent.getIntExtra(AudioSettingConstants.TASK_ID, 0);
                 FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "收到任务执行完毕回执 >>> taskId = " + intExtra);
                 double b = (PhoneSettingChecker.this.mTaskCount - PhoneSettingChecker.this.mSettingTasks.size());
                 Double.isNaN(b);
@@ -82,14 +81,14 @@ public class PhoneSettingChecker {
     };
 
     public PhoneSettingChecker(Context context) {
-        this.mContext = context;
+        super(context);
         this.mIntentFilter.addAction(AudioSettingConstants.ACTION_PHONE_SETTING);
         this.mIntentFilter.addAction(AudioSettingConstants.ACTION_PHONE_SETTING_TASK_DONE);
     }
 
-    public AudioDiagnosisResult startPhoneSettingChecker() {
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "check线程 >>> " + Thread.currentThread().getId());
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 手机设置检查开始 <<<");
+    @Override
+    public AudioDiagnosisResult startDiagnosis(OnCheckCallback callback) {
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 系统白名单设置开始 <<<");
         if (CollectionUtils.isNotEmpty(mSettingTasks)) {
             LocalBroadcastManager.getInstance(mContext).registerReceiver(this.mReceiver, this.mIntentFilter);
             mCountDownLatch = new CountDownLatch(mSettingTasks.size() + 1);
@@ -110,7 +109,7 @@ public class PhoneSettingChecker {
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(AudioSettingConstants.ACTION_PHONE_SETTING_FINISH));
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 手机设置检查结束 <<<");
         resetPhoneSettingChecker();
-        AudioDiagnosisResult result = new AudioDiagnosisResult();
+        AudioDiagnosisResult result = callback.onCheckResult();
         result.setResult(mPhoneSettingCheckResult);
         return result;
     }
@@ -123,8 +122,8 @@ public class PhoneSettingChecker {
     }
 
     private void startProgressCountDown() {
-        if (this.mDisposable == null || this.mDisposable.isDisposed()) {
-            this.mDisposable = Observable.interval(0, 1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
+        if (mDisposable == null || mDisposable.isDisposed()) {
+            mDisposable = Observable.interval(0, 1, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Long>() {
                 @Override
                 public void accept(Long aLong) {
                     if (PhoneSettingChecker.this.mCurProgress < MAX_PROGRESS - 1) {
@@ -137,38 +136,37 @@ public class PhoneSettingChecker {
 
     public void executeTask() {
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "launchTask线程 >>> " + Thread.currentThread().getId());
-        this.mCountDownLatch.countDown();
-        if (this.mSettingTasks == null || this.mSettingTasks.isEmpty()) {
+        mCountDownLatch.countDown();
+        if (mSettingTasks == null || mSettingTasks.isEmpty()) {
             this.mPhoneSettingCheckResult.setCheckSuccess(true);
             return;
         }
-        this.mCurTask = this.mSettingTasks.poll();
-        StringBuilder builder = new StringBuilder();
-        builder.append("准备执行任务 >>> ");
-        builder.append(this.mCurTask == null ? "" : this.mCurTask.getTaskName());
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, builder.toString());
+        mCurTask = mSettingTasks.poll();
+        String builder = "准备执行任务 >>> " +
+                (this.mCurTask == null ? "" : this.mCurTask.getTaskName());
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, builder);
         Intent intent = new Intent();
         intent.setAction(AudioSettingConstants.ACTION_PHONE_SETTING_TASK);
-        intent.putExtra("task", this.mCurTask);
+        intent.putExtra(AudioSettingConstants.TASK, this.mCurTask);
         LocalBroadcastManager.getInstance(this.mContext).sendBroadcast(intent);
     }
 
 
     public void clearSettingTasks() {
-        this.mSettingTasks.clear();
+        mSettingTasks.clear();
     }
 
     public void addSettingTasks(Queue<SettingTask> queue) {
         if (queue != null && !queue.isEmpty()) {
-            this.mSettingTasks.addAll(queue);
+            mSettingTasks.addAll(queue);
         }
     }
 
     private void resetPhoneSettingChecker() {
-        FloatWindowView.getInstance().setProgress(this.mCurProgress);
-        this.mCurProgress = 0;
-        if (this.mDisposable != null && !this.mDisposable.isDisposed()) {
-            this.mDisposable.dispose();
+        FloatWindowView.getInstance().setProgress(mCurProgress);
+        mCurProgress = 0;
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
         }
     }
 
@@ -187,20 +185,23 @@ public class PhoneSettingChecker {
          */
         private SettingTask curTask;
 
+        /**
+         * 保存一键优化后权限状态
+         * */
         public void addSetting(String str, Object obj) {
-            this.phoneSetting.put(str, obj);
+            phoneSetting.put(str, obj);
         }
 
         public boolean isCheckSuccess() {
-            return this.isCheckSuccess;
+            return isCheckSuccess;
         }
 
-        public void setCheckSuccess(boolean z) {
-            this.isCheckSuccess = z;
+        public void setCheckSuccess(boolean isCheckSuccess) {
+            this.isCheckSuccess = isCheckSuccess;
         }
 
         public SettingTask getCurTask() {
-            return this.curTask;
+            return curTask;
         }
 
         public void setCurTask(SettingTask curTask) {

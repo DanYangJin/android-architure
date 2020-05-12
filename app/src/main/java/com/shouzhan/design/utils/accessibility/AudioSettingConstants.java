@@ -25,5 +25,9 @@ public class AudioSettingConstants {
      * extra
      * */
     public static final String PACKAGE_NAME = "package_name";
+    public static final String TASK = "task";
+    public static final String TASK_NAME = "taskName";
+    public static final String TASK_ID = "taskId";
+    public static final String VALUE = "value";
 
 }

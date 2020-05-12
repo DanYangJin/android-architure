@@ -47,7 +47,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (AudioSettingConstants.ACTION_PHONE_SETTING_TASK.equals(intent.getAction())) {
-                    executeSingleTask((SettingTask) intent.getSerializableExtra("task"));
+                    executeSingleTask((SettingTask) intent.getSerializableExtra(AudioSettingConstants.TASK));
                 } else if (AudioSettingConstants.ACTION_PHONE_SETTING_FINISH.equals(intent.getAction())) {
                     mCurTaskSteps.clear();
                 }
@@ -67,7 +67,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务连接 <<<");
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 辅助功能服务连接 <<<");
         LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(AudioSettingConstants.ACTION_PHONE_SETTING_SERVICE_CONNECT));
     }
 
@@ -75,11 +75,11 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
      * 执行设置任务
      */
     private void executeSingleTask(SettingTask task) {
-        this.mCurTask = task;
         boolean done = true;
-        this.isTaskStart = true;
-        this.isAccessibilityTaskStart = false;
-        this.mCurTaskSteps = task != null ? task.getStepQueue() : null;
+        mCurTask = task;
+        isTaskStart = true;
+        isAccessibilityTaskStart = false;
+        mCurTaskSteps = task != null ? task.getStepQueue() : null;
         if (mCurTaskSteps == null || mCurTaskSteps.isEmpty()) {
             executeTaskDone();
             return;
@@ -138,9 +138,6 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
         sendTaskFinishStatusBroadcast(AudioSettingConstants.ACTION_PHONE_SETTING_TASK_DONE, null);
     }
 
-    /**
-     * TODO bugfix拉起页面可能有点问题
-     * */
     private boolean openSystemSettingPage(String actionValue, Bundle bundle, Uri uri) {
         Intent intent = new Intent();
         if (bundle != null) {
@@ -159,6 +156,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
             }
         }
         if (intent.resolveActivityInfo(getPackageManager(), PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            // TODO 拉起页面可能有点问题
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             return true;
@@ -167,7 +165,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     }
 
     private void executeBack() {
-        SettingStep poll = this.mCurTaskSteps.poll();
+        SettingStep poll = mCurTaskSteps.poll();
         if (poll == null) {
             executeTaskDone();
             return;
@@ -183,13 +181,12 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         CharSequence packageName = accessibilityEvent.getPackageName();
         if (packageName != null && !StringUtils.isEmpty(packageName.toString()) && !packageName.toString().equals(getPackageName()) && accessibilityEvent.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-            if (!this.isTaskStart) {
-                return;
-            }
-            if (this.mCurTaskSteps == null || this.mCurTaskSteps.isEmpty()) {
-                this.isTaskStart = false;
-            } else if (!this.isAccessibilityTaskStart) {
-                mHandler.post(AudioSettingAccessibilityService.this::executeAccessibilityTask);
+            if (isTaskStart) {
+                if (mCurTaskSteps == null || mCurTaskSteps.isEmpty()) {
+                    isTaskStart = false;
+                } else if (!isAccessibilityTaskStart) {
+                    mHandler.post(AudioSettingAccessibilityService.this::executeAccessibilityTask);
+                }
             }
         }
 
@@ -197,22 +194,22 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
 
     public void executeAccessibilityTask() {
         AccessibilityNodeInfo accessibilityNodeInfo;
-        SettingStep peek = this.mCurTaskSteps.peek();
+        SettingStep peek = mCurTaskSteps.peek();
         if (peek == null) {
             executeTaskDone();
             return;
         }
-        this.isAccessibilityTaskStart = true;
+        isAccessibilityTaskStart = true;
         if (peek.getAction() == SettingStep.STEP_ACTION_SCROLL_TOP) {
-            this.mCurTaskSteps.poll();
+            mCurTaskSteps.poll();
             AccessibilityUtil.performScrollBackwardAction(AccessibilityUtil.findRootNodeInfo(this));
             executeAccessibilityTask();
         } else if (peek.getAction() == SettingStep.STEP_ACTION_SLEEP) {
-            this.mCurTaskSteps.poll();
+            mCurTaskSteps.poll();
             SystemClock.sleep(1000);
             executeAccessibilityTask();
         } else if (peek.getAction() == SettingStep.STEP_ACTION_BACK) {
-            this.mCurTaskSteps.poll();
+            mCurTaskSteps.poll();
             AccessibilityUtil.performGlobalBackAction(this);
             SystemClock.sleep(1000);
             executeAccessibilityTask();
@@ -224,7 +221,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
                 accessibilityNodeInfo = AccessibilityUtil.findAccessibilityNodeInfoByTexts(this, actionValue, 1, peek.isExactMatch());
             }
             if (accessibilityNodeInfo != null) {
-                this.mCurTaskSteps.poll();
+                mCurTaskSteps.poll();
                 switch (peek.getAction()) {
                     case SettingStep.STEP_ACTION_CLICK:
                     case SettingStep.STEP_ACTION_TRY_CLICK:
@@ -259,7 +256,7 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
                 SystemClock.sleep(500);
                 if (!AccessibilityUtil.performScrollForwardAction(AccessibilityUtil.findRootNodeInfo(this))) {
                     if (peek.getAction() == SettingStep.STEP_ACTION_TRY_CLICK || peek.getAction() == SettingStep.STEP_ACTION_TRY_OPEN || peek.getAction() == SettingStep.STEP_ACTION_TRY_CLOSE || peek.getAction() == SettingStep.STEP_ACTION_TRY_CLICK_ID || peek.getAction() == SettingStep.STEP_ACTION_TRY_OPEN_ID || peek.getAction() == SettingStep.STEP_ACTION_SLIDE_OPEN) {
-                        this.mCurTaskSteps.poll();
+                        mCurTaskSteps.poll();
                         AccessibilityUtil.performScrollBackwardAction(AccessibilityUtil.findRootNodeInfo(this));
                     } else {
                         executeTaskDone();
@@ -322,28 +319,28 @@ public class AudioSettingAccessibilityService extends AccessibilityService {
      * @return
      */
     private void sendTaskFinishStatusBroadcast(String action, String value) {
-        if (this.mCurTask != null) {
-            FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务销毁 <<<");
+        if (mCurTask != null) {
+            FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 辅助功能服务销毁 <<<");
             Intent intent = new Intent(action);
             if (StringUtils.isNotEmpty(value)) {
-                intent.putExtra("value", value);
+                intent.putExtra(AudioSettingConstants.VALUE, value);
             }
-            intent.putExtra("taskId", mCurTask.getTaskId());
-            intent.putExtra("taskName", mCurTask.getTaskName());
+            intent.putExtra(AudioSettingConstants.TASK_ID, mCurTask.getTaskId());
+            intent.putExtra(AudioSettingConstants.TASK_NAME, mCurTask.getTaskName());
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
         }
     }
 
     @Override
     public void onInterrupt() {
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务中断 <<<");
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 辅助功能服务中断 <<<");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
-        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG,">>> 辅助功能服务销毁 <<<");
+        FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, ">>> 辅助功能服务销毁 <<<");
     }
 
 }
