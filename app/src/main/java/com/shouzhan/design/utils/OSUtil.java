@@ -1,5 +1,10 @@
 package com.shouzhan.design.utils;
 
+import android.content.Context;
+import android.os.Build;
+
+import androidx.core.app.NotificationManagerCompat;
+
 import com.fshows.android.stark.utils.StringPool;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,19 +48,6 @@ public class OSUtil {
         OTHER_ROM
     }
 
-    public static final String GET_EMUI_SYSTEM_VERSION = "ro.build.version.emui";
-    public static final String GET_MIUI_SYSTEM_VERSION_CODE = "ro.miui.ui.version.code";
-    public static final String GET_MIUI_SYSTEM_VERSION_NAME = "ro.miui.ui.version.name";
-    public static final String GET_MIUI_SYSTEM_INTERNAL_STORAGE = "ro.miui.internal.storage";
-    public static final String GET_OPPO_SYSTEM_VERSION = "ro.build.version.opporom";
-    public static final String GET_VIVO_SYSTEM_DISPLAY_ID = "ro.vivo.os.build.display.id";
-    public static final String GET_FLYME_SYSTEM_ICON = "persist.sys.use.flyme.icon";
-    public static final String GET_FLYME_SYSTEM_SETUP_WIZARD = "ro.meizu.setupwizard.flyme";
-    public static final String GET_FLYME_SYSTEM_PUBILSHED = "ro.flyme.published";
-    public static final String GET_SYSTEM_DISPLAY_ID = "ro.build.display.id";
-
-    public static final String GET_SYSTEM_VERSION_INCREMENTAL = "ro.build.version.incremental";
-
     public static final String FLYME_SUFFIX = "Flyme";
     public static final String EMUI_SUFFIX = "EmotionUI";
 
@@ -72,20 +64,20 @@ public class OSUtil {
 
     public static ROM_TYPE getRomType() {
         try {
-            if (StringUtils.isNotEmpty(getSystemProp(GET_EMUI_SYSTEM_VERSION))) {
+            if (StringUtils.isNotEmpty(getSystemProp(PropertiesUtil.GET_EMUI_SYSTEM_VERSION))) {
                 return ROM_TYPE.EMUI_ROM;
             }
-            if (StringUtils.isEmpty(getSystemProp(GET_MIUI_SYSTEM_VERSION_CODE)) && StringUtils.isEmpty(getSystemProp(GET_MIUI_SYSTEM_VERSION_NAME))) {
-                if (StringUtils.isEmpty(getSystemProp(GET_MIUI_SYSTEM_INTERNAL_STORAGE))) {
-                    if (StringUtils.isNotEmpty(getSystemProp(GET_OPPO_SYSTEM_VERSION))) {
+            if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_MIUI_SYSTEM_VERSION_CODE)) && StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_MIUI_SYSTEM_VERSION_NAME))) {
+                if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_MIUI_SYSTEM_INTERNAL_STORAGE))) {
+                    if (StringUtils.isNotEmpty(getSystemProp(PropertiesUtil.GET_OPPO_SYSTEM_VERSION))) {
                         return ROM_TYPE.COLOROS_ROM;
                     }
-                    if (StringUtils.isNotEmpty(getSystemProp(GET_VIVO_SYSTEM_DISPLAY_ID))) {
+                    if (StringUtils.isNotEmpty(getSystemProp(PropertiesUtil.GET_VIVO_SYSTEM_DISPLAY_ID))) {
                         return ROM_TYPE.FUNTOUCH_ROM;
                     }
-                    if (StringUtils.isEmpty(getSystemProp(GET_FLYME_SYSTEM_ICON)) && StringUtils.isEmpty(getSystemProp(GET_FLYME_SYSTEM_SETUP_WIZARD))) {
-                        if (StringUtils.isEmpty(getSystemProp(GET_FLYME_SYSTEM_PUBILSHED))) {
-                            String displayId = getSystemProp(GET_SYSTEM_DISPLAY_ID);
+                    if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_FLYME_SYSTEM_ICON)) && StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_FLYME_SYSTEM_SETUP_WIZARD))) {
+                        if (StringUtils.isEmpty(getSystemProp(PropertiesUtil.GET_FLYME_SYSTEM_PUBILSHED))) {
+                            String displayId = getSystemProp(PropertiesUtil.GET_SYSTEM_DISPLAY_ID);
                             if (StringUtils.isNotEmpty(displayId)) {
                                 if (displayId.contains(FLYME_SUFFIX)) {
                                     return ROM_TYPE.FLYME_ROM;
@@ -198,18 +190,20 @@ public class OSUtil {
         }
     }
 
-    public static String getSystemIncrementalVersion() {
-        try {
-            return PropertiesUtil.getInstance().getProperty(GET_SYSTEM_VERSION_INCREMENTAL);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return StringPool.EMPTY;
+    /**
+     * 判断通知是否开启
+     */
+    public static boolean isNotificationEnabled(Context context) {
+        if (context == null) {
+            return false;
         }
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT ||
+                NotificationManagerCompat.from(context).areNotificationsEnabled();
     }
 
     /**
      * 测试方法
-     * */
+     */
     @TestOnly
     public static String getPackageName() {
         return "com.ionicframework.lifecirclemerchantfront573168";

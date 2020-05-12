@@ -20,17 +20,42 @@ import java.util.regex.Pattern;
  */
 public class PropertiesUtil {
 
+    public static final String GET_EMUI_SYSTEM_VERSION = "ro.build.version.emui";
+    public static final String GET_MIUI_SYSTEM_VERSION_CODE = "ro.miui.ui.version.code";
+    public static final String GET_MIUI_SYSTEM_VERSION_NAME = "ro.miui.ui.version.name";
+    public static final String GET_MIUI_SYSTEM_INTERNAL_STORAGE = "ro.miui.internal.storage";
+    public static final String GET_OPPO_SYSTEM_VERSION = "ro.build.version.opporom";
+    public static final String GET_VIVO_SYSTEM_DISPLAY_ID = "ro.vivo.os.build.display.id";
+    public static final String GET_FLYME_SYSTEM_ICON = "persist.sys.use.flyme.icon";
+    public static final String GET_FLYME_SYSTEM_SETUP_WIZARD = "ro.meizu.setupwizard.flyme";
+    public static final String GET_FLYME_SYSTEM_PUBILSHED = "ro.flyme.published";
+    public static final String GET_SYSTEM_DISPLAY_ID = "ro.build.display.id";
+    public static final String GET_SYSTEM_VERSION_INCREMENTAL = "ro.build.version.incremental";
+    public static final String GET_SYSTEM_RO_SERIALNO = "ro.serialno";
+
     private static PropertiesUtil mInstance;
 
     private final Properties mProperties = new Properties();
 
     private final Pattern mPattern = Pattern.compile("\\[(.+)]: \\[(.+)]");
 
-    public static PropertiesUtil getInstance() throws IOException{
+    public static PropertiesUtil getInstance() throws IOException {
         if (mInstance == null) {
             mInstance = new PropertiesUtil();
         }
         return mInstance;
+    }
+
+    /**
+     * 获取序列号
+     */
+    @SuppressLint("HardwareIds")
+    public static String getSerialNumber() {
+        return getProperty(GET_SYSTEM_RO_SERIALNO, StringPool.EMPTY);
+    }
+
+    public static String getIncrementalVersion() {
+        return getProperty(GET_SYSTEM_VERSION_INCREMENTAL, StringPool.EMPTY);
     }
 
     /**
