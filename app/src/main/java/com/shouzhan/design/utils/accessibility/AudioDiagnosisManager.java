@@ -119,7 +119,7 @@ public class AudioDiagnosisManager {
             if (mAudioDiagnosisListener != null) {
                 mAudioDiagnosisListener.onDiagnosisCallback(isCheckSuccess, currentTimeMillis, checkResult != null ? checkResult.getCurTask() : null);
             }
-            // TODO bugfix跳转到诊断成功页面
+            // TODO 跳转到诊断成功页面
         });
         unRegisterReceiver();
         FsLogUtil.error(AudioSettingConstants.AUDIO_DIAGNOSIS_TAG, "语音诊断任务执行结束 >>> result = %s, time = %dms", isCheckSuccess, currentTimeMillis);
