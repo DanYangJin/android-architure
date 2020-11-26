@@ -20,7 +20,15 @@
 
         <activity
             android:name="com.shouzhan.design.ui.home.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name="com.shouzhan.design.ui.home.StatusBarActivity"
@@ -31,7 +39,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.shouzhan.design.ui.login.LoginActivity"
+            android:name="com.shouzhan.design.ui.home.LoginActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -66,15 +74,7 @@
         <activity
             android:name="com.shouzhan.design.ui.home.AccessibilityActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+            android:launchMode="singleTask"/>
 
         <activity
             android:name="com.shouzhan.design.ui.home.GridActivity"
@@ -88,6 +88,16 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
+        </provider>
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="com.shouzhan.design.utils.PrefsInitializer"
+                android:value="androidx.startup" />
         </provider>
 
         <service

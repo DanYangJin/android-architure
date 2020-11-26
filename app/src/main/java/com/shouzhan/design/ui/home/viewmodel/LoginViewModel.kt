@@ -1,4 +1,4 @@
-package com.shouzhan.design.ui.login.viewmodel
+package com.shouzhan.design.ui.home.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.shouzhan.design.base.BaseViewModel

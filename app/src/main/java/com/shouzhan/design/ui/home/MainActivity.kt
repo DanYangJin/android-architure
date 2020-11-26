@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
 import com.fshows.android.stark.utils.FsLogUtil
 import com.shouzhan.design.BR
 import com.shouzhan.design.R
@@ -12,7 +15,6 @@ import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
 import com.shouzhan.design.dialog.DialogManager
-import com.shouzhan.design.extens.logE
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
@@ -21,8 +23,6 @@ import org.apache.commons.lang3.StringUtils
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
 import java.io.File
-
-
 
 
 /**
@@ -59,7 +59,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
     override fun getData() {
 //        dealRxJava2()
 //        dealFastJson()
-        dealLruCache()
+//        dealLruCache()
+        dealDataStore()
     }
 
     override fun onClick(view: View) {
@@ -249,16 +250,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
 //                JsonStringKtTest("push", "15820798016")))
 //    }
 
-    private fun dealLruCache() {
-        val linkedHashMap = LinkedHashMap<String, String>(0, 0.75f, true)
-        linkedHashMap["test1"] = "test1"
-        linkedHashMap["test2"] = "test2"
-        linkedHashMap["test3"] = "test3"
-        val value = linkedHashMap.put("test4", "test4")
-        logE("dealLruCache: " + (value == null))
-        logE(linkedHashMap.toString())
-        linkedHashMap["test2"]
-        logE(linkedHashMap.toString())
+//    private fun dealLruCache() {
+//        val linkedHashMap = LinkedHashMap<String, String>(0, 0.75f, true)
+//        linkedHashMap["test1"] = "test1"
+//        linkedHashMap["test2"] = "test2"
+//        linkedHashMap["test3"] = "test3"
+//        val value = linkedHashMap.put("test4", "test4")
+//        logE("dealLruCache: " + (value == null))
+//        logE(linkedHashMap.toString())
+//        linkedHashMap["test2"]
+//        logE(linkedHashMap.toString())
+//    }
+
+    private fun dealDataStore() {
+        val dataStore: DataStore<Preferences> = createDataStore(
+                name = "settings"
+        )
+
     }
 
     override fun showLoading() {}

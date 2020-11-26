@@ -14,7 +14,7 @@ import com.shouzhan.design.R
 import com.shouzhan.design.adapter.HomePagerAdapter
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityUserBinding
-import com.shouzhan.design.ui.login.LoginActivity
+import com.shouzhan.design.ui.home.LoginActivity
 import kotlinx.android.synthetic.main.activity_user.*
 
 

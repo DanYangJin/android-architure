@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.multidex.MultiDex;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.stetho.Stetho;
-import com.fshows.android.stark.utils.Prefs;
 import com.shouzhan.design.callback.impl.CommonActivityLifecycleCallbacks;
 import com.shouzhan.design.di.AppInjector;
 import com.shouzhan.design.ui.home.CommonH5Activity;
@@ -40,7 +40,7 @@ public class App extends Application implements HasActivityInjector {
         Fresco.initialize(getApplicationContext());
         initStetho();
         INSTANCE = this;
-        Prefs.init(this);
+//        Prefs.init(this);
         configUnits();
         initDoraemonKit();
 

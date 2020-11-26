@@ -1,4 +1,4 @@
-package com.shouzhan.design.ui.login
+package com.shouzhan.design.ui.home
 
 import androidx.lifecycle.Observer
 import android.os.Bundle
@@ -8,7 +8,7 @@ import com.fshows.android.stark.utils.Prefs
 import com.shouzhan.design.R
 import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.databinding.ActivityLoginBinding
-import com.shouzhan.design.ui.login.viewmodel.LoginViewModel
+import com.shouzhan.design.ui.home.viewmodel.LoginViewModel
 import com.shouzhan.design.utils.PrefConstants
 
 
