@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.View
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.preferencesKey
 import androidx.datastore.preferences.createDataStore
 import com.fshows.android.stark.utils.FsLogUtil
 import com.shouzhan.design.BR
@@ -15,10 +17,16 @@ import com.shouzhan.design.base.BaseActivity
 import com.shouzhan.design.callback.OnTakePhotoListener
 import com.shouzhan.design.databinding.ActivityMainBinding
 import com.shouzhan.design.dialog.DialogManager
+import com.shouzhan.design.extens.logE
 import com.shouzhan.design.ui.home.contract.MainContract
 import com.shouzhan.design.ui.home.presenter.MainPresenter
 import com.shouzhan.design.ui.home.viewmodel.MainViewModel
 import com.shouzhan.design.utils.TakePhotoManager
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.apache.commons.lang3.StringUtils
 import top.zibin.luban.Luban
 import top.zibin.luban.OnCompressListener
@@ -60,7 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
 //        dealRxJava2()
 //        dealFastJson()
 //        dealLruCache()
-        dealDataStore()
+//        dealDataStore()
     }
 
     override fun onClick(view: View) {
@@ -266,7 +274,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), OnTakePhotoListener, M
         val dataStore: DataStore<Preferences> = createDataStore(
                 name = "settings"
         )
+        val counter = preferencesKey<Int>("example_counter")
+        val counterFlow: Flow<Int> = dataStore.data
+                .map { preferences ->
+                    preferences[counter] ?: 0
+                }
+        runBlocking {
+            incrementCounter()
 
+            counterFlow.collect {
+                value -> logE("dealDataStore: $value")
+            }
+        }
+    }
+
+    private suspend fun incrementCounter() {
+        val dataStore: DataStore<Preferences> = createDataStore(
+                name = "settings"
+        )
+        val counter = preferencesKey<Int>("example_counter")
+        dataStore.edit { settings ->
+            val currentCounterValue = settings[counter] ?: 0
+            settings[counter] = currentCounterValue + 1
+        }
     }
 
     override fun showLoading() {}

@@ -19,14 +19,13 @@ android {
         debug {
             buildConfigField "int", "SERVER", "0"
         }
-        release {
-            buildConfigField "int", "SERVER", "2"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
     }
+
     dataBinding {
         enabled = true
     }
+
+    kotlinOptions { jvmTarget = 1.8}
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -73,8 +72,8 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'org.apache.commons:commons-collections4:4.3'
     // kotlin 协程
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
     // luban
     implementation 'top.zibin:Luban:1.1.8'
     // stetho
@@ -91,7 +90,9 @@ dependencies {
     implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
     implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0'
     // startup
-    implementation "androidx.startup:startup-runtime:1.0.0"
+    implementation 'androidx.startup:startup-runtime:1.0.0'
     // datastore
-    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha04"
+    implementation('androidx.datastore:datastore-preferences:1.0.0-alpha04') {
+        exclude group: 'org.jetbrains.kotlinx', module: 'kotlinx-coroutines-core-jvm'
+    }
 }
